@@ -1,0 +1,15 @@
+/* Not Found page styles */
+.not-found {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.not-found h2 {
+  font-size: 2rem;
+  color: #e74c3c; /* Red for emphasis */
+}
+
+.not-found p {
+  font-size: 1.2rem;
+}
+
