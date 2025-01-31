@@ -1,29 +1,27 @@
-import './App.css';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Features from './components/Features';
-import Footer from './components/Footer';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Events from './pages/Events';
-import Sermons from './pages/Sermons';
-import NotFound from './pages/NotFound';
-import { Route, Routes } from 'react-router-dom';
+import "./App.css";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home"; // Import the Home component
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Events from "./pages/Events";
+import Sermons from "./pages/Sermons";
+import NotFound from "./pages/NotFound";
+import { Route, Routes } from "react-router-dom";
 
 const App = () => {
   return (
     <div className="app">
-      <Navbar />
-      <Routes>
-        <Route path="/pages/Sermons" element={<Sermons />} />
-        <Route path="/pages/About" element={<About />} />
-        <Route path="/pages/Events" element={<Events />} />
-        <Route path="/pages/Contact" element={<Contact />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <NavBar />
       <main className="main-content">
-        <Hero />
-        <Features />
+        <Routes>
+          <Route path="/" element={<Home />} /> 
+          <Route path="/pages/About" element={<About />} />
+          <Route path="/pages/Contact" element={<Contact />} />
+          <Route path="/pages/Events" element={<Events />} />
+          <Route path="/pages/Sermons" element={<Sermons />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </main>
       <Footer />
     </div>

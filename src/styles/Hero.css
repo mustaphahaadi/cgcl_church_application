@@ -1,6 +1,6 @@
 /* Hero section styles */
 .hero {
-  position: relative;
+  position:relative;
   width: 100%; /* Full width to match footer */
   height: 80vh;
   background: url('..\assets\church.jpg') center/cover no-repeat;
@@ -24,7 +24,7 @@
 }
 
 .container {
-  display: flex;
+  display:flex;
   flex-direction: column; /* Stack items vertically */
   align-items: center; /* Center items horizontally */
   justify-content: center; /* Center items vertically */

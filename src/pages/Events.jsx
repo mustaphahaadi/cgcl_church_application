@@ -7,7 +7,7 @@ const Events = () => {
     {
       id: 1,
       title: "Sunday Worship Service",
-      date: "October 15, 2023",
+      date: "October 15, 2025",
       time: "10:00 AM",
       location: "Main Sanctuary",
       description: "Join us for a powerful time of worship and teaching.",
@@ -15,7 +15,7 @@ const Events = () => {
     {
       id: 2,
       title: "Youth Night",
-      date: "October 20, 2023",
+      date: "October 20, 2025",
       time: "7:00 PM",
       location: "Youth Hall",
       description:
@@ -24,7 +24,7 @@ const Events = () => {
     {
       id: 3,
       title: "Community Outreach",
-      date: "October 22, 2023",
+      date: "December 22, 2025",
       time: "9:00 AM",
       location: "Downtown Park",
       description:

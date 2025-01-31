@@ -1,7 +1,7 @@
 import "../styles/Navbar.css";
 import { Link } from "react-router-dom";
 
-function Navbar() {
+function NavBar() {
   return (
     <nav className="navbar">
       <div className="nav-container">
@@ -9,11 +9,7 @@ function Navbar() {
           <Link to="/">CGCL CHURCH</Link>
         </div>
         <ul className="nav-links">
-          <li>
-            <Link to="/pages/About" className="nav-link">
-              About
-            </Link>
-          </li>
+         
           <li>
             <Link to="/pages/Events" className="nav-link">
               Events
@@ -22,6 +18,11 @@ function Navbar() {
           <li>
             <Link to="/pages/Sermons" className="nav-link">
               Sermons
+            </Link>
+          </li>
+           <li>
+            <Link to="/pages/About" className="nav-link">
+              About
             </Link>
           </li>
           <li>
@@ -35,4 +36,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default NavBar;

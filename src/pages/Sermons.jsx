@@ -10,6 +10,8 @@ const Sermons = () => {
       date: "October 8, 2023",
       speaker: "Pastor John Doe",
       series: "Faith Series",
+      description:
+        "Explore the transformative power of faith in our daily lives.",
       audioLink: "https://example.com/sermon1",
       videoLink: "https://example.com/sermon1-video",
     },
@@ -19,6 +21,7 @@ const Sermons = () => {
       date: "October 1, 2023",
       speaker: "Pastor Jane Smith",
       series: "Grace Series",
+      description: "Discover how to live a life full of grace and forgiveness.",
       audioLink: "https://example.com/sermon2",
       videoLink: "https://example.com/sermon2-video",
     },
@@ -28,6 +31,7 @@ const Sermons = () => {
       date: "September 24, 2023",
       speaker: "Guest Speaker Mark Lee",
       series: "Generosity Series",
+      description: "Learn the joy and impact of giving generously.",
       audioLink: "https://example.com/sermon3",
       videoLink: "https://example.com/sermon3-video",
     },
@@ -60,6 +64,7 @@ const Sermons = () => {
             <p className="sermon-date">{sermon.date}</p>
             <p className="sermon-speaker">Speaker: {sermon.speaker}</p>
             <p className="sermon-series">Series: {sermon.series}</p>
+            <p className="sermon-description">{sermon.description}</p>
             <div className="sermon-links">
               <a
                 href={sermon.audioLink}
@@ -85,10 +90,10 @@ const Sermons = () => {
         <Link to="/" className="page-link">
           Home
         </Link>
-        <Link to="/about" className="page-link">
+        <Link to="/pages/About" className="page-link">
           About Us
         </Link>
-        <Link to="/contact" className="page-link">
+        <Link to="/pages/Contact" className="page-link">
           Contact Us
         </Link>
       </div>

@@ -20,3 +20,6 @@ body {
   padding: 2rem;
   text-align: center;
 }
+.main-content {
+  padding-bottom: 150px; /* Adjust this value based on the height of your footer */
+}

@@ -6,13 +6,14 @@ const About = () => {
     <div className="about-container">
       <h2>About Us</h2>
       <p>
-        Welcome to [Your Church Name]! We are a community of believers dedicated
-        to spreading the love of Christ and serving our community. Our mission
-        is to inspire, empower, and uplift everyone who walks through our doors.
+        Welcome to <strong>CGCL CHURCH!</strong> We are a community of believers
+        dedicated to spreading the love of Christ and serving our community. Our
+        mission is to inspire, empower, and uplift everyone who walks through
+        our doors.
       </p>
       <p>
-        Founded in [Year], our church has been a cornerstone of faith and
-        fellowship in [Location]. We offer a variety of programs, including
+        Founded in 2025, our church has been a cornerstone of faith and
+        fellowship in Kuamsi, Ghana. We offer a variety of programs, including
         worship services, Bible studies, youth groups, and community outreach
         initiatives.
       </p>
