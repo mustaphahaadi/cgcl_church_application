@@ -15,11 +15,11 @@ const App = () => {
       <NavBar />
       <main className="main-content">
         <Routes>
-          <Route path="/" element={<Home />} /> 
-          <Route path="/pages/About" element={<About />} />
-          <Route path="/pages/Contact" element={<Contact />} />
-          <Route path="/pages/Events" element={<Events />} />
-          <Route path="/pages/Sermons" element={<Sermons />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/About" element={<About />} />
+          <Route path="/Contact" element={<Contact />} />
+          <Route path="/Events" element={<Events />} />
+          <Route path="/Sermons" element={<Sermons />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

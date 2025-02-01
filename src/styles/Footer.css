@@ -2,12 +2,12 @@
   background-color: #333;
   color: white;
   padding: 10px 0;
-  position: fixed;
+  /* position: fixed;
   left: 0;
   bottom: 0;
-  width: 100%;
+  width: 100%; */
   text-align: center;
-  z-index: 1000;
+  /* z-index: 0; */
 }
 
 .footer-content {
@@ -29,7 +29,8 @@
   font-size: 16px;
 }
 
-.footer-section p, .footer-section ul {
+.footer-section p,
+.footer-section ul {
   font-size: 14px;
   line-height: 1.6;
 }

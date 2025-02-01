@@ -39,7 +39,7 @@ const Sermons = () => {
 
   return (
     <div className="sermons-container">
-      <h2>Sermons</h2>
+      <h1>Sermons</h1>
       <p className="sermons-subtitle">
         Listen to our latest sermons and teachings.
       </p>

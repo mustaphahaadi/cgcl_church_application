@@ -9,24 +9,23 @@ function NavBar() {
           <Link to="/">CGCL CHURCH</Link>
         </div>
         <ul className="nav-links">
-         
           <li>
-            <Link to="/pages/Events" className="nav-link">
+            <Link to="/Events" className="nav-link">
               Events
             </Link>
           </li>
           <li>
-            <Link to="/pages/Sermons" className="nav-link">
+            <Link to="/Sermons" className="nav-link">
               Sermons
             </Link>
           </li>
-           <li>
-            <Link to="/pages/About" className="nav-link">
+          <li>
+            <Link to="/About" className="nav-link">
               About
             </Link>
           </li>
           <li>
-            <Link to="/pages/Contact" className="contact-button">
+            <Link to="/Contact" className="contact-button">
               Contact
             </Link>
           </li>

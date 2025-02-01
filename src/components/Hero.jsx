@@ -6,8 +6,8 @@ function Hero() {
       <div className="hero-overlay">
         <div className="container">
           <div className="hero-content">
-            <h1>Welcome to Our Church</h1>
-            <p>Join us in worship and community</p>
+            <h1>WELCOME TO CGCL</h1>
+            <p>Join us in worship and community </p>
             <button className="cta-button">Join Us This Sunday</button>
           </div>
         </div>

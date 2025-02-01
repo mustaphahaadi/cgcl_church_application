@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import "../styles/Events.css"; // Import a CSS file for styling
-
+import "../styles/Events.css"; 
 const Events = () => {
   // Sample event data (replace with real data from your backend or API)
   const events = [
@@ -34,7 +33,7 @@ const Events = () => {
 
   return (
     <div className="events-container">
-      <h2>Upcoming Events</h2>
+      <h1>Upcoming Events</h1>
       <p className="events-subtitle">
         Check out our calendar for upcoming events and services.
       </p>

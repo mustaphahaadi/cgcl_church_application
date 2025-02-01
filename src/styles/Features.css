@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 40px 20px;
   text-align: center;
+  
 }
 
 .features-title {
@@ -18,7 +19,7 @@
 }
 
 .features-grid {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 20px;
   padding: 20px;

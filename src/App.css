@@ -1,12 +1,12 @@
 /* Reset and base styles */
 * {
-  margin: 0;
+  /* margin: 0; */
   padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   background-color: #f0f4f8; /* Light background */
   color: #333; /* Dark text */
   min-height: 100vh;
@@ -15,11 +15,8 @@ body {
 }
 
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  max-width: 100%;
+  /* margin: 0 auto;
+  padding: 2rem; */
   text-align: center;
-}
-.main-content {
-  padding-bottom: 150px; /* Adjust this value based on the height of your footer */
 }

@@ -5,17 +5,17 @@ function Features() {
     {
       title: "Worship Services",
       description: "Sunday Services at 9:00 AM & 11:00 AM",
-      icon: "🎵", // You can replace this with an actual icon library like FontAwesome
+      icon: "🛐", 
     },
     {
       title: "Community",
       description: "Join our growing family of believers",
-      icon: "👨‍👩‍👧‍👦", // You can replace this with an actual icon library like FontAwesome
+      icon: "👨‍👩‍👧‍👦", 
     },
     {
       title: "Events",
       description: "Participate in our upcoming events",
-      icon: "📅", // You can replace this with an actual icon library like FontAwesome
+      icon: "📅",
     },
   ];
 
