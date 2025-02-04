@@ -12,7 +12,7 @@ const About = () => {
         </div>
         <div className="about-content">
           <p>
-            Welcome to <strong>CGCL CHURCH!</strong> We are a community of
+            welcome to <strong>CGCL CHURCH!</strong> We are a community of
             believers dedicated to spreading the love of Christ and serving our
             community. Our mission is to inspire, empower, and uplift everyone
             who walks through our doors.
