@@ -6,7 +6,8 @@ export default defineConfig({
   plugins: [react()],
   server:{
     allowedHosts: [
-      'cgclchurchapplication-production-261d.up.railway.app'
+      // 'cgclchurchapplication-production-261d.up.railway.app'
+      "cgclchurchapplication-production.up.railway.app"
     ],
     host:"0.0.0.0",
     port:5173
