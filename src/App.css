@@ -1,8 +1,13 @@
 /* Reset and base styles */
 * {
-  /* margin: 0; */
+  margin: 0; 
   padding: 0;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
+}
+
+html, body {
+  height: 100%; /* Ensure full height */
+  margin: 0;
 }
 
 body {
@@ -12,6 +17,16 @@ body {
   min-height: 100vh;
   width: 100%;
   overflow-x: hidden;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full height */
+}
+
+.main-content {
+  flex: 1; /* Take up remaining space */
 }
 
 #root {
