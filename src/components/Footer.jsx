@@ -7,16 +7,22 @@ const Footer = () => {
         <div className="footer-section about">
           <h3>About Us</h3>
           <p>
-            We are a welcoming community dedicated to spreading God love and
+            We are a welcoming community dedicated to spreading Gods love and
             message of hope.
           </p>
         </div>
         <div className="footer-section quick-links">
           <h3>Quick Links</h3>
           <ul>
-            <li> Service Times</li>
-            <li>Ministries</li>
-            <li>Give Online</li>
+            <li>
+              <a href="../components/Hero.jsx">Service Times</a>
+            </li>
+            <li>
+              <a href="#../pages/Ministries">Ministries</a>
+            </li>
+            <li>
+              <a href="../pages/Give.jsx">Give Online</a>
+            </li>
           </ul>
         </div>
         <div className="footer-section contact-info">
@@ -60,4 +66,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

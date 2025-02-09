@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import "../styles/About.css"; // Import the new CSS file
 import churchImage from "../assets/about-img.jpeg"; // Replace with your image path
 
@@ -23,14 +22,7 @@ const About = () => {
             including worship services, Bible studies, youth groups, and
             community outreach initiatives.
           </p>
-          <div className="about-links">
-            <Link to="/pages/Contact" className="about-link">
-              Contact Us
-            </Link>
-            <Link to="/" className="about-link">
-              Home
-            </Link>
-          </div>
+          
         </div>
       </div>
     </div>

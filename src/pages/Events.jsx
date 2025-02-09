@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import "../styles/Events.css"; 
+import "../styles/Events.css";
 const Events = () => {
   // Sample event data (replace with real data from your backend or API)
   const events = [
@@ -40,7 +39,7 @@ const Events = () => {
       <div className="events-grid">
         {events.map((event) => (
           <div key={event.id} className="event-card">
-            <h3 className="event-title">{event.title}</h3>
+            <h4 className="event-title">{event.title}</h4>
             <p className="event-date">{event.date}</p>
             <p className="event-time">{event.time}</p>
             <p className="event-location">{event.location}</p>
@@ -48,17 +47,6 @@ const Events = () => {
             <button className="event-button">Learn More</button>
           </div>
         ))}
-      </div>
-      <div className="page-links">
-        <Link to="/" className="page-link">
-          Home
-        </Link>
-        <Link to="/about" className="page-link">
-          About Us
-        </Link>
-        <Link to="/contact" className="page-link">
-          Contact Us
-        </Link>
       </div>
     </div>
   );

@@ -17,6 +17,14 @@
   margin-bottom: 20px;
 }
 
+.contact-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(230, 178, 178, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+}
+
 .contact-form {
   display: flex;
   flex-direction: column;

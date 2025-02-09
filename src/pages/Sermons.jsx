@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import "../styles/Sermons.css"; // Import a CSS file for styling
 
 const Sermons = () => {
@@ -86,17 +85,7 @@ const Sermons = () => {
           </div>
         ))}
       </div>
-      <div className="page-links">
-        <Link to="/" className="page-link">
-          Home
-        </Link>
-        <Link to="/pages/About" className="page-link">
-          About Us
-        </Link>
-        <Link to="/pages/Contact" className="page-link">
-          Contact Us
-        </Link>
-      </div>
+      
     </div>
   );
 };
