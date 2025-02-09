@@ -6,7 +6,7 @@ function NavBar() {
     <nav className="navbar">
       <div className="nav-container">
         <div className="nav-brand">
-          <Link to="/">CGCL CHURCH</Link>
+          <Link to="/">CITY OF LIGHT GLOBAL CHURCH</Link>
         </div>
         <ul className="nav-links">
           <li>
