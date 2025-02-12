@@ -1,66 +1,77 @@
-import "../styles/Footer.css";
-import { Link } from "react-router-dom";
+// import "../styles/Footer.css";
 
 const Footer = () => {
   return (
-    <footer className="footer">
-      <div className="footer-content">
-        <div className="footer-section about">
-          <h3>About Us</h3>
-          <p>
-            We are a welcoming community dedicated to spreading Gods love and
-            message of hope.
-          </p>
-        </div>
-        <div className="footer-section quick-links">
-          <h3>Quick Links</h3>
-          <ul>
-            <li>
-              <Link to="/Events">Service Times</Link>
+    <footer className="bg-gray-800 text-white py-4">
+      <div className="max-w-screen-xl mx-auto flex justify-around items-start px-4">
+        <div className="flex-1 p-2">
+          <h3 className="mb-2 text-lg font-semibold">Ministries</h3>
+          <ul className="text-sm">
+            <li className="mb-1">
+              <a href="/youth" className="hover:underline">
+                Youth Ministry
+              </a>
             </li>
             <li>
-              <Link to="/Ministries">Ministries</Link>
-            </li>
-            <li>
-              <Link to="/Give">Give Online</Link>
+              <a href="/worship" className="hover:underline">
+                Worship Team
+              </a>
             </li>
           </ul>
         </div>
-        <div className="footer-section contact-info">
-          <h3>Contact Info</h3>
-          <p>123 Church Street</p>
-          <p>Phone: (123) 456-7890</p>
-          <p>Email: info@churchapp.com</p>
+        <div className="flex-1 p-2">
+          <h3 className="mb-2 text-lg font-semibold">Connect</h3>
+          <ul className="text-sm">
+            <li className="mb-1">
+              <a href="/events" className="hover:underline">
+                Upcoming Events
+              </a>
+            </li>
+            <li>
+              <a href="/small-groups" className="hover:underline">
+                Small Groups
+              </a>
+            </li>
+          </ul>
         </div>
-        <div className="footer-section connect">
-          <h3>Connect With Us</h3>
-
-          {/* Add social media icons or links here */}
-          <div className="social-icons">
-            <div className="social-icons">
-              <a
-                href="#"
-                className="social-icon"
-                style={{ marginRight: "20px" }}
-              >
-                <i className="fab fa-facebook-f"></i>
+        <div className="flex-1 p-2">
+          <h3 className="mb-2 text-lg font-semibold">Support</h3>
+          <ul className="text-sm">
+            <li className="mb-1">
+              <a href="/donate" className="hover:underline">
+                Give
               </a>
-              <a
-                href="#"
-                className="social-icon"
-                style={{ marginRight: "20px" }}
-              >
-                <i className="fab fa-twitter"></i>
+            </li>
+            <li>
+              <a href="/contact" className="hover:underline">
+                Contact Us
               </a>
-              <a href="#" className="social-icon">
-                <i className="fab fa-instagram"></i>
+            </li>
+          </ul>
+        </div>
+        <div className="flex-1 p-2">
+          <h3 className="mb-2 text-lg font-semibold">Follow Us</h3>
+          <ul className="flex space-x-4 text-sm">
+            <li>
+              <a href="https://facebook.com" className="hover:underline">
+                Facebook
               </a>
-            </div>
-          </div>
+            </li>
+            <li>
+              <a href="https://twitter.com" className="hover:underline">
+                Twitter
+              </a>
+            </li>
+            <li>
+              <a href="https://instagram.com" className="hover:underline">
+                Instagram
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
-      <div className="footer-bottom">
-        &copy; 2025 Church App. All rights reserved.
+      <div className="text-center border-t border-gray-700 pt-4 text-xs">
+        <span>© 2023 Our Church. All Rights Reserved.</span>
       </div>
     </footer>
   );
