@@ -6,7 +6,7 @@ const BlogSection = () => {
   const posts = [
     {
       title: "Community Outreach: Helping Hands",
-      date: "March 15, 2023",
+      date: "March 15, 2025",
       excerpt:
         "Our recent outreach program was a success! We helped over 100 families in need...",
       link: "/blog/community-outreach-helping-hands",
