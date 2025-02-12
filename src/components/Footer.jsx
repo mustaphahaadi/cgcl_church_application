@@ -8,12 +8,12 @@ const Footer = () => {
           <h3 className="mb-2 text-lg font-semibold">Ministries</h3>
           <ul className="text-sm">
             <li className="mb-1">
-              <a href="/youth" className="hover:underline">
+              <a href="/Ministries" className="hover:underline">
                 Youth Ministry
               </a>
             </li>
             <li>
-              <a href="/worship" className="hover:underline">
+              <a href="./Features.jsx" className="hover:underline">
                 Worship Team
               </a>
             </li>
@@ -23,7 +23,7 @@ const Footer = () => {
           <h3 className="mb-2 text-lg font-semibold">Connect</h3>
           <ul className="text-sm">
             <li className="mb-1">
-              <a href="/events" className="hover:underline">
+              <a href="/Events" className="hover:underline">
                 Upcoming Events
               </a>
             </li>
@@ -38,12 +38,12 @@ const Footer = () => {
           <h3 className="mb-2 text-lg font-semibold">Support</h3>
           <ul className="text-sm">
             <li className="mb-1">
-              <a href="/donate" className="hover:underline">
+              <a href="/Give" className="hover:underline">
                 Give
               </a>
             </li>
             <li>
-              <a href="/contact" className="hover:underline">
+              <a href="/Contact" className="hover:underline">
                 Contact Us
               </a>
             </li>
@@ -71,7 +71,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="text-center border-t border-gray-700 pt-4 text-xs">
-        <span>© 2023 Our Church. All Rights Reserved.</span>
+        <span>© 2025 CGCL Church. All Rights Reserved.</span>
       </div>
     </footer>
   );
