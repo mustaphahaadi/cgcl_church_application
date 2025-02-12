@@ -9,8 +9,8 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Events from "./pages/Events";
 import Sermons from "./pages/Sermons";
-// import NotFound from "./pages/NotFound";
-// import Give from "./pages/Give";
+import NotFound from "./pages/NotFound";
+import Give from "./pages/Give";
 import Ministries from "./pages/Ministries";
 import { Route, Routes } from "react-router-dom";
 import SignupForm from "./pages/SignupForm"; // Import the SignupForm component
@@ -28,8 +28,8 @@ const App = () => {
           <Route path="/Contact" element={<Contact />} />
           <Route path="/Events" element={<Events />} />
           <Route path="/Sermons" element={<Sermons />} />
-          {/* <Route path="*" element={<NotFound />} />
-          <Route path="/Give" element={<Give />} /> */}
+          <Route path="*" element={<NotFound />} />
+          <Route path="/Give" element={<Give />} />
           <Route path="/Ministries" element={<Ministries />} />
           <Route path="/SignupForm.jsx" element={<SignupForm />} />
         </Routes>
