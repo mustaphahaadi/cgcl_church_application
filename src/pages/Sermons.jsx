@@ -1,4 +1,3 @@
-// import "../styles/Sermons.css";
 
 
 const Sermons = () => {
@@ -7,8 +6,8 @@ const Sermons = () => {
     {
       id: 1,
       title: "The Power of Faith",
-      date: "October 8, 2023",
-      speaker: "Pastor John Doe",
+      date: "January 10, 2025",
+      speaker: "Pastor Kusi Daniel",
       series: "Faith Series",
       description:
         "Explore the transformative power of faith in our daily lives.",
@@ -18,8 +17,8 @@ const Sermons = () => {
     {
       id: 2,
       title: "Living in Grace",
-      date: "October 1, 2025",
-      speaker: "Pastor Jane Smith",
+      date: "October 1, 2024",
+      speaker: "Pastor Kwame Akwasi",
       series: "Grace Series",
       description: "Discover how to live a life full of grace and forgiveness.",
       audioLink: "https://example.com/sermon2",
@@ -28,7 +27,7 @@ const Sermons = () => {
     {
       id: 3,
       title: "The Joy of Giving",
-      date: "September 24, 2023",
+      date: "January 24, 2025",
       speaker: "Guest Speaker Mark Lee",
       series: "Generosity Series",
       description: "Learn the joy and impact of giving generously.",

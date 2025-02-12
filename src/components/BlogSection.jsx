@@ -6,21 +6,21 @@ const BlogSection = () => {
   const posts = [
     {
       title: "Community Outreach: Helping Hands",
-      date: "March 15, 2023",
+      date: "March 15, 2025",
       excerpt:
         "Our recent outreach program was a success! We helped over 100 families in need...",
       link: "/blog/community-outreach-helping-hands",
     },
     {
       title: "Youth Retreat Highlights",
-      date: "February 28, 2023",
+      date: "February 28, 2025",
       excerpt:
         "The youth retreat was filled with fun, fellowship, and spiritual growth. Here are some highlights...",
       link: "/blog/youth-retreat-highlights",
     },
     {
       title: "Upcoming Events You Don't Want to Miss",
-      date: "March 1, 2023",
+      date: "March 1, 2024",
       excerpt:
         "Mark your calendars! We have several exciting events coming up this month...",
       link: "/blog/upcoming-events",
@@ -47,16 +47,18 @@ const BlogSection = () => {
           {posts.map((post, index) => (
             <div
               key={index}
-              className={`rounded-lg shadow-md overflow-hidden p-6 transition-transform duration-300 ease-in-out transform hover:scale-105 ${
-                index % 2 === 0 ? "bg-blue-200" : "bg-green-200"
-              }`}
+              className="rounded-lg shadow-lg overflow-hidden transition-transform duration-300 ease-in-out transform hover:scale-105 bg-white p-6 h-64 flex flex-col justify-between"
             >
-              <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
-              <p className="text-gray-600 text-sm mb-4">{post.date}</p>
-              <p className="text-gray-800 mb-4">{post.excerpt}</p>
+              <div>
+                <h3 className="text-2xl font-semibold mb-2 text-blue-600">
+                  {post.title}
+                </h3>
+                <p className="text-gray-500 text-sm mb-2">{post.date}</p>
+                <p className="text-gray-800 mb-4">{post.excerpt}</p>
+              </div>
               <a
                 href={post.link}
-                className="text-blue-600 hover:underline font-bold"
+                className="inline-block bg-blue-600 text-white rounded-md px-4 py-2 hover:bg-blue-700 transition duration-300 self-start"
               >
                 Read More
               </a>

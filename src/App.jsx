@@ -1,4 +1,3 @@
-// import "./App.css";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 // import Hero from "./components/Hero";
@@ -13,15 +12,16 @@ import NotFound from "./pages/NotFound";
 import Give from "./pages/Give";
 import Ministries from "./pages/Ministries";
 import { Route, Routes } from "react-router-dom";
-import SignupForm from "./pages/SignupForm"; // Import the SignupForm component
+import SignupForm from "./pages/SignupForm";
+import YouthMinistry from "./pages/YouthMinistry";
+import WorshipTeam from "./pages/WorshipTeam";
+import SmallGroups from "./pages/SmallGroups";
 
 const App = () => {
   return (
     <div className="app">
       <NavBar />
       <main className="main-content">
-        {/* <Hero />
-        <Features /> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/About" element={<About />} />
@@ -32,6 +32,9 @@ const App = () => {
           <Route path="/Give" element={<Give />} />
           <Route path="/Ministries" element={<Ministries />} />
           <Route path="/SignupForm.jsx" element={<SignupForm />} />
+          <Route path="/YouthMinistry" element={<YouthMinistry />} />
+          <Route path="/WorshipTeam" element={<WorshipTeam />} />
+          <Route path="/SmallGroups" element={<SmallGroups />} />
         </Routes>
       </main>
       <Footer />

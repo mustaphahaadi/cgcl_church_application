@@ -1,4 +1,6 @@
 import { useState } from "react";
+import reactLogo from "../assets/react.svg";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,22 +10,21 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white border-b border-gray-200">
+    <nav className="bg-white-to-r from-blue-500 to-blue-700 shadow-lg">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img
-            src="../assets/react.svg"
-            className="mr-3 h-6 sm:h-9"
-            alt="Church Logo"
-          />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap text-gray-800">
-            Our Church
+        <Link
+          to="/"
+          className="flex items-center space-x-3 rtl:space-x-reverse"
+        >
+          <img src={reactLogo} className="mr-3 h-8 sm:h-10" alt="Church Logo" />
+          <span className="self-center text-2xl font-bold text-blue whitespace-nowrap">
+            CGCL CHURCH
           </span>
-        </a>
+        </Link>
         <button
           onClick={toggleMenu}
           type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-gray-500 rounded-lg md:hidden hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out"
+          className="inline-flex items-center p-2 w-10 h-10 justify-center text-white rounded-lg md:hidden hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-200 ease-in-out bg-gray-800"
           aria-controls="navbar-default"
           aria-expanded={isOpen}
         >
@@ -48,47 +49,47 @@ const Navbar = () => {
           className={`w-full md:block md:w-auto ${isOpen ? "block" : "hidden"}`}
           id="navbar-default"
         >
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-white md:flex-row md:space-x-8 md:mt-0 md:border-0">
+          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-800 md:flex-row md:space-x-8 md:mt-0 md:border-0">
             <li>
-              <a
-                href="/"
-                className="block py-2 px-3 text-gray-800 hover:text-blue-600 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 transition duration-200 ease-in-out"
+              <Link
+                to="/"
+                className="block py-2 px-3 text-white hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
                 aria-current="page"
               >
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/ministries"
-                className="block py-2 px-3 text-gray-800 hover:text-blue-600 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 transition duration-200 ease-in-out"
+              <Link
+                to="/ministries"
+                className="block py-2 px-3 text-white hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
               >
                 Ministries
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/sermons"
-                className="block py-2 px-3 text-gray-800 hover:text-blue-600 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 transition duration-200 ease-in-out"
+              <Link
+                to="/sermons"
+                className="block py-2 px-3 text-white hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
               >
                 Sermons
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/about"
-                className="block py-2 px-3 text-gray-800 hover:text-blue-600 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 transition duration-200 ease-in-out"
+              <Link
+                to="/about"
+                className="block py-2 px-3 text-white hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
               >
                 About
-              </a>
+              </Link>
             </li>
             <li>
-              <a
-                href="/contact"
-                className="block py-2 px-3 text-gray-800 hover:text-blue-600 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 transition duration-200 ease-in-out"
+              <Link
+                to="/contact"
+                className="block py-2 px-3 text-white hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
               >
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
