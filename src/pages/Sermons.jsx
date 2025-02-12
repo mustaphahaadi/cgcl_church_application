@@ -38,7 +38,7 @@ const Sermons = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6 text-center">
-      <h1 className="text-4xl font-bold text-gray-800 mb-4">Sermons</h1>
+      <h1 className="text-4xl font-bold text-blue-600">Sermons</h1>
       <p className="text-lg text-gray-600 mb-10">
         Listen to our latest sermons and teachings.
       </p>

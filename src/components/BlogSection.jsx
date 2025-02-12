@@ -40,7 +40,7 @@ const BlogSection = () => {
   return (
     <section className="py-12 bg-gray-100">
       <div className="max-w-screen-xl mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-8">
+        <h2 className="text-4xl font-bold text-center mb-8 text-gray-800">
           Latest News & Blog Posts
         </h2>
         <Slider {...settings}>

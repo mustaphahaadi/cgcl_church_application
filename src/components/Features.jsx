@@ -21,7 +21,7 @@ function Features() {
 
   return (
     <section className="max-w-5xl mx-auto p-10 text-center">
-      <h2 className="text-4xl text-gray-800 mb-2">What We Offer</h2>
+      <h2 className="text-4xl font-bold text-center mb-8 text-gray-800">What We Offer</h2>
       <p className="text-lg text-gray-600 mb-10">
         Explore the ways you can connect and grow with us.
       </p>
