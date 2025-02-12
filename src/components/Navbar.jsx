@@ -49,11 +49,11 @@ const Navbar = () => {
           className={`w-full md:block md:w-auto ${isOpen ? "block" : "hidden"}`}
           id="navbar-default"
         >
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-800 md:flex-row md:space-x-8 md:mt-0 md:border-0">
+          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-white-800 md:flex-row md:space-x-8 md:mt-0 md:border-0">
             <li>
               <Link
                 to="/"
-                className="block py-2 px-3 text-white hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
+                className="block py-2 px-3 text-gray-800 hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
                 aria-current="page"
               >
                 Home
@@ -62,7 +62,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/ministries"
-                className="block py-2 px-3 text-white hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
+                className="block py-2 px-3 text-gray-800 hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
               >
                 Ministries
               </Link>
@@ -70,7 +70,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/sermons"
-                className="block py-2 px-3 text-white hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
+                className="block py-2 px-3 text-gray-800 hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
               >
                 Sermons
               </Link>
@@ -78,7 +78,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/about"
-                className="block py-2 px-3 text-white hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
+                className="block py-2 px-3 text-gray-800 hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
               >
                 About
               </Link>
@@ -86,7 +86,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/contact"
-                className="block py-2 px-3 text-white hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
+                className="block py-2 px-3 text-gray-800 hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
               >
                 Contact
               </Link>

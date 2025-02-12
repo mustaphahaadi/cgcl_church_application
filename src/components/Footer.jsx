@@ -1,3 +1,5 @@
+
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white py-4">
@@ -51,18 +53,18 @@ const Footer = () => {
           <h3 className="mb-2 text-lg font-semibold">Follow Us</h3>
           <ul className="flex space-x-4 text-sm">
             <li>
-              <a href="https://facebook.com" className="hover:underline">
-                Facebook
+              <a href="/Contact" className="hover:underline">
+                <FaFacebook className="inline-block" />
               </a>
             </li>
             <li>
-              <a href="https://twitter.com" className="hover:underline">
-                Twitter
+              <a href="/Contact" className="hover:underline">
+                <FaTwitter className="inline-block" />
               </a>
             </li>
             <li>
-              <a href="https://instagram.com" className="hover:underline">
-                Instagram
+              <a href="/Contact" className="hover:underline">
+                <FaInstagram className="inline-block" />
               </a>
             </li>
           </ul>
