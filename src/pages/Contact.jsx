@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-// import "../styles/Contact.css"; // Optional if you want to keep any custom styles
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -30,25 +28,14 @@ const Contact = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row max-w-4xl mx-auto p-6 bg-gray-900 text-white rounded-lg shadow-lg my-10">
-      <div className="flex-1 p-4">
-        <h2 className="text-2xl font-bold mb-4">
-          Lets discuss on something cool together
-        </h2>
-        <p className="mb-2">📧 SaulDesign@gmail.com</p>
-        <p className="mb-2">📞 +123 456 789</p>
-        <p className="mb-2">📍 123 Street 456 House</p>
-        <div className="flex space-x-4 mt-4">
-          <Link to="/facebook" className="text-white hover:text-blue-500">
-            Facebook
-          </Link>
-          <Link to="/instagram" className="text-white hover:text-blue-500">
-            Instagram
-          </Link>
-          <Link to="/twitter" className="text-white hover:text-blue-500">
-            Twitter
-          </Link>
-        </div>
+    <div className="flex flex-col md:flex-row max-w-4xl mx-auto p-6 bg-gray-800 text-white rounded-lg shadow-lg my-10">
+      <div className="flex-1 p-5">
+        <h1 className="text-4xl font-bold mb-4">
+          Lets Pray and Preach the word of God
+        </h1>
+        <p className="mb-3">📧 contact@gclchurch.com</p>
+        <p className="mb-3">📞 +123 456 789</p>
+        <p className="mb-3">📍 Otumfuo Street, Kumasi</p>
       </div>
       <div className="flex-1 bg-white text-gray-800 rounded-lg shadow-md p-4">
         <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">

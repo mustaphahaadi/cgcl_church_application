@@ -1,4 +1,4 @@
-import churchImage from "../assets/about-img.jpeg"; // Replace with your image path
+import churchImage from "../assets/about-img.jpeg";
 
 const About = () => {
   return (
@@ -49,17 +49,20 @@ const About = () => {
         </h2>
         <ul className="list-disc list-inside text-lg text-gray-600">
           <li>
-            Faith: We believe in the transformative power of faith in Jesus
-            Christ.
+            <strong>Faith:</strong> We believe in the transformative power of
+            faith in Jesus Christ.
           </li>
           <li>
-            Community: We are committed to building a loving and supportive
-            community.
+            <strong>Community:</strong> We are committed to building a loving
+            and supportive community.
           </li>
-          <li>Service: We strive to serve our community and those in need.</li>
           <li>
-            Growth: We encourage spiritual growth through Bible study and
-            fellowship.
+            <strong>Service:</strong> We strive to serve our community and those
+            in need.
+          </li>
+          <li>
+            <strong>Growth:</strong> We encourage spiritual growth through Bible
+            study and fellowship.
           </li>
         </ul>
       </div>

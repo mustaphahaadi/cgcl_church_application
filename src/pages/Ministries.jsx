@@ -11,7 +11,7 @@ const ministriesList = [
     description:
       "A vibrant community for our youth to grow in faith and friendship.",
     icon: "👦👧",
-    link: "/youth-ministry",
+    link: "/YouthMinistry",
   },
   {
     title: "Community Outreach",

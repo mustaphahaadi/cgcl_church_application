@@ -1,4 +1,3 @@
-import "../styles/Events.css";
 const Events = () => {
   // Sample event data (replace with real data from your backend or API)
   const events = [
@@ -9,6 +8,7 @@ const Events = () => {
       time: "10:00 AM",
       location: "Main Sanctuary",
       description: "Join us for a powerful time of worship and teaching.",
+      icon: "🛐",
     },
     {
       id: 2,
@@ -18,6 +18,7 @@ const Events = () => {
       location: "Youth Hall",
       description:
         "A fun and engaging night for teens with games, music, and a message.",
+      icon: "🎉",
     },
     {
       id: 3,
@@ -27,27 +28,41 @@ const Events = () => {
       location: "Downtown Park",
       description:
         "Help us serve the community with food, clothing, and prayer.",
+      icon: "🤝",
     },
   ];
 
   return (
-    <div className="events-container">
-      <h1>Upcoming Events</h1>
-      <p className="events-subtitle">
-        Check out our calendar for upcoming events and services.
-      </p>
-      <div className="events-grid">
+    <div className="bg-gray-100 min-h-screen p-6">
+      <header className="text-center mb-8">
+        <h1 className="text-4xl font-bold text-blue-600">Upcoming Events</h1>
+        <p className="mt-2 text-lg text-gray-700">
+          Explore the various events we have planned for our community.
+        </p>
+      </header>
+      <section className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {events.map((event) => (
-          <div key={event.id} className="event-card">
-            <h4 className="event-title">{event.title}</h4>
-            <p className="event-date">{event.date}</p>
-            <p className="event-time">{event.time}</p>
-            <p className="event-location">{event.location}</p>
-            <p className="event-description">{event.description}</p>
-            <button className="event-button">Learn More</button>
+          <div
+            key={event.id}
+            className="bg-white border border-gray-300 rounded-lg shadow-md p-4 transition-transform transform hover:scale-105"
+          >
+            <div className="flex items-center mb-4">
+              <span className="text-4xl">{event.icon}</span>
+              <h2 className="text-xl font-semibold text-gray-800 ml-2">
+                {event.title}
+              </h2>
+            </div>
+            <p className="text-gray-600">
+              {event.date} at {event.time}
+            </p>
+            <p className="text-gray-600">Location: {event.location}</p>
+            <p className="mt-2 text-gray-700">{event.description}</p>
+            <button className="mt-4 bg-blue-600 text-white rounded-md px-4 py-2 hover:bg-blue-700 transition duration-300">
+              Learn More
+            </button>
           </div>
         ))}
-      </div>
+      </section>
     </div>
   );
 };
