@@ -1,5 +1,3 @@
-// import "../styles/Footer.css";
-
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white py-4">
@@ -8,12 +6,12 @@ const Footer = () => {
           <h3 className="mb-2 text-lg font-semibold">Ministries</h3>
           <ul className="text-sm">
             <li className="mb-1">
-              <a href="/Ministries" className="hover:underline">
+              <a href="/YouthMinistry" className="hover:underline">
                 Youth Ministry
               </a>
             </li>
             <li>
-              <a href="./Features.jsx" className="hover:underline">
+              <a href="/WorshipTeam" className="hover:underline">
                 Worship Team
               </a>
             </li>
@@ -28,7 +26,7 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <a href="/small-groups" className="hover:underline">
+              <a href="/SmallGroups" className="hover:underline">
                 Small Groups
               </a>
             </li>
