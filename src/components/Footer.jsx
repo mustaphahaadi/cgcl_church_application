@@ -1,10 +1,9 @@
-
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-4">
-      <div className="max-w-screen-xl mx-auto flex justify-around items-start px-4">
-        <div className="flex-1 p-2">
+    <footer className="bg-gray-800 text-white py-4 mb-0">
+      <div className="max-w-screen-xl mx-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 px-4">
+        <div className="p-2">
           <h3 className="mb-2 text-lg font-semibold">Ministries</h3>
           <ul className="text-sm">
             <li className="mb-1">
@@ -19,7 +18,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className="flex-1 p-2">
+        <div className="p-2">
           <h3 className="mb-2 text-lg font-semibold">Connect</h3>
           <ul className="text-sm">
             <li className="mb-1">
@@ -34,7 +33,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className="flex-1 p-2">
+        <div className="p-2">
           <h3 className="mb-2 text-lg font-semibold">Support</h3>
           <ul className="text-sm">
             <li className="mb-1">
@@ -49,7 +48,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        <div className="flex-1 p-2">
+        <div className="p-2">
           <h3 className="mb-2 text-lg font-semibold">Follow Us</h3>
           <ul className="flex space-x-4 text-sm">
             <li>

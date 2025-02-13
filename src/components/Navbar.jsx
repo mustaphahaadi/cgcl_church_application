@@ -10,7 +10,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white-to-r from-blue-500 to-blue-700 shadow-lg">
+    <nav className="bg-white-to-r from-black-500 to-black-700 shadow-lg">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <Link
           to="/"
@@ -53,7 +53,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/"
-                className="block py-2 px-3 text-gray-800 hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
+                className="block py-2 px-3 text-gray-800 rounded-md transition duration-200 ease-in-out"
                 aria-current="page"
               >
                 Home
@@ -62,7 +62,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/ministries"
-                className="block py-2 px-3 text-gray-800 hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
+                className="block py-2 px-3 text-gray-800 rounded-md transition duration-200 ease-in-out"
               >
                 Ministries
               </Link>
@@ -70,7 +70,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/sermons"
-                className="block py-2 px-3 text-gray-800 hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
+                className="block py-2 px-3 text-gray-800 rounded-md transition duration-200 ease-in-out"
               >
                 Sermons
               </Link>
@@ -78,7 +78,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/about"
-                className="block py-2 px-3 text-gray-800 hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
+                className="block py-2 px-3 text-gray-800 rounded-md transition duration-200 ease-in-out"
               >
                 About
               </Link>
@@ -86,7 +86,7 @@ const Navbar = () => {
             <li>
               <Link
                 to="/contact"
-                className="block py-2 px-3 text-gray-800 hover:bg-blue-800 rounded-md transition duration-200 ease-in-out"
+                className="block py-2 px-3 text-gray-800 rounded-md transition duration-200 ease-in-out"
               >
                 Contact
               </Link>
