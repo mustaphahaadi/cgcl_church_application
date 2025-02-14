@@ -1,4 +1,6 @@
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white py-4 mb-0">
@@ -7,14 +9,14 @@ const Footer = () => {
           <h3 className="mb-2 text-lg font-semibold">Ministries</h3>
           <ul className="text-sm">
             <li className="mb-1">
-              <a href="/YouthMinistry" className="hover:underline">
+              <Link to="/YouthMinistry" className="hover:underline">
                 Youth Ministry
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/WorshipTeam" className="hover:underline">
+              <Link to="/WorshipTeam" className="hover:underline">
                 Worship Team
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -22,14 +24,14 @@ const Footer = () => {
           <h3 className="mb-2 text-lg font-semibold">Connect</h3>
           <ul className="text-sm">
             <li className="mb-1">
-              <a href="/Events" className="hover:underline">
+              <Link to="/Events" className="hover:underline">
                 Upcoming Events
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/SmallGroups" className="hover:underline">
+              <Link to="/SmallGroups" className="hover:underline">
                 Small Groups
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -37,14 +39,14 @@ const Footer = () => {
           <h3 className="mb-2 text-lg font-semibold">Support</h3>
           <ul className="text-sm">
             <li className="mb-1">
-              <a href="/Give" className="hover:underline">
+              <Link to="/Give" className="hover:underline">
                 Give
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/Contact" className="hover:underline">
+              <Link to="/Contact" className="hover:underline">
                 Contact Us
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
