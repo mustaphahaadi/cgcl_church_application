@@ -4,7 +4,9 @@ const SignupForm = () => {
   const [formData, setFormData] = useState({
     date: "",
     day: "",
-    fullName: "",
+    firstName: "",
+    middleName: "",
+    lastName: "",
     birthday: "",
     age: "",
     sex: "",
@@ -36,25 +38,29 @@ const SignupForm = () => {
   };
 
   return (
-    <section className="py-12 bg-gradient-to-b from-blue-50 to-white">
-      <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-8">
+    <section className="py-12 bg-gradient-to-b from-blue-50 to-white min-h-screen px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl p-4 sm:p-8">
+        {/* Form Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-blue-800 mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-2">
             CITY OF LIGHT GLOBAL CHURCH
           </h1>
-          <h2 className="text-xl font-semibold text-gray-700">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-700">
             {"FIRST TIMER'S FORM"}
           </h2>
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-sm sm:text-base">
             Please fill the appropriate information
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Date and Day Selection */}
-            <div className="flex space-x-4">
-              <div className="flex-1">
+        <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Visit Information Section */}
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              Visit Information
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Date
                 </label>
@@ -66,7 +72,7 @@ const SignupForm = () => {
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              <div className="flex-1">
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Day
                 </label>
@@ -84,36 +90,63 @@ const SignupForm = () => {
                 </select>
               </div>
             </div>
+          </div>
 
-            {/* Personal Information */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Full Name
-              </label>
-              <input
-                type="text"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Birthday
-              </label>
-              <input
-                type="date"
-                name="birthday"
-                value={formData.birthday}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <div className="flex space-x-4">
-              <div className="flex-1">
+          {/* Personal Information Section */}
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              Personal Information
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Middle Name
+                </label>
+                <input
+                  type="text"
+                  name="middleName"
+                  value={formData.middleName}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Birthday
+                </label>
+                <input
+                  type="date"
+                  name="birthday"
+                  value={formData.birthday}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Age
                 </label>
@@ -125,7 +158,7 @@ const SignupForm = () => {
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              <div className="flex-1">
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Sex
                 </label>
@@ -140,75 +173,79 @@ const SignupForm = () => {
                   <option value="Female">Female</option>
                 </select>
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Marital Status
+                </label>
+                <select
+                  name="maritalStatus"
+                  value={formData.maritalStatus}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select Status</option>
+                  <option value="Single">Single</option>
+                  <option value="Married">Married</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
             </div>
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Marital Status
-              </label>
-              <select
-                name="maritalStatus"
-                value={formData.maritalStatus}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select Status</option>
-                <option value="Single">Single</option>
-                <option value="Married">Married</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-
-            {/* Contact Information */}
-            <div className="col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Home Address / House Number
-              </label>
-              <input
-                type="text"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Nearest Bus Stop
-              </label>
-              <input
-                type="text"
-                name="busStop"
-                value={formData.busStop}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div className="col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address
-              </label>
-              <input
-                type="email"
-                name="mail_address"
-                value={formData.address}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
+          {/* Contact Information Section */}
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              Contact Information
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="sm:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Home Address
+                </label>
+                <input
+                  type="text"
+                  name="address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Nearest Bus Stop
+                </label>
+                <input
+                  type="text"
+                  name="busStop"
+                  value={formData.busStop}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Occupation
@@ -216,81 +253,86 @@ const SignupForm = () => {
                 <input
                   type="text"
                   name="occupation"
-                  value={formData.busStop}
+                  value={formData.occupation}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              <div className="col-span-2">
+              <div className="sm:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Office Address
                 </label>
                 <input
                   type="text"
-                  name="office_address"
-                  value={formData.address}
+                  name="officeAddress"
+                  value={formData.officeAddress}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
-            {/* Additional Information */}
-            <div className="col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Who Invited You?
-              </label>
-              <input
-                type="text"
-                name="invitedBy"
-                value={formData.invitedBy}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Are you born again?
-              </label>
-              <select
-                name="bornAgain"
-                value={formData.bornAgain}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Want to become a member of CLGC?
-              </label>
-              <select
-                name="wantMembership"
-                value={formData.wantMembership}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-              </select>
-            </div>
-
-            <div className="col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Prayer Request / Counselling Needs
-              </label>
-              <textarea
-                name="prayerRequest"
-                value={formData.prayerRequest}
-                onChange={handleChange}
-                rows="4"
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              ></textarea>
+          {/* Church Information Section */}
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              Church Information
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="sm:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Who Invited You?
+                </label>
+                <input
+                  type="text"
+                  name="invitedBy"
+                  value={formData.invitedBy}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Are you born again?
+                </label>
+                <select
+                  name="bornAgain"
+                  value={formData.bornAgain}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Want to become a member of CLGC?
+                </label>
+                <select
+                  name="wantMembership"
+                  value={formData.wantMembership}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Prayer Request / Counselling Needs
+                </label>
+                <textarea
+                  name="prayerRequest"
+                  value={formData.prayerRequest}
+                  onChange={handleChange}
+                  rows="4"
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                ></textarea>
+              </div>
             </div>
           </div>
 
