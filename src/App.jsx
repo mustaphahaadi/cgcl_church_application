@@ -31,7 +31,7 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
           <Route path="/Give" element={<Give />} />
           <Route path="/Ministries" element={<Ministries />} />
-          <Route path="/SignupForm.jsx" element={<SignupForm />} />
+          <Route path="/SignupForm" element={<SignupForm />} />
           <Route path="/YouthMinistry" element={<YouthMinistry />} />
           <Route path="/WorshipTeam" element={<WorshipTeam />} />
           <Route path="/SmallGroups" element={<SmallGroups />} />

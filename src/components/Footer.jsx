@@ -9,12 +9,12 @@ const Footer = () => {
           <h3 className="mb-2 text-lg font-semibold">Ministries</h3>
           <ul className="text-sm">
             <li className="mb-1">
-              <Link to="/YouthMinistry" className="hover:underline">
+              <Link to="/youthministry" className="hover:underline">
                 Youth Ministry
               </Link>
             </li>
             <li>
-              <Link to="/WorshipTeam" className="hover:underline">
+              <Link to="/worshipteam" className="hover:underline">
                 Worship Team
               </Link>
             </li>
@@ -24,12 +24,12 @@ const Footer = () => {
           <h3 className="mb-2 text-lg font-semibold">Connect</h3>
           <ul className="text-sm">
             <li className="mb-1">
-              <Link to="/Events" className="hover:underline">
+              <Link to="/events" className="hover:underline">
                 Upcoming Events
               </Link>
             </li>
             <li>
-              <Link to="/SmallGroups" className="hover:underline">
+              <Link to="/smallgroups" className="hover:underline">
                 Small Groups
               </Link>
             </li>
@@ -39,12 +39,12 @@ const Footer = () => {
           <h3 className="mb-2 text-lg font-semibold">Support</h3>
           <ul className="text-sm">
             <li className="mb-1">
-              <Link to="/Give" className="hover:underline">
+              <Link to="/give" className="hover:underline">
                 Give
               </Link>
             </li>
             <li>
-              <Link to="/Contact" className="hover:underline">
+              <Link to="/contact" className="hover:underline">
                 Contact Us
               </Link>
             </li>
@@ -54,17 +54,17 @@ const Footer = () => {
           <h3 className="mb-2 text-lg font-semibold">Follow Us</h3>
           <ul className="flex space-x-4 text-sm">
             <li>
-              <a href="/Contact" className="hover:underline">
+              <Link to="/contact" className="hover:underline">
                 <FaFacebook className="inline-block" />
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/Contact" className="hover:underline">
+              <Link to="/contact" className="hover:underline">
                 <FaTwitter className="inline-block" />
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/Contact" className="hover:underline">
+              <a href="/contact" className="hover:underline">
                 <FaInstagram className="inline-block" />
               </a>
             </li>
