@@ -1,3 +1,4 @@
+import Dashboard from "./pages/Dashboard";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 // import Hero from "./components/Hero";
@@ -23,6 +24,7 @@ const App = () => {
       <NavBar />
       <main className="main-content">
         <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/" element={<Home />} />
           <Route path="/About" element={<About />} />
           <Route path="/Contact" element={<Contact />} />

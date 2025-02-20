@@ -72,7 +72,9 @@ const Footer = () => {
         </div>
       </div>
       <div className="text-center border-t border-gray-700 pt-4 text-xs">
-        <span>© 2025 CGCL Church. All Rights Reserved.</span>
+        <span>
+          © {new Date().getFullYear()} CGCL Church. All Rights Reserved.
+        </span>
       </div>
     </footer>
   );

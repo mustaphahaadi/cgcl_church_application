@@ -91,6 +91,14 @@ const Navbar = () => {
                 Contact
               </Link>
             </li>
+          {/* <li>
+              <Link
+                to="/dashboard"
+                className="block py-2 px-3 text-gray-800 rounded-md transition duration-200 ease-in-out"
+              >
+                Dashboard
+              </Link>
+            </li> */}
           </ul>
         </div>
       </div>
