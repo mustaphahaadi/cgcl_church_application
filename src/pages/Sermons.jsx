@@ -1,94 +1,200 @@
-
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 const Sermons = () => {
-  // Sample sermon data (replace with real data from your backend or API)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedSeries, setSelectedSeries] = useState("all");
+  const [selectedSpeaker, setSelectedSpeaker] = useState("all");
+
   const sermons = [
     {
       id: 1,
       title: "The Power of Faith",
       date: "January 10, 2025",
-      speaker: "Pastor Kusi Daniel",
+      speaker: "Rev. Daniel Kusi",
       series: "Faith Series",
       description:
         "Explore the transformative power of faith in our daily lives.",
       audioLink: "https://example.com/sermon1",
-      videoLink: "https://example.com/sermon1-video",
+      videoLink: "https://youtu.be/c_VyjZTR5VM?si=QQWfvXFaT3CLmFg_",
+      thumbnail: "/images/sermons/faith.jpg",
+      duration: "45:30",
+      views: 1250,
+      scripture: "Hebrews 11:1-6",
+      tags: ["faith", "transformation", "spiritual growth"],
     },
     {
       id: 2,
-      title: "Living in Grace",
+      title: "Walking in Divine Grace",
       date: "October 1, 2024",
       speaker: "Pastor Kwame Akwasi",
       series: "Grace Series",
-      description: "Discover how to live a life full of grace and forgiveness.",
+      description: "Understanding and living in God's amazing grace daily.",
       audioLink: "https://example.com/sermon2",
       videoLink: "https://example.com/sermon2-video",
+      thumbnail: "/images/sermons/grace.jpg",
+      duration: "52:15",
+      views: 980,
+      scripture: "Ephesians 2:8-9",
+      tags: ["grace", "salvation", "christian living"],
     },
     {
       id: 3,
-      title: "The Joy of Giving",
+      title: "Kingdom Prosperity Principles",
       date: "January 24, 2025",
-      speaker: "Guest Speaker Mark Lee",
-      series: "Generosity Series",
-      description: "Learn the joy and impact of giving generously.",
+      speaker: "Rev. Kofi Mensah",
+      series: "Prosperity Series",
+      description: "Biblical principles for prosperity and stewardship.",
       audioLink: "https://example.com/sermon3",
       videoLink: "https://example.com/sermon3-video",
+      thumbnail: "/images/sermons/prosperity.jpg",
+      duration: "48:20",
+      views: 1100,
+      scripture: "3 John 1:2",
+      tags: ["prosperity", "stewardship", "finance"],
     },
   ];
 
+  const filteredSermons = sermons.filter((sermon) => {
+    const matchesSearch =
+      sermon.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      sermon.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSeries =
+      selectedSeries === "all" || sermon.series === selectedSeries;
+    const matchesSpeaker =
+      selectedSpeaker === "all" || sermon.speaker === selectedSpeaker;
+    return matchesSearch && matchesSeries && matchesSpeaker;
+  });
+
   return (
-    <div className="min-h-screen bg-gray-100 p-6 text-center">
-      <h1 className="text-4xl font-bold text-blue-600">Sermons</h1>
-      <p className="text-lg text-gray-600 mb-10">
-        Listen to our latest sermons and teachings.
-      </p>
-      <div className="mb-6 flex justify-center gap-4">
-        <select className="border-2 border-blue-500 rounded-lg p-2 text-gray-800">
-          <option value="all">All Series</option>
-          <option value="faith">Faith Series</option>
-          <option value="grace">Grace Series</option>
-          <option value="generosity">Generosity Series</option>
-        </select>
-        <select className="border-2 border-blue-500 rounded-lg p-2 text-gray-800">
-          <option value="all">All Speakers</option>
-          <option value="john-doe">Pastor John Doe</option>
-          <option value="jane-smith">Pastor Jane Smith</option>
-          <option value="mark-lee">Guest Speaker Mark Lee</option>
-        </select>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="text-4xl md:text-5xl font-bold text-center mb-4">
+            Sermons & Teachings
+          </h1>
+          <p className="text-xl text-center text-blue-100 max-w-3xl mx-auto">
+            Explore our collection of life-changing messages from our ministers
+          </p>
+        </div>
       </div>
-      <div className="flex flex-wrap justify-center gap-6">
-        {sermons.map((sermon) => (
-          <div
-            key={sermon.id}
-            className="bg-white border border-gray-300 rounded-lg p-6 shadow-md transition-transform transform hover:scale-105"
-          >
-            <h3 className="text-2xl text-blue-600 mb-2">{sermon.title}</h3>
-            <p className="text-sm text-gray-500 mb-1">{sermon.date}</p>
-            <p className="text-gray-800 mb-1">Speaker: {sermon.speaker}</p>
-            <p className="text-orange-500 font-bold mb-2">
-              Series: {sermon.series}
-            </p>
-            <p className="text-gray-600 mb-4">{sermon.description}</p>
-            <div className="flex justify-center gap-4">
-              <a
-                href={sermon.audioLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600 transition duration-300"
-              >
-                Listen
-              </a>
-              <a
-                href={sermon.videoLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-teal-500 text-white rounded-md px-4 py-2 hover:bg-teal-600 transition duration-300"
-              >
-                Watch
-              </a>
-            </div>
+
+      {/* Search and Filter Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
+        <div className="bg-white rounded-xl shadow-lg p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <input
+              type="text"
+              placeholder="Search sermons..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+            <select
+              value={selectedSeries}
+              onChange={(e) => setSelectedSeries(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="all">All Series</option>
+              <option value="Faith Series">Faith Series</option>
+              <option value="Grace Series">Grace Series</option>
+              <option value="Prosperity Series">Prosperity Series</option>
+            </select>
+            <select
+              value={selectedSpeaker}
+              onChange={(e) => setSelectedSpeaker(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="all">All Speakers</option>
+              <option value="Rev. Daniel Kusi">Rev. Daniel Kusi</option>
+              <option value="Pastor Kwame Akwasi">Pastor Kwame Akwasi</option>
+              <option value="Rev. Kofi Mensah">Rev. Kofi Mensah</option>
+            </select>
           </div>
-        ))}
+        </div>
+      </div>
+
+      {/* Sermons Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredSermons.map((sermon) => (
+            <motion.div
+              key={sermon.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            >
+              <div className="relative">
+                <img
+                  src={sermon.thumbnail}
+                  alt={sermon.title}
+                  className="w-full h-48 object-cover"
+                  onError={(e) => {
+                    e.target.src = "/images/sermon-placeholder.jpg";
+                  }}
+                />
+                <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded-md text-sm">
+                  {sermon.duration}
+                </div>
+              </div>
+
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-gray-500">{sermon.date}</span>
+                  <span className="text-sm text-gray-500">
+                    {sermon.views} views
+                  </span>
+                </div>
+
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                  {sermon.title}
+                </h3>
+
+                <p className="text-gray-600 mb-2">{sermon.speaker}</p>
+
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
+                    {sermon.series}
+                  </span>
+                  <span className="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">
+                    {sermon.scripture}
+                  </span>
+                </div>
+
+                <p className="text-gray-600 mb-4 line-clamp-2">
+                  {sermon.description}
+                </p>
+
+                <div className="flex gap-2 mb-4">
+                  {sermon.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex gap-3">
+                  <a
+                    href={sermon.audioLink}
+                    className="flex-1 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+                  >
+                    Listen Now
+                  </a>
+                  <a
+                    href={sermon.videoLink}
+                    className="flex-1 bg-gray-800 text-white text-center py-2 rounded-lg hover:bg-teal-700 transition duration-300"
+                  >
+                    Watch Video
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ const Navbar = () => {
         >
           <img src={reactLogo} className="mr-3 h-8 sm:h-10" alt="Church Logo" />
           <span className="self-center text-2xl font-bold text-blue whitespace-nowrap">
-            CGCL CHURCH
+            CLGC CHURCH
           </span>
         </Link>
         <button
@@ -77,6 +77,14 @@ const Navbar = () => {
             </li>
             <li>
               <Link
+                to="/testimonies"
+                className="block py-2 px-3 text-gray-800 rounded-md transition duration-200 ease-in-out"
+              >
+                Testimonies
+              </Link>
+            </li>
+            <li>
+              <Link
                 to="/about"
                 className="block py-2 px-3 text-gray-800 rounded-md transition duration-200 ease-in-out"
               >
@@ -91,14 +99,6 @@ const Navbar = () => {
                 Contact
               </Link>
             </li>
-          {/* <li>
-              <Link
-                to="/dashboard"
-                className="block py-2 px-3 text-gray-800 rounded-md transition duration-200 ease-in-out"
-              >
-                Dashboard
-              </Link>
-            </li> */}
           </ul>
         </div>
       </div>

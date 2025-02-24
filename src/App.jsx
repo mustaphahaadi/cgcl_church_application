@@ -17,6 +17,7 @@ import SignupForm from "./pages/SignupForm";
 import YouthMinistry from "./pages/YouthMinistry";
 import WorshipTeam from "./pages/WorshipTeam";
 import SmallGroups from "./pages/SmallGroups";
+import Testimonies from "./pages/Testimonies";
 
 const App = () => {
   return (
@@ -24,7 +25,8 @@ const App = () => {
       <NavBar />
       <main className="main-content">
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/Testimonies" element={<Testimonies />} />
+          <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/" element={<Home />} />
           <Route path="/About" element={<About />} />
           <Route path="/Contact" element={<Contact />} />
