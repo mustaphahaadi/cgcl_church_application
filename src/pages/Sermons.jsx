@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import healingImage from "../assets/healing.jpeg";
 
 const Sermons = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,7 +18,7 @@ const Sermons = () => {
         "Explore the transformative power of faith in our daily lives.",
       audioLink: "https://example.com/sermon1",
       videoLink: "https://youtu.be/c_VyjZTR5VM?si=QQWfvXFaT3CLmFg_",
-      thumbnail: "/images/sermons/faith.jpg",
+      thumbnail: healingImage,
       duration: "45:30",
       views: 1250,
       scripture: "Hebrews 11:1-6",
@@ -32,7 +33,7 @@ const Sermons = () => {
       description: "Understanding and living in God's amazing grace daily.",
       audioLink: "https://example.com/sermon2",
       videoLink: "https://example.com/sermon2-video",
-      thumbnail: "/images/sermons/grace.jpg",
+      thumbnail: healingImage,
       duration: "52:15",
       views: 980,
       scripture: "Ephesians 2:8-9",
@@ -47,7 +48,7 @@ const Sermons = () => {
       description: "Biblical principles for prosperity and stewardship.",
       audioLink: "https://example.com/sermon3",
       videoLink: "https://example.com/sermon3-video",
-      thumbnail: "/images/sermons/prosperity.jpg",
+      thumbnail: healingImage,
       duration: "48:20",
       views: 1100,
       scripture: "3 John 1:2",

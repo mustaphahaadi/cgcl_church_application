@@ -1,25 +1,27 @@
+import healingImage from "../assets/healing.jpeg";
 
 const WorshipTeam = () => {
+  // ... existing code ...
   const teamMembers = [
     {
-      name: "John Doe",
+      name: "Kwame Mensah",
       role: "Lead Vocalist",
-      image: "https://via.placeholder.com/150",
+      image: healingImage,
     },
     {
-      name: "Jane Smith",
+      name: "Abena Owusu",
       role: "Guitarist",
-      image: "https://via.placeholder.com/150",
+      image: healingImage,
     },
     {
-      name: "Emily Johnson",
+      name: "Kofi Addo",
       role: "Pianist",
-      image: "https://via.placeholder.com/150",
+      image: healingImage,
     },
     {
-      name: "Michael Brown",
+      name: "Efua Nyarko",
       role: "Drummer",
-      image: "https://via.placeholder.com/150",
+      image: healingImage,
     },
   ];
 
