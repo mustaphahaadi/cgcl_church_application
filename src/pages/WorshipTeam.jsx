@@ -1,7 +1,7 @@
 import healingImage from "../assets/healing.jpeg";
 
 const WorshipTeam = () => {
-  // ... existing code ...
+
   const teamMembers = [
     {
       name: "Kwame Mensah",
