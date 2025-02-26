@@ -1,10 +1,10 @@
+import { Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 // import Hero from "./components/Hero";
 // import Features from "./components/Features";
 import Home from "./pages/Home"; // Import the Home component
-
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Events from "./pages/Events";
@@ -12,12 +12,13 @@ import Sermons from "./pages/Sermons";
 import NotFound from "./pages/NotFound";
 import Give from "./pages/Give";
 import Ministries from "./pages/Ministries";
-import { Route, Routes } from "react-router-dom";
+
 import SignupForm from "./pages/SignupForm";
 import YouthMinistry from "./pages/YouthMinistry";
 import WorshipTeam from "./pages/WorshipTeam";
 import SmallGroups from "./pages/SmallGroups";
 import Testimonies from "./pages/Testimonies";
+import TestimonyShare from "./pages/TestimonyShare";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
       <NavBar />
       <main className="main-content">
         <Routes>
+          <Route path="/TestimonyShare" element={<TestimonyShare />} />
           <Route path="/Testimonies" element={<Testimonies />} />
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/" element={<Home />} />

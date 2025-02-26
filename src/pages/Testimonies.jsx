@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import healingImage from "../assets/healing.jpeg";
+import { Link } from "react-router";
 
 const Testimonies = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -122,9 +123,11 @@ const Testimonies = () => {
 
         {/* Share Testimony Button */}
         <div className="text-center mb-8">
-          <button className="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-colors duration-300 shadow-lg">
-            Share Your Testimony
-          </button>
+          <Link to="/testimonyshare">
+            <button className="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition-colors duration-300 shadow-lg">
+              Share Your Testimony
+            </button>
+          </Link>
         </div>
 
         {/* Filter and Search Section */}
