@@ -47,7 +47,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-800 to-gray-900 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-white-to-r from-gray-800 to-gray-900 p-6">
       <div className="w-full max-w-4xl bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
         {/* Left Section */}
         <div className="bg-gray-800 text-white p-8 md:w-1/2 flex flex-col justify-center">
