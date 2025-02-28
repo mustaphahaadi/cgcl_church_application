@@ -13,12 +13,14 @@ import NotFound from "./pages/NotFound";
 import Give from "./pages/Give";
 import Ministries from "./pages/Ministries";
 
-import SignupForm from "./pages/SignupForm";
+import Signup from "./pages/Signup";
 import YouthMinistry from "./pages/YouthMinistry";
 import WorshipTeam from "./pages/WorshipTeam";
 import SmallGroups from "./pages/SmallGroups";
 import Testimonies from "./pages/Testimonies";
 import TestimonyShare from "./pages/TestimonyShare";
+import { ToastContainer } from "react-toastify"; // Add this import
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
@@ -37,13 +39,14 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
           <Route path="/Give" element={<Give />} />
           <Route path="/Ministries" element={<Ministries />} />
-          <Route path="/SignupForm" element={<SignupForm />} />
+          <Route path="/Signup" element={<Signup />} />
           <Route path="/YouthMinistry" element={<YouthMinistry />} />
           <Route path="/WorshipTeam" element={<WorshipTeam />} />
           <Route path="/SmallGroups" element={<SmallGroups />} />
         </Routes>
       </main>
       <Footer />
+      <ToastContainer />
     </div>
   );
 };
