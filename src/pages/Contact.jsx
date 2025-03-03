@@ -15,11 +15,11 @@ const Contact = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { name, email, message, phone, subject } = formData;
 
-    // Validate inputs
     if (!name || !email || !message || !phone || !subject) {
       setStatusMessage({ type: "error", text: "Please fill in all fields." });
       return;
@@ -28,23 +28,35 @@ const Contact = () => {
     setIsLoading(true);
     setStatusMessage({ type: "info", text: "Sending your message..." });
 
-    // Simulate API call
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      const response = await fetch("http://localhost:8000/api/contacts/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to send message");
+      }
+
       setStatusMessage({
         type: "success",
         text: "Thank you for contacting us! We will get back to you soon.",
       });
       setFormData({ name: "", email: "", message: "", phone: "", subject: "" });
-    } catch {
+    } catch (error) {
       setStatusMessage({
         type: "error",
-        text: "Something went wrong. Please try again later.",
+        text: error.message || "Something went wrong. Please try again later.",
       });
     } finally {
       setIsLoading(false);
     }
   };
+    
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white-to-r from-gray-800 to-gray-900 p-6">

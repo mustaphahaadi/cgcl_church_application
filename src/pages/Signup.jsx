@@ -36,9 +36,48 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Get CSRF token from cookies
+      const csrfToken = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("csrftoken="))
+        ?.split("=")[1];
+
+      const response = await fetch("/api/members/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": csrfToken || "", // Add CSRF token to headers
+        },
+        body: JSON.stringify({
+          date: formData.date,
+          first_name: formData.firstName,
+          middle_name: formData.middleName || null,
+          last_name: formData.lastName,
+          birthday: formData.birthday,
+          age: parseInt(formData.age),
+          sex: formData.sex,
+          marital_status: formData.maritalStatus,
+          address: formData.address,
+          bus_stop: formData.busStop,
+          phone: formData.phone,
+          email: formData.email,
+          occupation: formData.occupation,
+          office_address: formData.officeAddress || null,
+          invited_by: formData.invitedBy,
+          born_again: formData.bornAgain === "true",
+          want_membership: formData.wantMembership === "true",
+          prayer_request: formData.prayerRequest || null,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Validation errors:", data);
+        throw new Error(data.error || "Failed to submit form");
+      }
 
       // Show success toast
       toast.success("Form submitted successfully!", {
@@ -49,35 +88,11 @@ const Signup = () => {
         pauseOnHover: true,
         draggable: true,
       });
-
-      // Reset form
-      setFormData({
-        date: new Date().toISOString().split("T")[0],
-        day: "",
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        birthday: "",
-        age: "",
-        sex: "",
-        maritalStatus: "",
-        address: "",
-        busStop: "",
-        phone: "",
-        email: "",
-        occupation: "",
-        officeAddress: "",
-        invitedBy: "",
-        bornAgain: "",
-        wantMembership: "",
-        activityGroup: "",
-        prayerRequest: "",
-      });
-    } catch {
-      // Show error toast
-      toast.error("Failed to submit form. Please try again.", {
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error(error.message || "Failed to submit form", {
         position: "top-center",
-        autoClose: 3000,
+        autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
