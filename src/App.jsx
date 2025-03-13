@@ -19,8 +19,9 @@ import WorshipTeam from "./pages/WorshipTeam";
 import SmallGroups from "./pages/SmallGroups";
 import Testimonies from "./pages/Testimonies";
 import TestimonyShare from "./pages/TestimonyShare";
-import { ToastContainer } from "react-toastify"; // Add this import
-// import "react-toastify/dist/ReactToastify.css";
+// import LatestTestimonies from "./components/LatestTestimonies";
+import { ToastContainer } from "react-toastify";
+
 
 const App = () => {
   return (
