@@ -117,45 +117,6 @@ const Signup = () => {
           </p>
         </div>
 
-        {/* Visit Information Section */}
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            Visit Information
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Date
-              </label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                readOnly // Make date field read-only
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Day
-              </label>
-              <select
-                name="day"
-                value={formData.day}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select Day</option>
-                <option value="Sun">Sunday</option>
-                <option value="Wed">Wednesday</option>
-                <option value="Fri">Friday</option>
-                <option value="Others">Others</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
         {/* Personal Information Section */}
         <div className="bg-gray-50 p-4 rounded-lg">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">
@@ -163,14 +124,15 @@ const Signup = () => {
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                First Name
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
+                First Name <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleChange}
+                required
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -187,49 +149,53 @@ const Signup = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Last Name
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
+                Last Name <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleChange}
+                required
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Birthday
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
+                Birthday <span className="text-red-500">*</span>
               </label>
               <input
                 type="date"
                 name="birthday"
                 value={formData.birthday}
                 onChange={handleChange}
+                required
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Age
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
+                Age <span className="text-red-500">*</span>
               </label>
               <input
                 type="number"
                 name="age"
                 value={formData.age}
                 onChange={handleChange}
+                required
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Sex
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
+                Sex <span className="text-red-500">*</span>
               </label>
               <select
                 name="sex"
                 value={formData.sex}
                 onChange={handleChange}
+                required
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select</option>
@@ -238,13 +204,14 @@ const Signup = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Marital Status
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
+                Marital Status <span className="text-red-500">*</span>
               </label>
               <select
                 name="maritalStatus"
                 value={formData.maritalStatus}
                 onChange={handleChange}
+                required
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select Status</option>
@@ -263,20 +230,22 @@ const Signup = () => {
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Home Address
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
+                Home Address <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 name="address"
                 value={formData.address}
                 onChange={handleChange}
+                required
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
                 Nearest Bus Stop
+                <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -287,20 +256,22 @@ const Signup = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Number
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
+                Phone Number <span className="text-red-500">*</span>
               </label>
               <input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
+                required
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
                 Email Address
+                <span className="text-red-500">*</span>
               </label>
               <input
                 type="email"
@@ -311,8 +282,9 @@ const Signup = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
                 Occupation
+                <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -323,8 +295,9 @@ const Signup = () => {
               />
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
                 Office Address
+                <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -344,20 +317,22 @@ const Signup = () => {
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Who Invited You?
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
+                Who Invited You? <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 name="invitedBy"
                 value={formData.invitedBy}
                 onChange={handleChange}
+                required
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
                 Are you born again?
+                <span className="text-red-500">*</span>
               </label>
               <select
                 name="bornAgain"
@@ -371,8 +346,9 @@ const Signup = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
                 Want to become a member of CLGC?
+                <span className="text-red-500">*</span>
               </label>
               <select
                 name="wantMembership"
@@ -386,14 +362,16 @@ const Signup = () => {
               </select>
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Prayer Request / Counselling Needs
+              <label className="block text-sm font-medium text-gray-700 mb-1 required">
+                Prayer Request / Counselling Needs{" "}
+                <span className="text-red-500">*</span>
               </label>
               <textarea
                 name="prayerRequest"
                 value={formData.prayerRequest}
                 onChange={handleChange}
                 rows="4"
+                required
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               ></textarea>
             </div>
