@@ -1,9 +1,7 @@
-"use client";
-
 import { Clock, MapPin, Users } from "lucide-react";
 
-const SmallGroups = () => {
-  const smallGroups = [
+const Fellowships = () => {
+  const Fellowships = [
     {
       name: "Young Adults",
       description:
@@ -45,7 +43,7 @@ const SmallGroups = () => {
   return (
     <div className="bg-white min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <header className="text-center mb-16 max-w-3xl mx-auto">
-        <h1 className="text-4xl font-bold text-blue-500 mb-4">Small Groups</h1>
+        <h1 className="text-4xl font-bold text-blue-500 mb-4">Our Fellowships</h1>
         <p className="text-gray-600 text-lg">
           Join a small group to connect with others and grow in your faith
           through meaningful relationships and conversations.
@@ -53,7 +51,7 @@ const SmallGroups = () => {
       </header>
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {smallGroups.map((group, index) => (
+        {Fellowships.map((group, index) => (
           <div
             key={index}
             className="bg-white border border-gray-100 rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow duration-300"
@@ -85,4 +83,4 @@ const SmallGroups = () => {
   );
 };
 
-export default SmallGroups;
+export default Fellowships;

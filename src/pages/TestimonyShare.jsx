@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
+// Assuming you have a user object with firstName and lastName
+const user = {
+  firstName: "John",
+  lastName: "Doe",
+};
+
 const ShareTestimony = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    name: `${user.firstName} ${user.lastName}`, // Set default name
     title: "",
     category: "healing",
     content: "",
@@ -54,7 +60,7 @@ const ShareTestimony = () => {
 
       // Reset form after successful submission
       setFormData({
-        name: "",
+        name: `${user.firstName} ${user.lastName}`,
         title: "",
         category: "healing",
         content: "",
@@ -81,9 +87,6 @@ const ShareTestimony = () => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white rounded-xl shadow-md overflow-hidden p-8"
         >
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-            Share Your Testimony
-          </h2>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name Input */}

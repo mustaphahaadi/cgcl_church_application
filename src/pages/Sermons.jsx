@@ -182,12 +182,19 @@ const Sermons = () => {
                   <a
                     href={sermon.audioLink}
                     className="flex-1 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const audio = new Audio(sermon.audioLink);
+                      audio.play();
+                    }}
                   >
                     Listen Now
                   </a>
                   <a
                     href={sermon.videoLink}
                     className="flex-1 bg-gray-800 text-white text-center py-2 rounded-lg hover:bg-teal-700 transition duration-300"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     Watch Video
                   </a>

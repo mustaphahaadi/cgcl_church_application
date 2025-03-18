@@ -29,8 +29,8 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link to="/smallgroups" className="hover:underline">
-                Small Groups
+              <Link to="/fellowships" className="hover:underline">
+                Fellowships
               </Link>
             </li>
           </ul>
