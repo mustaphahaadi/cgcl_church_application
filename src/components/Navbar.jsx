@@ -11,36 +11,37 @@ const Navbar = () => {
     worship: {
       label: "Worship",
       items: [
-        "Service Times",
-        "Watch Live",
-        "Sermon Archive",
-        "Music Ministry",
-        "Prayer Requests",
+        { label: "Service Times", to: "/service-times" },
+        { label: "Testimony", to: "/testimonies" },
+        { label: "Sermon Archives", to: "/sermons" },
+        { label: "Prayer Requests", to: "/contact" },
       ],
     },
     ministries: {
       label: "Ministries",
       items: [
-        "Children's Ministry",
-        "Youth Ministry",
-        "Adult Groups",
-        "Outreach",
-        "Care & Support",
+        { label: "Youth Ministry", to: "/youthministry" },
+        { label: "Adult Groups", to: "/fellowships" },
+        { label: "Outreach", to: "/outreach" },
+        { label: "Care & Support", to: "/contact" },
       ],
     },
     connect: {
       label: "Connect",
       items: [
-        "New Here?",
-        "Events Calendar",
-        "Small Groups",
-        "Volunteer",
-        "Contact Us",
+        { label: "New Here?", to: "/signup" },
+        { label: "Events Calendar", to: "/events" },
+        { label: "Fellowships", to: "/fellowships" },
+        { label: "Volunteer", to: "/contact" },
+        { label: "Contact Us", to: "/contact" },
       ],
     },
     support: {
       label: "Support",
-      items: ["Give", "Contact Us"],
+      items: [
+        { label: "Give", to: "/give" },
+        { label: "Contact Us", to: "/contact" },
+      ],
     },
   };
 
@@ -61,55 +62,64 @@ const Navbar = () => {
   };
 
   const dropdownVariants = {
-    hidden: { opacity: 0, y: -5 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.2 } },
+    hidden: { opacity: 0, y: -10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.3, ease: "easeOut" },
+    },
   };
 
   const mobileMenuVariants = {
-    hidden: { opacity: 0, x: -10 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.2 } },
+    hidden: { opacity: 0, height: 0 },
+    visible: {
+      opacity: 1,
+      height: "auto",
+      transition: { duration: 0.3, ease: "easeOut" },
+    },
   };
 
   return (
     <nav
-      className="bg-white shadow-lg border-b border-gray-200"
+      className="bg-white text-gray-800 shadow-lg sticky top-0 z-50"
       role="navigation"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo and Home Link */}
           <div className="flex-shrink-0 flex items-center">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="flex items-center space-x-2"
-              aria-label="Home"
+              aria-label="CLGC Church Home"
             >
-              <Church className="h-8 w-8 text-blue-600 transition-transform duration-300 hover:scale-110" />
-              <span className="text-2xl font-bold text-gray-900 transition-colors duration-300 hover:text-blue-600">
+              <Church className="h-8 w-8 text-blue-800 transition-transform duration-300 hover:scale-110" />
+              <span className="text-xl md:text-2xl font-extrabold tracking-tight transition-colors duration-300 hover:text-blue-800">
                 CLGC CHURCH
               </span>
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-8">
-            <a
-              href="/"
-              className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+          <div className="hidden md:flex md:items-center md:space-x-6">
+            <Link
+              to="/"
+              className="text-gray-900 hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 hover:bg-gray-200"
             >
               Home
-            </a>
+            </Link>
 
             {Object.entries(navigationItems).map(([key, { label, items }]) => (
-              <div key={key} className="relative">
+              <div key={key} className="relative group">
                 <button
-                  className="text-gray-700 group inline-flex items-center px-3 py-2 text-sm font-medium hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-md transition-colors duration-200"
+                  className="text-gray-900 inline-flex items-center px-3 py-2 text-sm font-medium hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-2 focus:ring-offset-white rounded-md transition-colors duration-300 hover:bg-gray-200"
                   onClick={() => handleDropdownClick(key)}
                   aria-expanded={activeDropdown === key}
                   aria-haspopup="true"
+                  aria-label={`Open ${label} menu`}
                 >
                   {label}
-                  <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:text-blue-600" />
+                  <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
                 </button>
 
                 <AnimatePresence>
@@ -119,17 +129,18 @@ const Navbar = () => {
                       animate="visible"
                       exit="hidden"
                       variants={dropdownVariants}
-                      className="absolute z-10 mt-2 w-48 rounded-md bg-white py-2 shadow-lg ring-1 ring-black ring-opacity-5"
+                      className="absolute z-20 mt-2 w-52 rounded-lg bg-white shadow-xl ring-1 ring-black ring-opacity-5 overflow-hidden"
                       role="menu"
                     >
-                      {items.map((item) => (
+                      {items.map(({ label, to }) => (
                         <Link
-                          key={item}
-                          to={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200"
+                          key={label}
+                          to={to}
+                          className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-200 hover:text-blue-800 transition-colors duration-200"
                           role="menuitem"
+                          onClick={() => setActiveDropdown(null)} // Close dropdown on click
                         >
-                          {item}
+                          {label}
                         </Link>
                       ))}
                     </motion.div>
@@ -139,13 +150,13 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors duration-200"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-800 hover:text-blue-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-300 transition-colors duration-300"
               aria-expanded={isOpen}
-              aria-label="Main menu"
+              aria-label="Toggle main menu"
             >
               {isOpen ? (
                 <X className="block h-6 w-6" aria-hidden="true" />
@@ -157,7 +168,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -165,13 +176,13 @@ const Navbar = () => {
             animate="visible"
             exit="hidden"
             variants={mobileMenuVariants}
-            className="md:hidden"
+            className="md:hidden bg-white"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {/* Move Home link to the top */}
+            <div className="px-4 pt-2 pb-4 space-y-2">
               <Link
                 to="/"
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors duration-200"
+                className="block px-3 py-2 text-base font-medium text-gray-800 hover:text-indigo-600 hover:bg-gray-200 rounded-md transition-colors duration-300"
+                onClick={() => setIsOpen(false)}
               >
                 Home
               </Link>
@@ -181,10 +192,18 @@ const Navbar = () => {
                   <div key={key} className="space-y-1">
                     <button
                       onClick={() => handleDropdownClick(key)}
-                      className="w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition-colors duration-200"
+                      className="w-full text-left px-3 py-2 text-base font-medium text-gray-800 hover:text-blue-800 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 rounded-md transition-colors duration-300"
                       aria-expanded={activeDropdown === key}
+                      aria-label={`Toggle ${label} submenu`}
                     >
-                      {label}
+                      <span className="flex items-center justify-between">
+                        {label}
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform duration-300 ${
+                            activeDropdown === key ? "rotate-180" : ""
+                          }`}
+                        />
+                      </span>
                     </button>
 
                     <AnimatePresence>
@@ -194,15 +213,19 @@ const Navbar = () => {
                           animate="visible"
                           exit="hidden"
                           variants={dropdownVariants}
-                          className="pl-4"
+                          className="pl-4 space-y-1"
                         >
-                          {items.map((item) => (
+                          {items.map(({ label, to }) => (
                             <Link
-                              key={item}
-                              to={`/${item.toLowerCase().replace(/\s+/g, "-")}`}
-                              className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors duration-200"
+                              key={label}
+                              to={to}
+                              className="block px-3 py-2 text-base text-gray-800 hover:text-blue-800 hover:bg-gray-200 rounded-md transition-colors duration-300"
+                              onClick={() => {
+                                setIsOpen(false);
+                                setActiveDropdown(null);
+                              }}
                             >
-                              {item}
+                              {label}
                             </Link>
                           ))}
                         </motion.div>

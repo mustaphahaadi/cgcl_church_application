@@ -9,12 +9,51 @@ const Contact = () => {
     subject: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [statusMessage, setStatusMessage] = useState("");
+  const [statusMessage, setStatusMessage] = useState(null);
+  const [emailError, setEmailError] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const MAX_MESSAGE_LENGTH = 500;
+
+  // Email validation regex
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "email") {
+      setEmailError(
+        validateEmail(value) ? "" : "Please enter a valid email address."
+      );
+    }
+
+    if (name === "phone") {
+      // Auto-format phone number
+      const formattedPhone = value
+        .replace(/\D/g, "") // Remove non-digits
+        .slice(0, 10) // Limit to 10 digits
+        .replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3"); // Format as (123) 456-7890
+      setFormData({ ...formData, [name]: formattedPhone });
+    } else if (name === "message" && value.length > MAX_MESSAGE_LENGTH) {
+      return; // Prevent typing beyond max length
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const handleReset = () => {
+    setFormData({
+      name: "",
+      email: "",
+      message: "",
+      phone: "",
+      subject: "",
+    });
+    setEmailError("");
+    setStatusMessage(null);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,15 +64,21 @@ const Contact = () => {
       return;
     }
 
+    if (!validateEmail(email)) {
+      setStatusMessage({
+        type: "error",
+        text: "Please provide a valid email address.",
+      });
+      return;
+    }
+
     setIsLoading(true);
     setStatusMessage({ type: "info", text: "Sending your message..." });
 
     try {
       const response = await fetch("http://localhost:8000/api/contacts/", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
@@ -44,170 +89,182 @@ const Contact = () => {
 
       setStatusMessage({
         type: "success",
-        text: "Thank you for contacting us! We will get back to you soon.",
+        text: "Thank you for contacting us! We’ll respond soon.",
       });
-      setFormData({ name: "", email: "", message: "", phone: "", subject: "" });
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+        phone: "",
+        subject: "",
+      });
+      setEmailError("");
+      setTimeout(() => setStatusMessage(null), 5000); // Auto-dismiss success after 5s
     } catch (error) {
       setStatusMessage({
         type: "error",
-        text: error.message || "Something went wrong. Please try again later.",
+        text: error.message || "Something went wrong. Please try again.",
       });
     } finally {
       setIsLoading(false);
     }
   };
-    
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white-to-r from-gray-800 to-gray-900 p-6">
-      <div className="w-full max-w-4xl bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+    <section className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6 bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all hover:shadow-2xl">
         {/* Left Section */}
-        <div className="bg-gray-800 text-white p-8 md:w-1/2 flex flex-col justify-center">
-          <h1 className="text-4xl font-bold mb-6"> Connect</h1>
-          <p className="text-lg mb-4">📧 contact@gclchurch.com</p>
-          <p className="text-lg mb-4">📞 +123 456 789</p>
-          <p className="text-lg mb-6">📍 Otumfuo Street, Kumasi</p>
-          <div className="mt-6">
-            <h2 className="text-2xl font-semibold mb-4">Follow Us</h2>
-            <div className="flex space-x-4">
-              <a
-                href="#"
-                className="text-blue-400 hover:text-blue-300 transition duration-300"
-              >
-                <i className="fab fa-facebook text-3xl"></i>
-              </a>
-              <a
-                href="#"
-                className="text-blue-300 hover:text-blue-200 transition duration-300"
-              >
-                <i className="fab fa-twitter text-3xl"></i>
-              </a>
-              <a
-                href="#"
-                className="text-pink-500 hover:text-pink-400 transition duration-300"
-              >
-                <i className="fab fa-instagram text-3xl"></i>
-              </a>
-              <a
-                href="#"
-                className="text-blue-600 hover:text-blue-500 transition duration-300"
-              >
-                <i className="fab fa-linkedin text-3xl"></i>
-              </a>
+        <div className="bg-gradient-to-br from-indigo-600 to-purple-700 text-white p-10 flex flex-col justify-between">
+          <div>
+            <h1 className="text-4xl font-extrabold tracking-tight mb-6 animate-fade-in-down">
+              Let’s Connect
+            </h1>
+            <ul className="space-y-4 text-lg">
+              <li className="flex items-center gap-3">
+                <span className="text-indigo-200">✉️</span>{" "}
+                contact@gclchurch.com
+              </li>
+              <li className="flex items-center gap-3">
+                <span className="text-indigo-200">📞</span> +123 456 789
+              </li>
+              <li className="flex items-center gap-3">
+                <span className="text-indigo-200">📍</span> Otumfuo Street,
+                Kumasi
+              </li>
+            </ul>
+          </div>
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold mb-4">Stay Connected</h2>
+            <div className="flex gap-6">
+              {[
+                { platform: "facebook", label: "Follow us on Facebook" },
+                { platform: "twitter", label: "Follow us on Twitter" },
+                { platform: "instagram", label: "Follow us on Instagram" },
+                { platform: "linkedin", label: "Connect on LinkedIn" },
+              ].map(({ platform, label }) => (
+                <a
+                  key={platform}
+                  href="#"
+                  className="text-2xl text-white hover:text-indigo-200 transition-colors duration-300 transform hover:scale-110 group relative"
+                  aria-label={label}
+                >
+                  <i className={`fab fa-${platform}`}></i>
+                  <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block text-xs bg-gray-800 text-white px-2 py-1 rounded">
+                    {label}
+                  </span>
+                </a>
+              ))}
             </div>
           </div>
         </div>
 
         {/* Right Section */}
-        <div className="bg-white p-8 md:w-1/2">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6">
-            Send Us a Message
+        <div className="p-10">
+          <h2 className="text-3xl font-bold text-gray-800 mb-6 animate-fade-in-up">
+            Send a Message
           </h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="relative">
-              <input
-                type="text"
-                id="name"
-                name="name"
-                placeholder=" "
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 peer"
-              />
-              <label
-                htmlFor="name"
-                className="absolute left-4 top-3 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:-top-2 peer-focus:text-sm peer-focus:text-blue-500 bg-white px-1"
-              >
-                Your Name
-              </label>
-            </div>
-            <div className="relative">
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder=" "
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 peer"
-              />
-              <label
-                htmlFor="email"
-                className="absolute left-4 top-3 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:-top-2 peer-focus:text-sm peer-focus:text-blue-500 bg-white px-1"
-              >
-                Your Email
-              </label>
-            </div>
-            <div className="relative">
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                placeholder=" "
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 peer"
-              />
-              <label
-                htmlFor="phone"
-                className="absolute left-4 top-3 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:-top-2 peer-focus:text-sm peer-focus:text-blue-500 bg-white px-1"
-              >
-                Phone
-              </label>
-            </div>
-            <div className="relative">
-              <input
-                type="text"
-                id="subject"
-                name="subject"
-                placeholder=" "
-                value={formData.subject}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 peer"
-              />
-              <label
-                htmlFor="subject"
-                className="absolute left-4 top-3 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:-top-2 peer-focus:text-sm peer-focus:text-blue-500 bg-white px-1"
-              >
-                Subject
-              </label>
-            </div>
-            <div className="relative">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {["name", "email", "phone", "subject"].map((field) => (
+              <div key={field} className="relative group">
+                <input
+                  type={
+                    field === "email"
+                      ? "email"
+                      : field === "phone"
+                      ? "tel"
+                      : "text"
+                  }
+                  id={field}
+                  name={field}
+                  value={formData[field]}
+                  onChange={handleChange}
+                  required
+                  className={`w-full p-3 border-2 rounded-lg focus:outline-none transition-all duration-300 peer bg-gray-50 text-gray-700 placeholder-transparent ${
+                    field === "email" && emailError
+                      ? "border-red-500"
+                      : "border-gray-200 focus:border-indigo-500"
+                  }`}
+                  placeholder={field}
+                />
+                <label
+                  htmlFor={field}
+                  className="absolute -top-2.5 left-3 text-sm bg-white px-1 transition-all duration-300 peer-focus:text-indigo-500 group-hover:text-indigo-500 text-gray-600"
+                >
+                  {field.charAt(0).toUpperCase() + field.slice(1)}
+                </label>
+                {field === "email" && emailError && (
+                  <p className="text-red-500 text-xs mt-1">{emailError}</p>
+                )}
+              </div>
+            ))}
+
+            <div className="relative group">
               <textarea
                 id="message"
                 name="message"
-                placeholder=" "
                 value={formData.message}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 peer resize-none min-h-[120px]"
+                className="w-full p-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-indigo-500 transition-all duration-300 peer bg-gray-50 text-gray-700 placeholder-transparent min-h-[140px] resize-none"
+                placeholder="Your Message"
               />
               <label
                 htmlFor="message"
-                className="absolute left-4 top-3 text-gray-500 transition-all duration-200 peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:-top-2 peer-focus:text-sm peer-focus:text-blue-500 bg-white px-1"
+                className="absolute -top-2.5 left-3 text-sm text-gray-600 bg-white px-1 transition-all duration-300 peer-focus:text-indigo-500 group-hover:text-indigo-500"
               >
                 Your Message
               </label>
+              <p className="text-gray-500 text-xs mt-1">
+                {formData.message.length}/{MAX_MESSAGE_LENGTH}
+              </p>
             </div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition duration-300 disabled:bg-blue-300"
-            >
-              {isLoading ? "Sending..." : "Send Message"}
-            </button>
+
+            <div className="flex gap-4">
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-all duration-300 disabled:bg-indigo-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {isLoading ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8z"
+                      />
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  "Send Message"
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-all duration-300"
+              >
+                Reset
+              </button>
+            </div>
+
             {statusMessage && (
               <div
-                className={`mt-4 p-3 rounded-lg text-center ${
+                className={`p-3 rounded-lg text-center font-medium transition-all duration-300 ${
                   statusMessage.type === "error"
-                    ? "bg-red-100 text-red-700"
+                    ? "bg-red-100 text-red-800"
                     : statusMessage.type === "success"
-                    ? "bg-green-100 text-green-700"
-                    : "bg-blue-100 text-blue-700"
+                    ? "bg-green-100 text-green-800"
+                    : "bg-blue-100 text-blue-800"
                 }`}
               >
                 {statusMessage.text}
@@ -216,7 +273,7 @@ const Contact = () => {
           </form>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
