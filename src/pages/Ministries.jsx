@@ -15,7 +15,7 @@ const ministriesList = [
       "Join us for uplifting worship every Sunday at 9:00 AM and 11:00 AM.",
     icon: Church,
     link: "/worship-services",
-    bgColor: "bg-purple-50",
+    bgColor: "bg-blue-50",
     iconColor: "text-purple-600",
     hoverColor: "hover:bg-purple-100",
   },

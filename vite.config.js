@@ -14,9 +14,14 @@ export default defineConfig({
     allowedHosts: ["cgclchurchapplication-production.up.railway.app"],
     host: "0.0.0.0",
     port: 5173,
+    hmr: {
+      host: "localhost",
+      port: 5173,
+      protocol: "ws",
+    },
     proxy: {
       "/api": {
-        target: "http://localhost:8000",
+        target: "http://localhost:9000",
         changeOrigin: true,
         secure: false,
         headers: {

@@ -1,15 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { motion } from "framer-motion";
 
-// Assuming you have a user object with firstName and lastName
-const user = {
-  firstName: "John",
-  lastName: "Doe",
-};
+// Assuming this component receives logged-in user data as a prop
+const ShareTestimony = ({ loggedInUser }) => {
+  // Default user data if no logged-in user is provided (for testing)
+  const defaultUser = {
+    firstName: "Kwame",
+    lastName: "Adjei",
+    username: "k.adjei",
+  };
 
-const ShareTestimony = () => {
+  // Use loggedInUser if provided, otherwise fall back to defaultUser
+  const user = loggedInUser || defaultUser;
+
+  // Initialize formData with the logged-in user's name
   const [formData, setFormData] = useState({
-    name: `${user.firstName} ${user.lastName}`, // Set default name
+    name:
+      user.firstName && user.lastName
+        ? `${user.firstName} ${user.lastName}`
+        : user.username || "", // Fallback to username if firstName/lastName unavailable
     title: "",
     category: "healing",
     content: "",
@@ -27,6 +37,15 @@ const ShareTestimony = () => {
     { id: "deliverance", label: "Deliverance" },
     { id: "breakthrough", label: "Breakthrough" },
   ];
+
+  // Update formData.name if loggedInUser changes (e.g., after login)
+  useEffect(() => {
+    const userName =
+      user.firstName && user.lastName
+        ? `${user.firstName} ${user.lastName}`
+        : user.username || "";
+    setFormData((prev) => ({ ...prev, name: userName }));
+  }, [loggedInUser, user.firstName, user.lastName, user.username]); 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -52,15 +71,16 @@ const ShareTestimony = () => {
     setIsSubmitting(true);
 
     try {
-      // Here you would typically send the data to your backend
+      // Simulate API call to submit testimony
       console.log("Submitting testimony:", formData);
-
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       // Reset form after successful submission
       setFormData({
-        name: `${user.firstName} ${user.lastName}`,
+        name:
+          user.firstName && user.lastName
+            ? `${user.firstName} ${user.lastName}`
+            : user.username || "",
         title: "",
         category: "healing",
         content: "",
@@ -69,7 +89,6 @@ const ShareTestimony = () => {
       });
       setPreviewImage(null);
 
-      // Show success message
       alert("Testimony submitted successfully!");
     } catch (error) {
       console.error("Error submitting testimony:", error);
@@ -85,9 +104,12 @@ const ShareTestimony = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
           className="bg-white rounded-xl shadow-md overflow-hidden p-8"
         >
-
+          <h2 className="text-2xl font-semibold text-indigo-600 mb-6 text-center">
+            Share Your Testimony
+          </h2>
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name Input */}
             <div>
@@ -104,7 +126,8 @@ const ShareTestimony = () => {
                 required
                 value={formData.name}
                 onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition-all duration-300"
+                placeholder="Your name"
               />
             </div>
 
@@ -123,7 +146,8 @@ const ShareTestimony = () => {
                 required
                 value={formData.title}
                 onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition-all duration-300"
+                placeholder="Enter a title"
               />
             </div>
 
@@ -140,7 +164,7 @@ const ShareTestimony = () => {
                 name="category"
                 value={formData.category}
                 onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition-all duration-300"
               >
                 {categories.map((category) => (
                   <option key={category.id} value={category.id}>
@@ -165,7 +189,7 @@ const ShareTestimony = () => {
                 required
                 value={formData.content}
                 onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition-all duration-300"
                 placeholder="Share your testimony here..."
               />
             </div>
@@ -180,7 +204,7 @@ const ShareTestimony = () => {
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
-                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                  className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
                 />
                 {previewImage && (
                   <img
@@ -206,30 +230,62 @@ const ShareTestimony = () => {
                 name="videoUrl"
                 value={formData.videoUrl}
                 onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 transition-all duration-300"
                 placeholder="https://example.com/your-video"
               />
             </div>
 
             {/* Submit Button */}
             <div className="flex justify-center">
-              <button
+              <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                className={`px-6 py-3 rounded-full font-semibold text-white shadow-lg transition-colors duration-300 ${
+                whileHover={{ scale: isSubmitting ? 1 : 1.05 }}
+                whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
+                className={`px-6 py-3 rounded-full font-semibold text-white shadow-lg transition-all duration-300 flex items-center justify-center gap-2 ${
                   isSubmitting
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700"
+                    ? "bg-indigo-400 cursor-not-allowed"
+                    : "bg-indigo-600 hover:bg-indigo-700"
                 }`}
               >
-                {isSubmitting ? "Submitting..." : "Submit Testimony"}
-              </button>
+                {isSubmitting ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8z"
+                      />
+                    </svg>
+                    Submitting...
+                  </>
+                ) : (
+                  "Submit Testimony"
+                )}
+              </motion.button>
             </div>
           </form>
         </motion.div>
       </div>
     </div>
   );
+};
+
+// Add PropTypes validation
+ShareTestimony.propTypes = {
+  loggedInUser: PropTypes.shape({
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    username: PropTypes.string,
+  }).isRequired, // Validate that loggedInUser is an object with required fields
 };
 
 export default ShareTestimony;

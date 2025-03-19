@@ -1,10 +1,12 @@
+import { motion } from "framer-motion";
+
 const Events = () => {
   // Sample event data (replace with real data from your backend or API)
   const events = [
     {
       id: 1,
       title: "Sunday Worship Service",
-      date: "October 15, 2025",
+      date: "2025-10-15",
       time: "10:00 AM",
       location: "Main Sanctuary",
       description: "Join us for a powerful time of worship and teaching.",
@@ -13,7 +15,7 @@ const Events = () => {
     {
       id: 2,
       title: "Youth Night",
-      date: "October 20, 2025",
+      date: "2025-10-20",
       time: "7:00 PM",
       location: "Youth Hall",
       description:
@@ -23,7 +25,7 @@ const Events = () => {
     {
       id: 3,
       title: "Community Outreach",
-      date: "December 22, 2025",
+      date: "2025-12-22",
       time: "9:00 AM",
       location: "Downtown Park",
       description:
@@ -32,35 +34,84 @@ const Events = () => {
     },
   ];
 
+  // Format date function
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
+  // Animation variants for cards
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
+
   return (
-    <div className="bg-gray-100 min-h-screen p-6">
-      <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-blue-600">Upcoming Events</h1>
-        <p className="mt-2 text-lg text-gray-700">
+    <div className="bg-gray-50 min-h-screen py-12 px-6">
+      <header className="text-center mb-12">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-4xl md:text-5xl font-extrabold text-indigo-600 tracking-tight"
+        >
+          Upcoming Events
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-3 text-lg md:text-xl text-gray-600 max-w-2xl mx-auto"
+        >
           Explore the various events we have planned for our community.
-        </p>
+        </motion.p>
       </header>
-      <section className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <section className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {events.map((event) => (
-          <div
+          <motion.div
             key={event.id}
-            className="bg-white border border-gray-300 rounded-lg shadow-md p-4 transition-transform transform hover:scale-105"
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
+            className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-shadow duration-300"
           >
-            <div className="flex items-center mb-4">
-              <span className="text-4xl">{event.icon}</span>
-              <h2 className="text-xl font-semibold text-gray-800 ml-2">
-                {event.title}
-              </h2>
+            <div className="p-6">
+              <div className="flex items-center mb-4">
+                <span className="text-4xl mr-3">{event.icon}</span>
+                <h2 className="text-xl font-semibold text-gray-800 leading-tight">
+                  {event.title}
+                </h2>
+              </div>
+              <p className="text-gray-600 text-sm font-medium">
+                {formatDate(event.date)} at {event.time}
+              </p>
+              <p className="text-gray-600 text-sm font-medium mt-1">
+                <span className="text-indigo-600">Location:</span>{" "}
+                {event.location}
+              </p>
+              <p className="mt-3 text-gray-700 text-base">
+                {event.description}
+              </p>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="mt-5 w-full bg-indigo-600 text-white rounded-lg py-2 px-4 font-semibold hover:bg-indigo-700 transition-colors duration-300"
+              >
+                Learn More
+              </motion.button>
             </div>
-            <p className="text-gray-600">
-              {event.date} at {event.time}
-            </p>
-            <p className="text-gray-600">Location: {event.location}</p>
-            <p className="mt-2 text-gray-700">{event.description}</p>
-            <button className="mt-4 bg-blue-600 text-white rounded-md px-4 py-2 hover:bg-blue-700 transition duration-300">
-              Learn More
-            </button>
-          </div>
+          </motion.div>
         ))}
       </section>
     </div>

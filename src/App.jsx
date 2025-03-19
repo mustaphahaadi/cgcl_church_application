@@ -12,20 +12,24 @@ import Sermons from "./pages/Sermons";
 import NotFound from "./pages/NotFound";
 import Give from "./pages/Give";
 import Ministries from "./pages/Ministries";
-
 import Signup from "./pages/Signup";
 import YouthMinistry from "./pages/YouthMinistry";
 import WorshipTeam from "./pages/WorshipTeam";
 import Fellowships from "./pages/Fellowships";
 import Testimonies from "./pages/Testimonies";
 import TestimonyShare from "./pages/TestimonyShare";
-import Profile from "./pages/Profile"; // Import the Profile component
-import MemberFellowship from "./pages/MemberFellowship"; // Import the Member Fellowship component
-// import LatestTestimonies from "./components/LatestTestimonies";
+import Profile from "./pages/Profile";
+import MemberFellowship from "./pages/MemberFellowship";
 import { ToastContainer } from "react-toastify";
+import ServiceTimes from "./pages/ServiceTimes";
+import Outreach from "./pages/Outreach";
+import "react-toastify/dist/ReactToastify.css";
+import Login from "./pages/Login";
+import { AuthProvider } from "./context/AuthContext";
 
 const App = () => {
   return (
+    <AuthProvider>
     <div className="app">
       <NavBar />
       <main className="main-content">
@@ -40,6 +44,9 @@ const App = () => {
           <Route path="/Sermons" element={<Sermons />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/MemberFellowship" element={<MemberFellowship />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/member-fellowship" element={<MemberFellowship />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/Give" element={<Give />} />
           <Route path="/Ministries" element={<Ministries />} />
@@ -47,11 +54,15 @@ const App = () => {
           <Route path="/YouthMinistry" element={<YouthMinistry />} />
           <Route path="/WorshipTeam" element={<WorshipTeam />} />
           <Route path="/Fellowships" element={<Fellowships />} />
+          <Route path="/Service-times" element={<ServiceTimes />} />
+          <Route path="/Outreach" element={<Outreach />} />
+
         </Routes>
       </main>
       <Footer />
       <ToastContainer />
     </div>
+    </AuthProvider>
   );
 };
 
