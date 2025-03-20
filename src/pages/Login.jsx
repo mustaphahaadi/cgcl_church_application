@@ -3,9 +3,12 @@ import { motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { Link } from "react-router-dom"; // Assuming React Router is used
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { setIsLoggedIn } = useAuth();
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -26,34 +29,25 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Sample user data for validation (replace with real backend API call)
-    const sampleUser = {
-      username: "kwame",
-      password: "password123", // In production, use hashed passwords and secure auth
-    };
-
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      });
 
-      if (
-        credentials.username === sampleUser.username &&
-        credentials.password === sampleUser.password
-      ) {
-        toast.success("Login successful!", {
-          position: "top-center",
-          autoClose: 3000,
-        });
-        // Redirect to profile or dashboard (e.g., with React Router)
-        // navigate("/profile");
-      } else {
+      if (!response.ok) {
         throw new Error("Invalid credentials");
       }
+
+      await response.json();
+      setIsLoggedIn(true);
+      toast.success("Login successful!");
+      navigate("/dashboard");
     } catch (error) {
-      toast.error(error.message || "Invalid username or password.", {
-        position: "top-center",
-        autoClose: 3000,
-      });
+      toast.error(error.message);
     } finally {
       setIsLoading(false);
     }

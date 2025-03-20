@@ -1,394 +1,331 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from "../context/AuthContext";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const { setUser, setIsLoggedIn, setUserData } = useAuth();
   const [formData, setFormData] = useState({
-    date: new Date().toISOString().split("T")[0], // Set current date by default
-    day: "",
     firstName: "",
     middleName: "",
     lastName: "",
     birthday: "",
-    age: "",
-    sex: "",
+    gender: "",
     maritalStatus: "",
-    address: "",
-    busStop: "",
-    phone: "",
+    houseAddress: "",
+    nearestBusStop: "",
+    phoneNumber: "",
+    countryCode: "+233",
     email: "",
-    occupation: "",
-    officeAddress: "",
     invitedBy: "",
     bornAgain: "",
     wantMembership: "",
-    activityGroup: "",
     prayerRequest: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      // Get CSRF token from cookies
-      const csrfToken = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("csrftoken="))
-        ?.split("=")[1];
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match!");
+      return;
+    }
 
-      const response = await fetch("/api/members/", {
+    try {
+      const response = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-CSRFToken": csrfToken || "", // Add CSRF token to headers
         },
         body: JSON.stringify({
-          date: formData.date,
-          first_name: formData.firstName,
-          middle_name: formData.middleName || null,
-          last_name: formData.lastName,
-          birthday: formData.birthday,
-          age: parseInt(formData.age),
-          sex: formData.sex,
-          marital_status: formData.maritalStatus,
-          address: formData.address,
-          bus_stop: formData.busStop,
-          phone: formData.phone,
-          email: formData.email,
-          occupation: formData.occupation,
-          office_address: formData.officeAddress || null,
-          invited_by: formData.invitedBy,
-          born_again: formData.bornAgain === "true",
-          want_membership: formData.wantMembership === "true",
-          prayer_request: formData.prayerRequest || null,
+          ...formData,
+          phoneNumber: `${formData.countryCode}${formData.phoneNumber}`,
         }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        console.error("Validation errors:", data);
-        throw new Error(data.error || "Failed to submit form");
+      if (response.ok) {
+        const userData = await response.json();
+        // Store all user data in context
+        setUser(userData);
+        setUserData({
+          ...userData,
+          fullName: `${userData.firstName} ${userData.lastName}`,
+          phoneNumber: `${formData.countryCode}${formData.phoneNumber}`,
+        });
+        setIsLoggedIn(true);
+        
+        // Store in localStorage for persistence
+        localStorage.setItem('userData', JSON.stringify(userData));
+        localStorage.setItem('isLoggedIn', 'true');
+        
+        toast.success("Signup successful!");
+        navigate('/profile');
+      } else {
+        throw new Error("Signup failed");
       }
-
-      // Show success toast
-      toast.success("Form submitted successfully!", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
     } catch (error) {
-      console.error("Error submitting form:", error);
-      toast.error(error.message || "Failed to submit form", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-      });
+      toast.error(error.message || "Failed to sign up");
     }
   };
 
   return (
-    <section className="py-12 bg-gradient-to-b from-blue-50 to-white min-h-screen px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl p-4 sm:p-8">
-        {/* Form Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-2">
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-blue-600 tracking-tight">
             CITY OF LIGHT GLOBAL CHURCH
           </h1>
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-700">
-            {"FIRST TIMER'S FORM"}
-          </h2>
-          <p className="text-gray-600 text-sm sm:text-base">
-            Please fill the appropriate information
-          </p>
+          <h2 className="text-2xl text-gray-700 mt-4 font-semibold">FIRST {"TIMER'S"} FORM</h2>
+          <p className="text-gray-600 mt-2 text-lg">Please fill the appropriate information</p>
         </div>
 
-        {/* Personal Information Section */}
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            Personal Information
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                First Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
+        <form onSubmit={handleSubmit} className="space-y-8 bg-white rounded-xl shadow-lg p-8">
+          {/* Section headers styling */}
+          <div className="space-y-6">
+            <h3 className="text-xl font-bold text-gray-800 pb-2 border-b border-gray-200">
+              Personal Information
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  First Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Middle Name
+                </label>
+                <input
+                  type="text"
+                  name="middleName"
+                  value={formData.middleName}
+                  onChange={handleChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Last Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  required
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Middle Name
-              </label>
-              <input
-                type="text"
-                name="middleName"
-                value={formData.middleName}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Last Name <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Birthday <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="date"
-                name="birthday"
-                value={formData.birthday}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Age <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="number"
-                name="age"
-                value={formData.age}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Sex <span className="text-red-500">*</span>
-              </label>
-              <select
-                name="sex"
-                value={formData.sex}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Marital Status <span className="text-red-500">*</span>
-              </label>
-              <select
-                name="maritalStatus"
-                value={formData.maritalStatus}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select Status</option>
-                <option value="Single">Single</option>
-                <option value="Married">Married</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-          </div>
-        </div>
 
-        {/* Contact Information Section */}
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            Contact Information
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Home Address <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Nearest Bus Stop
-                <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="busStop"
-                value={formData.busStop}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Phone Number <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Email Address
-                <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Occupation
-                <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="occupation"
-                value={formData.occupation}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Office Address
-                <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="officeAddress"
-                value={formData.officeAddress}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Birthday<span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  name="birthday"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Sex <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  required
+                >
+                  <option value="">Select</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Marital Status <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="maritalStatus"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  required
+                >
+                  <option value="">Select Status</option>
+                  <option value="single">Single</option>
+                  <option value="married">Married</option>
+                  <option value="divorced">Divorced</option>
+                  <option value="widowed">Widowed</option>
+                </select>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Church Information Section */}
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            Church Information
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Who Invited You? <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                name="invitedBy"
-                value={formData.invitedBy}
-                onChange={handleChange}
-                required
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Are you born again?
-                <span className="text-red-500">*</span>
-              </label>
-              <select
-                name="bornAgain"
-                value={formData.bornAgain}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Want to become a member of CLGC?
-                <span className="text-red-500">*</span>
-              </label>
-              <select
-                name="wantMembership"
-                value={formData.wantMembership}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Select</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-              </select>
-            </div>
-            <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1 required">
-                Prayer Request / Counselling Needs{" "}
-                <span className="text-red-500">*</span>
-              </label>
-              <textarea
-                name="prayerRequest"
-                value={formData.prayerRequest}
-                onChange={handleChange}
-                rows="4"
-                required
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              ></textarea>
+          {/* Contact Information Section */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-gray-700">
+              Contact Information
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  House Address <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="houseAddress"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Nearest Bus Stop <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="nearestBusStop"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Phone Number <span className="text-red-500">*</span>
+                  </label>
+                  <div className="flex">
+                    <select
+                      name="countryCode"
+                      value={formData.countryCode}
+                      onChange={handleChange}
+                      className="mt-1 block w-24 rounded-l-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    >
+                      <option value="+233">+233</option>
+                    </select>
+                    <input
+                      type="tel"
+                      name="phoneNumber"
+                      value={formData.phoneNumber}
+                      onChange={handleChange}
+                      className="mt-1 block w-full rounded-r-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      required
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Email Address<span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <form onSubmit={handleSubmit} className="space-y-8">
-          <div className="mt-6">
+
+          {/* Church Information Section */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-gray-700">
+              Church Information
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Who invited You? <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="invitedBy"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Are you born again? <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="bornAgain"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    required
+                  >
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Want to become a member of CLGC?{" "}
+                    <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    name="wantMembership"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    required
+                  >
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Prayer Request / Counselling Needs{" "}
+                  <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  name="prayerRequest"
+                  rows={4}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-center">
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white font-semibold py-3 rounded-md hover:bg-blue-700 transition duration-300 shadow-lg hover:shadow-xl"
+              className="px-8 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transform transition duration-200 hover:scale-105"
             >
               Submit Form
             </button>
           </div>
         </form>
       </div>
-    </section>
+    </div>
   );
 };
 

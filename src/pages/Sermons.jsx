@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import healingImage from "../assets/healing.jpeg";
 
@@ -6,6 +6,26 @@ const Sermons = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSeries, setSelectedSeries] = useState("all");
   const [selectedSpeaker, setSelectedSpeaker] = useState("all");
+  const [playingSermonId, setPlayingSermonId] = useState(null);
+  const audioRef = useRef(null);
+
+  const handleListen = (sermon) => {
+    if (playingSermonId === sermon.id) {
+      audioRef.current.pause();
+      setPlayingSermonId(null);
+    } else {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      audioRef.current = new Audio(sermon.audioLink);
+      audioRef.current.play();
+      setPlayingSermonId(sermon.id);
+    }
+  };
+
+  const handleWatch = (videoLink) => {
+    window.open(videoLink, '_blank');
+  };
 
   const sermons = [
     {
@@ -179,25 +199,18 @@ const Sermons = () => {
                 </div>
 
                 <div className="flex gap-3">
-                  <a
-                    href={sermon.audioLink}
+                  <button
+                    onClick={() => handleListen(sermon)}
                     className="flex-1 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition duration-300"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      const audio = new Audio(sermon.audioLink);
-                      audio.play();
-                    }}
                   >
-                    Listen Now
-                  </a>
-                  <a
-                    href={sermon.videoLink}
+                    {playingSermonId === sermon.id ? 'Pause' : 'Listen Now'}
+                  </button>
+                  <button
+                    onClick={() => handleWatch(sermon.videoLink)}
                     className="flex-1 bg-gray-800 text-white text-center py-2 rounded-lg hover:bg-teal-700 transition duration-300"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
                     Watch Video
-                  </a>
+                  </button>
                 </div>
               </div>
             </motion.div>
