@@ -25,9 +25,10 @@ import ServiceTimes from "./pages/ServiceTimes";
 import Outreach from "./pages/Outreach";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/Login";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import LiveStream from "./pages/LiveStream";
 
-const App = () => {
+function App() {
   return (
     <AuthProvider>
     <div className="app">
@@ -56,14 +57,15 @@ const App = () => {
           <Route path="/Fellowships" element={<Fellowships />} />
           <Route path="/Service-times" element={<ServiceTimes />} />
           <Route path="/Outreach" element={<Outreach />} />
+          <Route path="/live-stream" element={<LiveStream />} />
 
         </Routes>
       </main>
       <Footer />
-      <ToastContainer />
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
     </AuthProvider>
   );
-};
+}
 
 export default App;

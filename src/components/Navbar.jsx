@@ -17,13 +17,21 @@ const Navbar = () => {
         { label: "Prayer Requests", to: "/contact" },
       ],
     },
-    ministries: {
-      label: "Ministries",
+    // ministries: {
+    //   label: "Ministries",
+    //   items: [
+    //     { label: "Youth Ministry", to: "/youthministry" },
+    //     { label: "Adult Groups", to: "/fellowships" },
+    //     { label: "Outreach", to: "/outreach" },
+    //     { label: "Care & Support", to: "/contact" },
+    //   ],
+    // },
+    streaming: {
+      label: "Streaming",
       items: [
-        { label: "Youth Ministry", to: "/youthministry" },
-        { label: "Adult Groups", to: "/fellowships" },
-        { label: "Outreach", to: "/outreach" },
-        { label: "Care & Support", to: "/contact" },
+        { label: "Live Services", to: "/live-stream" },
+        { label: "Worship Music", to: "/worship-music" },
+        { label: "Bible Study Channel", to: "/bible-study" },
       ],
     },
     connect: {
@@ -32,7 +40,7 @@ const Navbar = () => {
         { label: "New Here?", to: "/signup" },
         { label: "Events Calendar", to: "/events" },
         { label: "Fellowships", to: "/fellowships" },
-        { label: "Volunteer", to: "/contact" },
+        { label: "Ministries", to: "/ministries" },
         { label: "Contact Us", to: "/contact" },
       ],
     },
