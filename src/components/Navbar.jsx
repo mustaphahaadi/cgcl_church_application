@@ -14,7 +14,7 @@ const Navbar = () => {
         { label: "Service Times", to: "/service-times" },
         { label: "Testimony", to: "/testimonies" },
         { label: "Sermon Archives", to: "/sermons" },
-        { label: "Prayer Requests", to: "/contact" },
+        { label: "Prayer Requests", to: "/prayer-requests" },
       ],
     },
     // ministries: {
