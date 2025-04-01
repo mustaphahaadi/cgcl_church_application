@@ -42,10 +42,17 @@ const Login = () => {
         throw new Error("Invalid credentials");
       }
 
-      await response.json();
+      const userData = await response.json();
       setIsLoggedIn(true);
-      toast.success("Login successful!");
-      navigate("/dashboard");
+      
+      // Check if profile is complete
+      if (!userData.profileComplete) {
+        toast.info("Please complete your profile");
+        navigate("/profile-completion");
+      } else {
+        toast.success("Login successful!");
+        navigate("/dashboard");
+      }
     } catch (error) {
       toast.error(error.message);
     } finally {

@@ -1,77 +1,150 @@
 # Church App
 
-This project is a web application for a church community, built using React and Vite. It provides a platform for users to learn about the church, view upcoming events, listen to sermons, and get in touch with the church community.
+A full-stack web application for church management with features for testimonies, user management, and more.
 
-## Features
+## MVP Features
 
-- **Member Management**: Comprehensive member registration and profile management system
-- **Responsive Design**: The application is designed to be mobile-friendly and responsive
-- **Dynamic Routing**: Utilizes React Router for seamless navigation between pages
-- **Event Management**: Displays upcoming events with details
-- **Sermon Archive**: Users can listen to and watch past sermons
-- **Contact Form**: Allows users to reach out to the church community
-- **Member Registration**: Detailed signup form with fields for personal, contact, and spiritual information
-- **Database Integration**: SQLite database for storing member and contact information
-- **Authentication**: CSRF token protection for form submissions
+### User Management
+- Custom user authentication system
+- JWT-based authentication
+- User profile management
+- Role-based access control
 
-## Technologies Used
+### Content Management
+- Testimony sharing and management
+- Blog/News section
+- Events calendar
+- Service times information
 
-- **React**: A JavaScript library for building user interfaces
-- **Vite**: A fast build tool and development environment
-- **React Router**: For routing and navigation
-- **Django**: Backend framework for handling data and business logic
-- **SQLite**: Lightweight database for data storage
-- **Tailwind CSS**: Utility-first CSS framework for styling
-- **ESLint**: For maintaining code quality and consistency
-- **Docker**: Containerization for deployment
+### Frontend Features
+- Responsive design
+- Protected routes
+- User dashboard
+- Interactive forms
+- Real-time updates
 
-## Installation
+## Prerequisites
 
-To get started with the project, follow these steps:
+- Node.js (v16 or higher)
+- Python (v3.8 or higher)
+- pip (Python package manager)
+- npm (Node package manager)
 
-1. Clone the repository:
+## Setup Instructions
 
+### Backend Setup
+
+1. Navigate to the backend directory:
    ```bash
-   git clone https://github.com/yourusername/church-app.git
+   cd backend
    ```
 
-2. Navigate to the project directory:
-
+2. Create a virtual environment:
    ```bash
-   cd church-app
+   python -m venv venv
    ```
 
-3. Install the dependencies:
+3. Activate the virtual environment:
+   - Windows:
+     ```bash
+     .\venv\Scripts\activate
+     ```
+   - Unix/MacOS:
+     ```bash
+     source venv/bin/activate
+     ```
 
+4. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+5. Create a .env file in the backend directory with the following variables:
+   ```env
+   DJANGO_SECRET_KEY=your_secret_key_here
+   DEBUG=True
+   ```
+
+6. Run migrations:
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
+
+7. Create a superuser:
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+8. Start the development server:
+   ```bash
+   python manage.py runserver
+   ```
+
+### Frontend Setup
+
+1. From the root directory, install dependencies:
    ```bash
    npm install
    ```
 
-4. Start the development server:
-
+2. Start the development server:
    ```bash
    npm run dev
    ```
 
-5. Open your browser and go to `http://localhost:5173` to view the application.
+## Testing the System
 
-## Scripts
+1. Backend API Testing:
+   - Access the Django admin interface at `http://localhost:8000/admin`
+   - Use the superuser credentials created earlier to log in
+   - Test API endpoints using tools like Postman or curl:
+     - Authentication: `POST http://localhost:8000/api/token/`
+     - User Registration: `POST http://localhost:8000/api/users/register/`
+     - Testimonies: `GET http://localhost:8000/api/testimonies/`
 
-- `dev`: Starts the development server
-- `build`: Builds the application for production
-- `lint`: Runs ESLint to check for code quality issues
-- `preview`: Previews the production build
+2. Frontend Testing:
+   - Access the frontend at `http://localhost:5173`
+   - Test user registration and login
+   - Navigate through different pages
+   - Try creating and viewing testimonies
+   - Test protected routes
 
-## Contributing
+## Development Workflow
 
-Contributions are welcome! If you have suggestions for improvements or features, feel free to open an issue or submit a pull request.
+1. Backend Development:
+   - Run tests: `python manage.py test`
+   - Check API documentation at `http://localhost:8000/api/docs/`
+   - Monitor the Django debug toolbar for performance
 
-## License
+2. Frontend Development:
+   - Run tests: `npm test`
+   - Check for linting errors: `npm run lint`
+   - Build for production: `npm run build`
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+## Common Issues and Solutions
 
-## Acknowledgments
+1. Database Migrations:
+   - If you encounter migration issues, try:
+     ```bash
+     python manage.py migrate --run-syncdb
+     ```
 
-- Thanks to the React and Vite communities for their amazing tools and resources
-- Django community for the robust backend framework
-- Tailwind CSS for the utility-first CSS framework
+2. Frontend Build Issues:
+   - Clear npm cache: `npm cache clean --force`
+   - Delete node_modules and reinstall: 
+     ```bash
+     rm -rf node_modules
+     npm install
+     ```
+
+3. CORS Issues:
+   - Ensure the backend CORS settings match your frontend URL
+   - Check if the API endpoints are correctly configured in the frontend
+
+## Additional Resources
+
+- Django Documentation: https://docs.djangoproject.com/
+- React Documentation: https://react.dev/
+- Vite Documentation: https://vitejs.dev/
+- Tailwind CSS Documentation: https://tailwindcss.com/docs

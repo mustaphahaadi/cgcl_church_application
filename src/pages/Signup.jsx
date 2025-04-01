@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const Signup = () => {
@@ -11,30 +11,44 @@ const Signup = () => {
     firstName: "",
     middleName: "",
     lastName: "",
-    birthday: "",
-    gender: "",
-    maritalStatus: "",
-    houseAddress: "",
-    nearestBusStop: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
     phoneNumber: "",
     countryCode: "+233",
     email: "",
-    invitedBy: "",
-    bornAgain: "",
-    wantMembership: "",
-    prayerRequest: "",
+    gender: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate required fields
+    if (
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.username ||
+      !formData.password ||
+      !formData.gender ||
+      !formData.phoneNumber
+    ) {
+      toast.error("Please fill in all required fields!");
+      return;
+    }
+
+    // Validate password length
+    if (formData.password.length < 6) {
+      toast.error("Password must be at least 6 characters long!");
+      return;
+    }
 
     // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
@@ -64,13 +78,13 @@ const Signup = () => {
           phoneNumber: `${formData.countryCode}${formData.phoneNumber}`,
         });
         setIsLoggedIn(true);
-        
+
         // Store in localStorage for persistence
-        localStorage.setItem('userData', JSON.stringify(userData));
-        localStorage.setItem('isLoggedIn', 'true');
-        
+        localStorage.setItem("userData", JSON.stringify(userData));
+        localStorage.setItem("isLoggedIn", "true");
+
         toast.success("Signup successful!");
-        navigate('/profile');
+        navigate("/profile-completion");
       } else {
         throw new Error("Signup failed");
       }
@@ -86,16 +100,19 @@ const Signup = () => {
           <h1 className="text-3xl md:text-4xl font-extrabold text-blue-600 tracking-tight">
             CITY OF LIGHT GLOBAL CHURCH
           </h1>
-          <h2 className="text-2xl text-gray-700 mt-4 font-semibold">FIRST {"TIMER'S"} FORM</h2>
-          <p className="text-gray-600 mt-2 text-lg">Please fill the appropriate information</p>
+          <h2 className="text-2xl text-gray-700 mt-4 font-semibold">
+            FIRST {"TIMER'S"} FORM
+          </h2>
+          <p className="text-gray-600 mt-2 text-lg">
+            Please fill the appropriate information
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-8 bg-white rounded-xl shadow-lg p-8">
-          {/* Section headers styling */}
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-8 bg-white rounded-xl shadow-lg p-8"
+        >
           <div className="space-y-6">
-            <h3 className="text-xl font-bold text-gray-800 pb-2 border-b border-gray-200">
-              Personal Information
-            </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
@@ -108,6 +125,7 @@ const Signup = () => {
                   onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
+                  autoComplete="given-name"
                 />
               </div>
               <div>
@@ -120,6 +138,7 @@ const Signup = () => {
                   value={formData.middleName}
                   onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  autoComplete="additional-name"
                 />
               </div>
               <div>
@@ -133,25 +152,100 @@ const Signup = () => {
                   onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
+                  autoComplete="family-name"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Birthday<span className="text-red-500">*</span>
+                  Username <span className="text-red-500">*</span>
                 </label>
                 <input
-                  type="date"
-                  name="birthday"
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
+                  autoComplete="username"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">
-                  Sex <span className="text-red-500">*</span>
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  autoComplete="email"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Password <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  required
+                  autoComplete="new-password"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Confirm Password <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  required
+                  autoComplete="new-password"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Phone Number <span className="text-red-500">*</span>
+                </label>
+                <div className="flex">
+                  <select
+                    name="countryCode"
+                    value={formData.countryCode}
+                    onChange={handleChange}
+                    className="mt-1 block w-24 rounded-l-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  >
+                    <option value="+233">+233</option>
+                  </select>
+                  <input
+                    type="tel"
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-r-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    required
+                    autoComplete="tel"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Gender <span className="text-red-500">*</span>
                 </label>
                 <select
                   name="gender"
@@ -164,153 +258,6 @@ const Signup = () => {
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                 </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Marital Status <span className="text-red-500">*</span>
-                </label>
-                <select
-                  name="maritalStatus"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  required
-                >
-                  <option value="">Select Status</option>
-                  <option value="single">Single</option>
-                  <option value="married">Married</option>
-                  <option value="divorced">Divorced</option>
-                  <option value="widowed">Widowed</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Information Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-700">
-              Contact Information
-            </h3>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  House Address <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="houseAddress"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Nearest Bus Stop <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="nearestBusStop"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Phone Number <span className="text-red-500">*</span>
-                  </label>
-                  <div className="flex">
-                    <select
-                      name="countryCode"
-                      value={formData.countryCode}
-                      onChange={handleChange}
-                      className="mt-1 block w-24 rounded-l-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                    >
-                      <option value="+233">+233</option>
-                    </select>
-                    <input
-                      type="tel"
-                      name="phoneNumber"
-                      value={formData.phoneNumber}
-                      onChange={handleChange}
-                      className="mt-1 block w-full rounded-r-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                      required
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Email Address<span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Church Information Section */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-700">
-              Church Information
-            </h3>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Who invited You? <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="invitedBy"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Are you born again? <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    name="bornAgain"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                    required
-                  >
-                    <option value="">Select</option>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Want to become a member of CLGC?{" "}
-                    <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    name="wantMembership"
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                    required
-                  >
-                    <option value="">Select</option>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Prayer Request / Counselling Needs{" "}
-                  <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  name="prayerRequest"
-                  rows={4}
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  required
-                />
               </div>
             </div>
           </div>
