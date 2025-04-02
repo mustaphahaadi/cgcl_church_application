@@ -27,6 +27,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/Login";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import LiveStream from "./pages/LiveStream";
+import PrayerRequests from "./pages/PrayerRequests"; // Add this import
 
 function App() {
   return (
@@ -58,7 +59,7 @@ function App() {
           <Route path="/Service-times" element={<ServiceTimes />} />
           <Route path="/Outreach" element={<Outreach />} />
           <Route path="/live-stream" element={<LiveStream />} />
-
+          <Route path="/prayer-requests" element={<PrayerRequests />} /> {/* Add this route */}
         </Routes>
       </main>
       <Footer />
