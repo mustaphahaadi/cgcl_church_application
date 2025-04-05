@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const ShareTestimony = () => {
-  const { isLoggedIn, user } = useAuth();
+  const { isLoggedIn, userData } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -47,19 +47,19 @@ const ShareTestimony = () => {
     }
   };
 
-  // Update name when user data is available
+  // Update name when userData data is available
   useEffect(() => {
-    if (user) {
-      const displayName = user.firstName && user.lastName
-        ? `${user.firstName} ${user.lastName}`
-        : user.username || "";
+    if (userData) {
+      const displayName = userData.firstName && userData.lastName
+        ? `${userData.firstName} ${userData.lastName}`
+        : userData.username || "";
       
       setFormData(prev => ({
         ...prev,
         name: displayName
       }));
     }
-  }, [user]);
+  }, [userData]);
 
   
   const handleSubmit = async (e) => {
@@ -78,15 +78,15 @@ const ShareTestimony = () => {
 
       // Reset form
       setFormData({
-        // name: user
-        //   ? user.firstName && user.lastName
-        //     ? `${user.firstName} ${user.lastName}`
-        //     : user.username || ""
+        // name: userData
+        //   ? userData.firstName && userData.lastName
+        //     ? `${userData.firstName} ${userData.lastName}`
+        //     : userData.username || ""
         //   : "",
-        name: user
-          ? user.firstName && user.lastName
-            ? `${user.firstName} ${user.lastName}`
-            : user.username || ""
+        name: userData
+          ? userData.firstName && userData.lastName
+            ? `${userData.firstName} ${userData.lastName}`
+            : userData.username || ""
           : "",
         title: "",
         category: "healing",

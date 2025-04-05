@@ -1,14 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
+import { loginApi } from "../hooks/apiHooks";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useAuth();
+  const { setIsLoggedIn, login} = useAuth();
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -30,31 +31,30 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(credentials),
-      });
-
-      if (!response.ok) {
+      const response = await loginApi(credentials.username,credentials.password)
+      if (response?.status != 202) {
         throw new Error("Invalid credentials");
       }
 
-      const userData = await response.json();
-      setIsLoggedIn(true);
+      const _userData = response?.data?.user;
+      const access_token = response?.data?.access;
+      const refresh_token = response?.data?.refresh;
+
+      login(
+        _userData,access_token,refresh_token
+      )
       
       // Check if profile is complete
-      if (!userData.profileComplete) {
+      if (!_userData.profileComplete) {
         toast.info("Please complete your profile");
-        navigate("/profile-completion");
+        navigate("/profile");
       } else {
         toast.success("Login successful!");
         navigate("/dashboard");
       }
     } catch (error) {
-      toast.error(error.message);
+      console.error("Login error:", error);
+      toast.error(error.response?.data?.detail || "An error occurred.");
     } finally {
       setIsLoading(false);
     }

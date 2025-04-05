@@ -1,24 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
+import { getProfileApi } from "../hooks/apiHooks";
 
 const Profile = () => {
-  const { user, setUser } = useAuth();
+  const { user, setUser,userData } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: user?.firstName || "",
-    middleName: user?.middleName || "",
-    lastName: user?.lastName || "",
-    birthday: user?.birthday || "",
-    gender: user?.gender || "",
-    maritalStatus: user?.maritalStatus || "",
-    houseAddress: user?.houseAddress || "",
-    nearestBusStop: user?.nearestBusStop || "",
-    phoneNumber: user?.phoneNumber || "",
-    email: user?.email || "",
+    first_name: userData?.first_name || "",
+    middle_name: userData?.middle_name || "",
+    last_name: userData?.last_name || "",
+    date_of_birth: user?.date_of_birth || "",
+    gender: userData?.gender || "",
+    marital_Status: user?.marital_Status || "",
+    house_address: user?.house_address || "",
+    // nearestBusStop: user?.nearestBusStop || "",
+    telephone: userData?.telephone || "",
+    email: userData?.email || "",
     fellowship: user?.fellowship || "",
-    bornAgain: user?.bornAgain || "",
+    born_again: user?.born_again || "",
     occupation: user?.occupation || "",
   });
 
@@ -34,7 +35,7 @@ const Profile = () => {
     e.preventDefault();
     try {
       // Simulate API call to update user data
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // await new Promise(resolve => setTimeout(resolve, 1000));
       
       setUser(prev => ({
         ...prev,
@@ -49,6 +50,26 @@ const Profile = () => {
     }
   };
 
+  
+  useEffect(() => {
+    const handleOnload = async () => {
+      try {
+        const response = await getProfileApi();
+        if (response?.status !== 200) {
+          throw new Error("Profile Error");
+        }
+
+        // Update user data in context
+        setUser(response?.data);
+        setFormData(response?.data); // Sync form data with fetched user data
+      } catch (error) {
+        console.error("Error loading profile:", error);
+        toast.error(error?.response?.data?.error || "Failed to load profile");
+      }
+    };
+
+    handleOnload();
+  }, [isEditing]);
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-sky-50 py-16 px-4 sm:px-6 lg:px-8">
       <motion.div
@@ -65,7 +86,7 @@ const Profile = () => {
           <div className="flex items-center justify-center mb-8">
             <div className="w-32 h-32 bg-blue-100 rounded-full flex items-center justify-center">
               <span className="text-4xl text-blue-600">
-                {user?.firstName?.charAt(0) || user?.username?.charAt(0) || "U"}
+                {user?.first_name?.charAt(0) || userData?.username?.charAt(0) || "U"}
               </span>
             </div>
           </div>
@@ -75,7 +96,7 @@ const Profile = () => {
               {/* Non-editable Fields */}
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-gray-700">Username</label>
-                <p className="px-4 py-2 bg-gray-50 rounded-lg">{user?.username}</p>
+                <p className="px-4 py-2 bg-gray-50 rounded-lg">{userData?.username}</p>
               </div>
 
               <div className="space-y-2">
@@ -88,10 +109,10 @@ const Profile = () => {
                 <label className="text-sm font-semibold text-gray-700">First Name</label>
                 <input
                   type="text"
-                  name="firstName"
-                  value={formData.firstName}
+                  name="first_name"
+                  value={formData.first_name}
                   onChange={handleInputChange}
-                  disabled={!isEditing}
+                  disabled={true}
                   className={`w-full px-4 py-2 rounded-lg border ${
                     isEditing ? "border-blue-300" : "border-gray-200 bg-gray-50"
                   } focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200`}
@@ -102,8 +123,8 @@ const Profile = () => {
                 <label className="text-sm font-semibold text-gray-700">Middle Name</label>
                 <input
                   type="text"
-                  name="middleName"
-                  value={formData.middleName}
+                  name="middle_name"
+                  value={formData.middle_name}
                   onChange={handleInputChange}
                   disabled={!isEditing}
                   className={`w-full px-4 py-2 rounded-lg border ${
@@ -116,8 +137,8 @@ const Profile = () => {
                 <label className="text-sm font-semibold text-gray-700">Last Name</label>
                 <input
                   type="text"
-                  name="lastName"
-                  value={formData.lastName}
+                  name="last_name"
+                  value={formData.last_name}
                   onChange={handleInputChange}
                   disabled={!isEditing}
                   className={`w-full px-4 py-2 rounded-lg border ${
@@ -130,8 +151,8 @@ const Profile = () => {
                 <label className="text-sm font-semibold text-gray-700">Birthday</label>
                 <input
                   type="date"
-                  name="birthday"
-                  value={formData.birthday}
+                  name="date_of_birth"
+                  value={formData.date_of_birth}
                   onChange={handleInputChange}
                   disabled={!isEditing}
                   className={`w-full px-4 py-2 rounded-lg border ${
@@ -160,8 +181,8 @@ const Profile = () => {
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-gray-700">Marital Status</label>
                 <select
-                  name="maritalStatus"
-                  value={formData.maritalStatus}
+                  name="marital_Status"
+                  value={formData.marital_Status}
                   onChange={handleInputChange}
                   disabled={!isEditing}
                   className={`w-full px-4 py-2 rounded-lg border ${
@@ -180,8 +201,8 @@ const Profile = () => {
                 <label className="text-sm font-semibold text-gray-700">Phone Number</label>
                 <input
                   type="tel"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
+                  name="telephone"
+                  value={formData.telephone}
                   onChange={handleInputChange}
                   disabled={!isEditing}
                   className={`w-full px-4 py-2 rounded-lg border ${
@@ -221,8 +242,8 @@ const Profile = () => {
               <div className="space-y-2 md:col-span-2">
                 <label className="text-sm font-semibold text-gray-700">House Address</label>
                 <textarea
-                  name="houseAddress"
-                  value={formData.houseAddress}
+                  name="house_address"
+                  value={formData.house_address}
                   onChange={handleInputChange}
                   disabled={!isEditing}
                   rows={3}
@@ -232,7 +253,7 @@ const Profile = () => {
                 />
               </div>
 
-              <div className="space-y-2 md:col-span-2">
+              {/* <div className="space-y-2 md:col-span-2">
                 <label className="text-sm font-semibold text-gray-700">Nearest Bus Stop</label>
                 <input
                   type="text"
@@ -244,7 +265,7 @@ const Profile = () => {
                     isEditing ? "border-blue-300" : "border-gray-200 bg-gray-50"
                   } focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200`}
                 />
-              </div>
+              </div> */}
             </div>
 
             <div className="flex justify-end space-x-4 pt-6">
