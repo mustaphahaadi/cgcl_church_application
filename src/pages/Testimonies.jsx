@@ -1,13 +1,31 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { motion } from "framer-motion";
 import healingImage from "../assets/healing.jpeg";
 import { Link } from "react-router";
+import { getTestimonies } from "../hooks/apiHooks";
 
 const Testimonies = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [testimonies,setTestimonies] = useState([]);
 
-  const testimonies = [
+  useEffect(()=>{
+    const testimonies = async () => {
+      try{
+        const response = await getTestimonies();
+        if(response.status !== 200){
+          
+          throw new Error("error occuried");
+        }
+        setTestimonies((prev)=> response.data.results)
+        console.log(response)
+      }catch(error){
+        console.log(error)
+      }
+    }
+    testimonies()
+  },[])
+  const _testimonies = [
     {
       id: 1,
       name: "Kwame Mensah",
@@ -21,71 +39,6 @@ const Testimonies = () => {
       likes: 124,
       videoUrl: "https://example.com/video1",
     },
-    {
-      id: 2,
-      name: "Abena Owusu",
-      title: "Financial Breakthrough",
-      category: "provision",
-      date: "March 10, 2024",
-      content:
-        "After losing my job, I stood on God's promises. Within a month, I received multiple job offers and a better position than before.",
-      image: healingImage,
-      verified: true,
-      likes: 98,
-      videoUrl: null,
-    },
-    {
-      id: 3,
-      name: "Kofi Addo",
-      title: "Salvation Story",
-      category: "salvation",
-      date: "March 5, 2024",
-      content:
-        "I was living a life far from God, but through the ministry's outreach program, I encountered Jesus and my life has never been the same.",
-      image: healingImage,
-      verified: true,
-      likes: 156,
-      videoUrl: "https://example.com/video3",
-    },
-    {
-      id: 4,
-      name: "Ama Sarpong",
-      title: "Deliverance Testimony",
-      category: "deliverance",
-      date: "February 28, 2024",
-      content:
-        "For years I was bound by addiction, but through prayer and fasting with the church, God delivered me completely.",
-      image: healingImage,
-      verified: true,
-      likes: 142,
-      videoUrl: null,
-    },
-    {
-      id: 5,
-      name: "Yaw Asante",
-      title: "Academic Breakthrough",
-      category: "breakthrough",
-      date: "February 25, 2024",
-      content:
-        "After struggling with my studies, the prayer team stood with me. I not only passed but graduated with distinction.",
-      image: healingImage,
-      verified: true,
-      likes: 113,
-      videoUrl: "https://example.com/video5",
-    },
-    {
-      id: 6,
-      name: "Efua Nyarko",
-      title: "Marriage Restoration",
-      category: "breakthrough",
-      date: "February 20, 2024",
-      content:
-        "My marriage was on the brink of divorce, but through counseling and prayers at CLGC, God restored our home.",
-      image: healingImage,
-      verified: true,
-      likes: 167,
-      videoUrl: null,
-    },
   ];
   const categories = [
     { id: "all", label: "All Testimonies" },
@@ -97,14 +50,12 @@ const Testimonies = () => {
   ];
 
   // Filter testimonies based on category and search
-  const filteredTestimonies = testimonies.filter((testimony) => {
-    const matchesCategory =
-      selectedCategory === "all" || testimony.category === selectedCategory;
-    const matchesSearch =
-      testimony.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      testimony.content.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  // const filteredTestimonies = testimonies.filter((testimony) => {
+  //   const matchesCategory =
+  //     selectedCategory === "all" || testimony.category === selectedCategory;
+  //   const matchesSearch = testimony.testimony.toLowerCase().includes(searchQuery.toLowerCase());
+  //   return matchesCategory && matchesSearch;
+  // });
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -166,7 +117,7 @@ const Testimonies = () => {
 
         {/* Testimonies Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTestimonies.map((testimony) => (
+          {testimonies.map((testimony) => (
             <motion.div
               key={testimony.id}
               initial={{ opacity: 0, y: 20 }}
@@ -175,11 +126,11 @@ const Testimonies = () => {
             >
               <div className="relative">
                 <img
-                  src={testimony.image}
-                  alt={testimony.name}
+                  src={testimony.image || healingImage}
+                  alt={testimony.user_name}
                   className="w-full h-48 object-cover"
                 />
-                {testimony.videoUrl && (
+                {testimony.video && (
                   <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 rounded-full p-2">
                     <svg
                       className="w-6 h-6 text-white"
@@ -210,21 +161,21 @@ const Testimonies = () => {
                     {testimony.category}
                   </span>
                   <span className="text-sm text-gray-500">
-                    {testimony.date}
+                    {testimony.date }
                   </span>
                 </div>
 
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                  {testimony.title}
+                  {testimony.title || "Divine Healing Testimony"}
                 </h3>
 
                 <div className="flex items-center mb-4">
                   <img
-                    src={testimony.image}
-                    alt={testimony.name}
+                    src={testimony.image || healingImage}
+                    alt={testimony.user_name}
                     className="w-8 h-8 rounded-full mr-2"
                   />
-                  <span className="text-gray-600">{testimony.name}</span>
+                  <span className="text-gray-600">{testimony.user_name}</span>
                   {testimony.verified && (
                     <svg
                       className="w-5 h-5 text-blue-500 ml-2"

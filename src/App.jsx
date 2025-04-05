@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes,useNavigate } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -35,8 +35,8 @@ import { api_endpoint } from "./hooks/apiHooks";
 import ProfileCompletion from "./pages/ProfileCompletion";
 
 function App() {
-  
   useEffect(()=>{
+    // const navigator = useNavigate()
     const interval = setInterval(()=>{
       const refreshToken = localStorage.getItem('refresh_token');
       if (refreshToken) {
@@ -50,6 +50,7 @@ function App() {
           })
           .catch((err) => {
             console.error('Error refreshing token:', err);
+            // navigator("/login");
           });
       }
     }, 9 * 60 * 1000); // Refresh every 9 minutes

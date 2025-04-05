@@ -1,12 +1,14 @@
-import { useState, useRef } from "react";
+import { useState, useRef,useEffect } from "react";
 import { motion } from "framer-motion";
 import healingImage from "../assets/healing.jpeg";
+import { getAllSermons } from "../hooks/apiHooks";
 
 const Sermons = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSeries, setSelectedSeries] = useState("all");
   const [selectedSpeaker, setSelectedSpeaker] = useState("all");
   const [playingSermonId, setPlayingSermonId] = useState(null);
+  const [sermons,setSermons] = useState([]);
   const audioRef = useRef(null);
 
   const handleListen = (sermon) => {
@@ -27,7 +29,7 @@ const Sermons = () => {
     window.open(videoLink, '_blank');
   };
 
-  const sermons = [
+  const _sermons = [
     {
       id: 1,
       title: "The Power of Faith",
@@ -76,17 +78,32 @@ const Sermons = () => {
     },
   ];
 
-  const filteredSermons = sermons.filter((sermon) => {
-    const matchesSearch =
-      sermon.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      sermon.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesSeries =
-      selectedSeries === "all" || sermon.series === selectedSeries;
-    const matchesSpeaker =
-      selectedSpeaker === "all" || sermon.speaker === selectedSpeaker;
-    return matchesSearch && matchesSeries && matchesSpeaker;
-  });
-
+  // const filteredSermons = sermons.filter((sermon) => {
+  //   const matchesSearch =
+  //     sermon.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     sermon.description.toLowerCase().includes(searchTerm.toLowerCase());
+  //   const matchesSeries =
+  //     selectedSeries === "all" || sermon.series === selectedSeries;
+  //   const matchesSpeaker =
+  //     selectedSpeaker === "all" || sermon.speaker === selectedSpeaker;
+  //   return matchesSearch && matchesSeries && matchesSpeaker;
+  // });
+  useEffect(()=>{
+      const sermon = async () => {
+        try{
+          const response = await getAllSermons();
+          if(response.status !== 200){
+            
+            throw new Error("error occuried");
+          }
+          setSermons((prev)=> response.data.results)
+          console.log(response)
+        }catch(error){
+          console.log(error)
+        }
+      }
+      sermon()
+    },[])
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -139,7 +156,7 @@ const Sermons = () => {
       {/* Sermons Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredSermons.map((sermon) => (
+          {sermons.map((sermon) => (
             <motion.div
               key={sermon.id}
               initial={{ opacity: 0, y: 20 }}
@@ -148,7 +165,7 @@ const Sermons = () => {
             >
               <div className="relative">
                 <img
-                  src={sermon.thumbnail}
+                  src={sermon.thumbnail || healingImage}
                   alt={sermon.title}
                   className="w-full h-48 object-cover"
                   onError={(e) => {
@@ -156,7 +173,7 @@ const Sermons = () => {
                   }}
                 />
                 <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-2 py-1 rounded-md text-sm">
-                  {sermon.duration}
+                  {sermon.duration|| "22mins"}
                 </div>
               </div>
 
@@ -164,7 +181,7 @@ const Sermons = () => {
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm text-gray-500">{sermon.date}</span>
                   <span className="text-sm text-gray-500">
-                    {sermon.views} views
+                    {sermon.views||""} views
                   </span>
                 </div>
 
@@ -172,7 +189,7 @@ const Sermons = () => {
                   {sermon.title}
                 </h3>
 
-                <p className="text-gray-600 mb-2">{sermon.speaker}</p>
+                <p className="text-gray-600 mb-2">{sermon.user_name}</p>
 
                 <div className="flex items-center gap-2 mb-3">
                   <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
@@ -188,25 +205,25 @@ const Sermons = () => {
                 </p>
 
                 <div className="flex gap-2 mb-4">
-                  {sermon.tags.map((tag, index) => (
+                  {/* {sermon.tags.map((tag, index) => (
                     <span
                       key={index}
                       className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded"
                     >
                       #{tag}
                     </span>
-                  ))}
+                  ))} */}
                 </div>
 
                 <div className="flex gap-3">
                   <button
-                    onClick={() => handleListen(sermon)}
+                    onClick={() => handleListen(sermon || "")}
                     className="flex-1 bg-blue-600 text-white text-center py-2 rounded-lg hover:bg-blue-700 transition duration-300"
                   >
                     {playingSermonId === sermon.id ? 'Pause' : 'Listen Now'}
                   </button>
                   <button
-                    onClick={() => handleWatch(sermon.videoLink)}
+                    onClick={() => handleWatch(sermon.video_link || sermon.video)}
                     className="flex-1 bg-gray-800 text-white text-center py-2 rounded-lg hover:bg-teal-700 transition duration-300"
                   >
                     Watch Video

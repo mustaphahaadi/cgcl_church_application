@@ -56,11 +56,35 @@ export const getProfileApi = () => {
 export const createProfile = (data) =>{
 
   const api = axios.post(
-    `${api_endpoint}profiles/`,
+    `${api_endpoint}profiles/`,data,
     {
       headers: header,
     }
   );
-  console.log(header)
   return api;
 };
+
+
+// Testimonies
+export const getTestimonies = () => {
+  const api = axios.get(`${api_endpoint}members/testimonies/`);
+  return api;
+}
+
+export const createTestimony = (data) =>{
+
+  const api = axios.post(
+    `${api_endpoint}members/testimonies/`,data,
+    {
+      headers: header,
+    }
+  );
+  return api;
+};
+
+
+// Sermons
+export const getAllSermons = () => {
+  const api = axios.get(`${api_endpoint}sermons/`)
+  return api
+}

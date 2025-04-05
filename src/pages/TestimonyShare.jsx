@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { createTestimony } from "../hooks/apiHooks";
 
 const ShareTestimony = () => {
   const { isLoggedIn, userData } = useAuth();
@@ -14,7 +15,7 @@ const ShareTestimony = () => {
     category: "healing",
     content: "",
     image: null,
-    videoUrl: "",
+    video: "",
   });
 
   const [previewImage, setPreviewImage] = useState(null);
@@ -68,38 +69,17 @@ const ShareTestimony = () => {
 
     try {
       // // Simulate API call to submit testimony
-      // console.log("Submitting testimony:", formData);
-      // await new Promise((resolve) => setTimeout(resolve, 1500));
-      // Mock API call
-      await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate network delay
+      console.log(formData)
+      const response = await createTestimony(formData)
 
-      // Mock successful submission
-      console.log("Submitted testimony:", formData);
-
+      if(response.status === 201){  
+        setPreviewImage(null);
+        // alert("Testimony submitted successfully!");
+        toast.success("Testimony submitted successfully!");
+        navigate("/testimonies"); // Redirect to testimonies page
+      }
       // Reset form
-      setFormData({
-        // name: userData
-        //   ? userData.firstName && userData.lastName
-        //     ? `${userData.firstName} ${userData.lastName}`
-        //     : userData.username || ""
-        //   : "",
-        name: userData
-          ? userData.firstName && userData.lastName
-            ? `${userData.firstName} ${userData.lastName}`
-            : userData.username || ""
-          : "",
-        title: "",
-        category: "healing",
-        content: "",
-        image: null,
-        videoUrl: "",
-      });
-      setPreviewImage(null);
 
-
-      // alert("Testimony submitted successfully!");
-      toast.success("Testimony submitted successfully!");
-      navigate("/testimonies"); // Redirect to testimonies page
     } catch (error) {
       // console.error("Error submitting testimony:", error);
       // alert("Failed to submit testimony. Please try again.");
@@ -234,8 +214,8 @@ const ShareTestimony = () => {
               </label>
               <input
                 type="url"
-                name="videoUrl"
-                value={formData.videoUrl}
+                name="video"
+                value={formData.video}
                 onChange={handleInputChange}
                 className="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
                 placeholder="https://example.com/your-video"
