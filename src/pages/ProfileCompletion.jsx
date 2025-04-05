@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import { Upload } from "lucide-react";
+import { createProfile } from "../hooks/apiHooks";
 
 const ProfileCompletion = () => {
   const navigate = useNavigate();
@@ -65,12 +66,9 @@ const ProfileCompletion = () => {
       if (profileImage) {
         formDataToSend.append("profileImage", profileImage);
       }
-
-      const response = await fetch("/api/user/complete-profile", {
-        method: "POST",
-        body: formDataToSend,
-      });
-
+      
+      const response = await createProfile()
+      console.log(response)
       if (response.ok) {
         const updatedUserData = await response.json();
         setUserData(updatedUserData);
@@ -210,7 +208,7 @@ const ProfileCompletion = () => {
                 value={formData.fellowship}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                required
+                // required
               />
             </div>
 

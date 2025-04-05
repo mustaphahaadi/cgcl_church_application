@@ -32,6 +32,7 @@ import api from "./utils/api";
 import { useEffect } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { api_endpoint } from "./hooks/apiHooks";
+import ProfileCompletion from "./pages/ProfileCompletion";
 
 function App() {
   
@@ -77,6 +78,12 @@ function App() {
           <Route path="/Profile" element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+            } 
+          />
+          <Route path="/complete-profile" element={
+            <ProtectedRoute>
+              <ProfileCompletion />
             </ProtectedRoute>
             } 
           />
