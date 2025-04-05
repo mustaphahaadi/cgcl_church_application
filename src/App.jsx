@@ -25,29 +25,64 @@ import ServiceTimes from "./pages/ServiceTimes";
 import Outreach from "./pages/Outreach";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/Login";
-import { AuthProvider } from "./context/AuthContext.jsx";
+import { BrowserRouter as Router } from "react-router-dom";
 import LiveStream from "./pages/LiveStream";
 import PrayerRequests from "./pages/PrayerRequests"; // Add this import
+import api from "./utils/api";
+import { useEffect } from "react";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { api_endpoint } from "./hooks/apiHooks";
 
 function App() {
+  
+  useEffect(()=>{
+    const interval = setInterval(()=>{
+      const refreshToken = localStorage.getItem('refresh_token');
+      if (refreshToken) {
+        api.post(`${api_endpoint}auth/refresh/`, { refresh: refreshToken })
+          .then((res) => {
+            const newToken = res.data.access;
+            const newrefreshToken = res.data.refresh;
+            localStorage.setItem('access_token', newToken);
+            localStorage.setItem('refresh_token', newrefreshToken);
+            api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+          })
+          .catch((err) => {
+            console.error('Error refreshing token:', err);
+          });
+      }
+    }, 9 * 60 * 1000); // Refresh every 9 minutes
+    return () => clearInterval(interval);
+  },[])
+
   return (
-    <AuthProvider>
+    <Router>
     <div className="app">
       <NavBar />
       <main className="main-content">
         <Routes>
           <Route path="/TestimonyShare" element={<TestimonyShare />} />
           <Route path="/Testimonies" element={<Testimonies />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/Dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+            } 
+          />
           <Route path="/" element={<Home />} />
           <Route path="/About" element={<About />} />
           <Route path="/Contact" element={<Contact />} />
           <Route path="/Events" element={<Events />} />
           <Route path="/Sermons" element={<Sermons />} />
-          <Route path="/Profile" element={<Profile />} />
+          <Route path="/Profile" element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+            } 
+          />
           <Route path="/MemberFellowship" element={<MemberFellowship />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/profile" element={<Profile />} />
+          {/* <Route path="/profile" element={<Profile />} /> */}
           <Route path="/member-fellowship" element={<MemberFellowship />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/Give" element={<Give />} />
@@ -65,7 +100,7 @@ function App() {
       <Footer />
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
-    </AuthProvider>
+    </Router>
   );
 }
 

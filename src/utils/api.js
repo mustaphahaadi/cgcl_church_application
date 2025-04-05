@@ -1,39 +1,38 @@
-import axios from 'axios';
-
-const API_URL = 'http://localhost:8000/api';
+import axios from "axios";
+import { api_endpoint } from "../hooks/apiHooks";
+let refresh = false;
 
 const api = axios.create({
-    baseURL: API_URL,
-    headers: {
-        'Content-Type': 'application/json',
-    }
+    baseURL: 'http://localhost:8000/api', // Update with your Django backend URL
 });
-
-// Add a request interceptor to add the token
-api.interceptors.request.use(
-    (config) => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    (error) => {
-        return Promise.reject(error);
-    }
-);
-
-// Add a response interceptor to handle errors
+// const  
 api.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        if (error.response?.status === 401) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            window.location.href = '/login';
-        }
-        return Promise.reject(error);
+  (resp) => resp,
+  async (error) => {
+    if (error.response.status === 401 && !refresh) {
+      refresh = true;
+      console.log(localStorage.getItem("refresh_token"));
+      const response = await axios.post(`${api_endpoint}auth/refresh/`,
+        {
+          refresh: localStorage.getItem("refresh_token"),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        api.defaults.headers.common["Authorization"] = `Bearer ${response.data["access"]}`;
+        localStorage.setItem("access_token", response.data.access);
+        localStorage.setItem("refresh_token", response.data.refresh);
+        return axios(error.config);
+      }
     }
+    refresh = false;
+    return error;
+  }
 );
 
 export default api;
