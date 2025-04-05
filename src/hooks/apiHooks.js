@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api_endpoint = "http://127.0.0.1:8000/api/";
-const ACCESS_TOKEN = localStorage.getItem("access_token")
+const ACCESS_TOKEN = localStorage.getItem("access_token") == null ? "":localStorage.getItem("access_token")
 
 const header = {
     "Content-Type": "application/json",
@@ -53,3 +53,14 @@ export const getProfileApi = () => {
     return api;
   };
   
+export const createProfile = (data) =>{
+
+  const api = axios.post(
+    `${api_endpoint}profiles/`,
+    {
+      headers: header,
+    }
+  );
+  console.log(header)
+  return api;
+};
