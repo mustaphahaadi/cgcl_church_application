@@ -3,19 +3,33 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { registerApi } from "../hooks/apiHooks";
+import { resetClipboardStubOnView } from "@testing-library/user-event/dist/cjs/utils/index.js";
 
 const Signup = () => {
   const navigate = useNavigate();
   const { setUser, setIsLoggedIn, setUserData } = useAuth();
   const [formData, setFormData] = useState({
-    firstName: "",
-    middleName: "",
-    lastName: "",
+    first_name: "",
+    middle_name: "",
+    last_name: "",
     username: "",
     password: "",
-    confirmPassword: "",
-    phoneNumber: "",
-    countryCode: "+233",
+    confirm_password: "",
+    telephone: "",
+    country_code: "+233",
+    email: "",
+    gender: "",
+  });
+  const [error, setErrors] = useState({
+    first_name: "",
+    middle_name: "",
+    last_name: "",
+    username: "",
+    password: "",
+    confirm_password: "",
+    telephone: "",
+    country_code: "+233",
     email: "",
     gender: "",
   });
@@ -31,65 +45,33 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate required fields
-    if (
-      !formData.firstName ||
-      !formData.lastName ||
-      !formData.username ||
-      !formData.password ||
-      !formData.gender ||
-      !formData.phoneNumber
-    ) {
-      toast.error("Please fill in all required fields!");
-      return;
-    }
-
-    // Validate password length
-    if (formData.password.length < 6) {
-      toast.error("Password must be at least 6 characters long!");
-      return;
-    }
-
-    // Validate passwords match
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match!");
-      return;
-    }
-
     try {
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...formData,
-          phoneNumber: `${formData.countryCode}${formData.phoneNumber}`,
-        }),
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
+      const response = await registerApi(formData);
+      console.log(response)
+      if (response.status === 201) {
+        const userData = await response.data;
         // Store all user data in context
         setUser(userData);
         setUserData({
           ...userData,
-          fullName: `${userData.firstName} ${userData.lastName}`,
-          phoneNumber: `${formData.countryCode}${formData.phoneNumber}`,
+          fullName: `${userData.first_name} ${userData.last_name}`,
+          telephone: `${formData.country_code}${formData.telephone}`,
         });
         setIsLoggedIn(true);
 
         // Store in localStorage for persistence
         localStorage.setItem("userData", JSON.stringify(userData));
-        localStorage.setItem("isLoggedIn", "true");
+        
 
         toast.success("Signup successful!");
-        navigate("/profile-completion");
+        navigate("/login");
       } else {
         throw new Error("Signup failed");
       }
     } catch (error) {
-      toast.error(error.message || "Failed to sign up");
+      setErrors(error.response?.data);
+      toast.error("Failed to sign up");
+      console.error(error);
     }
   };
 
@@ -120,22 +102,25 @@ const Signup = () => {
                 </label>
                 <input
                   type="text"
-                  name="firstName"
-                  value={formData.firstName}
+                  name="first_name"
+                  value={formData.first_name}
                   onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
                   autoComplete="given-name"
                 />
               </div>
+              <p className="block text-sm font-medium text-red-700">
+                  {error.first_name}
+              </p>
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Middle Name
                 </label>
                 <input
                   type="text"
-                  name="middleName"
-                  value={formData.middleName}
+                  name="middle_name"
+                  value={formData.middle_name}
                   onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   autoComplete="additional-name"
@@ -147,14 +132,18 @@ const Signup = () => {
                 </label>
                 <input
                   type="text"
-                  name="lastName"
-                  value={formData.lastName}
+                  name="last_name"
+                  value={formData.last_name}
                   onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
                   autoComplete="family-name"
                 />
+                <p className="block text-sm font-medium text-red-700">
+                  {error.last_name}
+              </p>
               </div>
+              
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -171,7 +160,12 @@ const Signup = () => {
                   required
                   autoComplete="username"
                 />
+                <p className="block text-sm font-medium text-red-700">
+                  {error.username}
+              </p>
               </div>
+
+              
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Email
@@ -184,6 +178,9 @@ const Signup = () => {
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   autoComplete="email"
                 />
+                <p className="block text-sm font-medium text-red-700">
+                  {error.email}
+              </p>
               </div>
             </div>
 
@@ -201,6 +198,9 @@ const Signup = () => {
                   required
                   autoComplete="new-password"
                 />
+                <p className="block text-sm font-medium text-red-700">
+                  {error.password}
+              </p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">
@@ -208,8 +208,8 @@ const Signup = () => {
                 </label>
                 <input
                   type="password"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
+                  name="confirm_password"
+                  value={formData.confirm_password}
                   onChange={handleChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   required
@@ -225,8 +225,8 @@ const Signup = () => {
                 </label>
                 <div className="flex">
                   <select
-                    name="countryCode"
-                    value={formData.countryCode}
+                    name="country_code"
+                    value={formData.country_code}
                     onChange={handleChange}
                     className="mt-1 block w-24 rounded-l-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   >
@@ -234,13 +234,16 @@ const Signup = () => {
                   </select>
                   <input
                     type="tel"
-                    name="phoneNumber"
-                    value={formData.phoneNumber}
+                    name="telephone"
+                    value={formData.telephone}
                     onChange={handleChange}
                     className="mt-1 block w-full rounded-r-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                     required
                     autoComplete="tel"
                   />
+                  <p className="block text-sm font-medium text-red-700">
+                  {error.telephone}
+              </p>
                 </div>
               </div>
               <div>
