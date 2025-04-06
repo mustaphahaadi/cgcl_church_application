@@ -95,7 +95,7 @@ const Signup = () => {
           className="space-y-8 bg-white rounded-xl shadow-lg p-8"
         >
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   First Name <span className="text-red-500">*</span>
@@ -109,10 +109,10 @@ const Signup = () => {
                   required
                   autoComplete="given-name"
                 />
-              </div>
-              <p className="block text-sm font-medium text-red-700">
+                <p className="text-sm font-medium text-red-700 mt-1">
                   {error.first_name}
-              </p>
+                </p>
+              </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Middle Name
@@ -139,11 +139,10 @@ const Signup = () => {
                   required
                   autoComplete="family-name"
                 />
-                <p className="block text-sm font-medium text-red-700">
+                <p className="text-sm font-medium text-red-700 mt-1">
                   {error.last_name}
-              </p>
+                </p>
               </div>
-              
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
