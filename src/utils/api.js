@@ -3,7 +3,7 @@ import { api_endpoint } from "../hooks/apiHooks";
 let refresh = false;
 
 const api = axios.create({
-    baseURL: 'http://localhost:8000/api', // Update with your Django backend URL
+    baseURL: 'https://clgcchurch-backend-production.up.railway.app/api', // Update with your Django backend URL
 });
 // const  
 api.interceptors.response.use(
