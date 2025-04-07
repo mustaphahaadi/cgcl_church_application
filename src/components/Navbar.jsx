@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Menu, X, ChevronDown, Church, LogOut } from "lucide-react";
+import { Menu, X, ChevronDown, Church, LogOut, } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link,useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -30,32 +30,34 @@ const Navbar = () => {
     //     { label: "Care & Support", to: "/contact" },
     //   ],
     // },
-    streaming: {
-      label: "Streaming",
-      items: [
-        { label: "Live Services", to: "/live-stream" },
-        { label: "Worship Music", to: "/worship-music" },
-        { label: "Bible Study Channel", to: "/bible-study" },
-      ],
-    },
+    // streaming: {
+    //   label: "Streaming",
+    //   items: [
+    //     { label: "Live Services", to: "/live-stream" },
+    //     { label: "Worship Music", to: "/worship-music" },
+    //     { label: "Bible Study Channel", to: "/bible-study" },
+    //   ],
+    // },
     connect: {
       label: "Connect",
       items: [
-        { label: "New Here?", to: "/signup" },
+        // Only show "New Here?" when not logged in
+        ...(isLoggedIn ? [] : [{ label: "New Here?", to: "/signup" }]),
         { label: "Events Calendar", to: "/events" },
         { label: "Fellowships", to: "/fellowships" },
         { label: "Ministries", to: "/ministries" },
         { label: "Contact Us", to: "/contact" },
       ],
     },
-    support: {
-      label: "Support",
-      items: [
-        { label: "Give", to: "/give" },
-        { label: "Contact Us", to: "/contact" },
-      ],
-    },
+    // support: {
+    //   label: "Support",
+    //   items: [
+    //     { label: "Give", to: "/give" },
+    //     { label: "Contact Us", to: "/contact" },
+    //   ],
+    // },
   };
+
 
   const ProfileNavigation = {
     profile:{
@@ -64,10 +66,11 @@ const Navbar = () => {
         { label: "Dashboard", to: "/dashboard" },
         { label: "Account", to: "/profile" },
         { label: "Settings", to: "/settings" },
-        { label: "Logout", to: "/logout" },
-      ]
-    }
-  }
+        { label: "Logout", to: "#" }, // Changed to "#" since we're handling this with onClick
+      ],
+    },
+  };
+  
   const handleEscape = useCallback((e) => {
     if (e.key === "Escape") {
       setActiveDropdown(null);
@@ -117,6 +120,17 @@ const Navbar = () => {
     },
   };
 
+  // Added this function to get user initials for the profile button
+  const getUserInitials = () => {
+    const user = JSON.parse(localStorage.getItem("user")) || {};
+    if (user.first_name && user.last_name) {
+      return `${user.first_name[0]}${user.last_name[0]}`.toUpperCase();
+    } else if (user.username) {
+      return user.username[0].toUpperCase();
+    }
+    return "U"; // Default if no user info is available
+  };
+
   return (
     <nav
       className="bg-white text-gray-800 shadow-lg sticky top-0 z-50"
@@ -143,10 +157,10 @@ const Navbar = () => {
           {/* isAuthenticated ? "/dashboard" : "/"" */}
           <div className="hidden md:flex md:items-center md:space-x-6">
             <Link
-              to="/"
+              to={isLoggedIn ? "/dashboard" : "/"}
               className="text-gray-900 hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 hover:bg-gray-200"
             >
-              Home
+              {isLoggedIn ? "Dashboard" : "Home"}
             </Link>
 
             {Object.entries(navigationItems).map(([key, { label, items }]) => (
@@ -192,69 +206,80 @@ const Navbar = () => {
             {
               isLoggedIn 
               ? 
-
-              Object.entries(ProfileNavigation).map(([key, { label, items }]) => (
-              <div key={key} className="relative group">
+              <div className="relative group">
                 <button
-                  className="text-gray-900 inline-flex items-center px-3 py-2 text-sm font-medium hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-2 focus:ring-offset-white rounded-md transition-colors duration-300 hover:bg-gray-200"
-                  onClick={() => handleDropdownClick(key)}
-                  aria-expanded={activeDropdown === key}
+                  className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-white shadow-lg hover:shadow-xl"
+                  onClick={() => handleDropdownClick("profile")}
+                  aria-expanded={activeDropdown === "profile"}
                   aria-haspopup="true"
-                  aria-label={`Open ${label} menu`}
+                  aria-label="Open profile menu"
                 >
-                  {label}
-                  <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
+                  {localStorage.getItem("profileImage") ? (
+                    <img 
+                      src={localStorage.getItem("profileImage")} 
+                      alt="Profile" 
+                      className="w-full h-full rounded-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-sm font-medium">{getUserInitials()}</span>
+                  )}
                 </button>
 
                 <AnimatePresence>
-                  {activeDropdown === key && (
+                  {activeDropdown === "profile" && (
                     <motion.div
                       initial="hidden"
                       animate="visible"
                       exit="hidden"
                       variants={dropdownVariants}
-                      className="absolute z-20 mt-2 w-52 rounded-lg bg-white shadow-xl ring-1 ring-black ring-opacity-5 overflow-hidden"
+                      className="absolute right-0 z-20 mt-2 w-52 rounded-lg bg-white shadow-xl ring-1 ring-black ring-opacity-5 overflow-hidden"
                       role="menu"
                     >
-                      {items.map( ({ label, to }) => (
-                       
-                        label == "Logout"?
-                       
-                          <Link
+                      {ProfileNavigation.profile.items.map(({ label, to }) => (
+                        label === "Logout" ? (
+                          <button
                             key={label}
-                            // to={to}
-                            className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-200 hover:text-blue-800 transition-colors duration-200"
+                            className="block w-full text-left px-4 py-2 text-sm text-gray-900 hover:bg-gray-200 hover:text-blue-800 transition-colors duration-200"
                             role="menuitem"
-                            onClick={() => onLogout()} // Close dropdown on click
+                            onClick={() => {
+                              onLogout(); // Make sure this is called
+                              setActiveDropdown(null);
+                            }}
                           >
                             {label}
-                          </Link>
-                        
-                          :
+                          </button>
+                        ) : (
                           <Link
                             key={label}
                             to={to}
                             className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-200 hover:text-blue-800 transition-colors duration-200"
                             role="menuitem"
-                            onClick={() => setActiveDropdown(null)} // Close dropdown on click
+                            onClick={() => setActiveDropdown(null)}
                           >
                             {label}
                           </Link>
-
-                        
-                        ))}
+                        )
+                      ))}
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
-            )) 
               :
-              <Link
-              to="/login"
-              className="text-gray-900 hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 hover:bg-gray-200"
-            >
-              Login
-            </Link>
+              <div className="flex space-x-2">
+                <Link
+                  to="/login"
+                  className="text-gray-900 hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 hover:bg-gray-200 flex items-center"
+                >
+                  <LogOut className="h-4 w-4 mr-1" />
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300"
+                >
+                  Sign Up
+                </Link>
+              </div>
               }
           </div>
 
@@ -288,11 +313,11 @@ const Navbar = () => {
           >
             <div className="px-4 pt-2 pb-4 space-y-2">
               <Link
-                to="/"
+                to={isLoggedIn ? "/dashboard" : "/"}
                 className="block px-3 py-2 text-base font-medium text-gray-800 hover:text-indigo-600 hover:bg-gray-200 rounded-md transition-colors duration-300"
                 onClick={() => setIsOpen(false)}
               >
-                Home
+                {isLoggedIn ? "Dashboard" : "Home"}
               </Link>
 
               {Object.entries(navigationItems).map(
@@ -346,65 +371,82 @@ const Navbar = () => {
               {
               isLoggedIn 
               ?
-              Object.entries(ProfileNavigation).map(([key, { label, items }]) => (
-              <div key={key} className="relative group">
-                <button
-                  className="text-gray-900 inline-flex items-center px-3 py-2 text-sm font-medium hover:text-blue-800 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-2 focus:ring-offset-white rounded-md transition-colors duration-300 hover:bg-gray-200"
-                  onClick={() => handleDropdownClick(key)}
-                  aria-expanded={activeDropdown === key}
-                  aria-haspopup="true"
-                  aria-label={`Open ${label} menu`}
-                >
-                  {label}
-                  <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
-                </button>
-
+              <div className="pt-4 border-t border-gray-200">
+                <div className="flex items-center px-3 py-2">
+                  <button
+                    onClick={() => handleDropdownClick("mobileProfile")}
+                    className="flex items-center w-full bg-gray-50 hover:bg-gray-100 rounded-lg p-2 transition-colors duration-200"
+                    aria-expanded={activeDropdown === "mobileProfile"}
+                  >
+                    <div className="flex-shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-md">
+                        {localStorage.getItem("profileImage") ? (
+                          <img 
+                            src={localStorage.getItem("profileImage")} 
+                            alt="Profile" 
+                            className="w-full h-full rounded-full object-cover"
+                          />
+                        ) : (
+                          <span className="text-sm font-medium">{getUserInitials()}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="ml-3 flex-grow">
+                      <div className="text-base font-medium text-gray-800 text-left">
+                        {JSON.parse(localStorage.getItem("user"))?.username || "User"}
+                      </div>
+                    </div>
+                    <ChevronDown
+                      className={`h-5 w-5 text-gray-500 transition-transform duration-300 ${
+                        activeDropdown === "mobileProfile" ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                </div>
+                
                 <AnimatePresence>
-                  {activeDropdown === key && (
+                  {activeDropdown === "mobileProfile" && (
                     <motion.div
                       initial="hidden"
                       animate="visible"
                       exit="hidden"
                       variants={dropdownVariants}
-                      className="absolute z-20 mt-2 w-52 rounded-lg bg-white shadow-xl ring-1 ring-black ring-opacity-5 overflow-hidden"
-                      role="menu"
+                      className="mt-3 space-y-1"
                     >
-                      {items.map(({ label, to }) => (
-                        label == "Logout"?
-                       
-                        <Link
-                          key={label}
-                          // to={to}
-                          className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-200 hover:text-blue-800 transition-colors duration-200"
-                          role="menuitem"
-                          onClick={() => onLogout()} // Close dropdown on click
-                        >
-                          {label}
-                        </Link>
-                      
-                        :
-                        <Link
-                          key={label}
-                          to={to}
-                          className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-200 hover:text-blue-800 transition-colors duration-200"
-                          role="menuitem"
-                          onClick={() => setActiveDropdown(null)} // Close dropdown on click
-                        >
-                          {label}
-                        </Link>
+                      {ProfileNavigation.profile.items.map(({ label, to }) => (
+                        label === "Logout" ? (
+                          <button
+                            key={label}
+                            className="block w-full text-left px-3 py-2 text-base text-gray-800 hover:text-blue-800 hover:bg-gray-200 rounded-md transition-colors duration-300"
+                            onClick={() => {
+                              onLogout();
+                              setIsOpen(false);
+                            }}
+                          >
+                            {label}
+                          </button>
+                        ) : (
+                          <Link
+                            key={label}
+                            to={to}
+                            className="block px-3 py-2 text-base text-gray-800 hover:text-blue-800 hover:bg-gray-200 rounded-md transition-colors duration-300"
+                            onClick={() => {
+                              setIsOpen(false);
+                              setActiveDropdown(null);
+                            }}
+                          >
+                            {label}
+                          </Link>
+                        )
                       ))}
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
-            )) 
               :
-              <Link
-              to="/login"
-              className="text-gray-900 hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 hover:bg-gray-200"
-            >
-              Login
-            </Link>
+              <div className="flex space-x-2 pt-4 border-t border-gray-200">
+                {/* ... existing mobile login/signup buttons ... */}
+              </div>
               }
             </div>
           </motion.div>

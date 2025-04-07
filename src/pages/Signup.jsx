@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { registerApi } from "../hooks/apiHooks";
-import { resetClipboardStubOnView } from "@testing-library/user-event/dist/cjs/utils/index.js";
+// import { resetClipboardStubOnView } from "@testing-library/user-event/dist/cjs/utils/index.js";
 
 const Signup = () => {
   const navigate = useNavigate();
