@@ -47,7 +47,7 @@ const Login = () => {
       // Check if profile is complete
       if (!_userData.profileComplete) {
         toast.info("Please complete your profile");
-        navigate("/profile");
+        navigate("/complete-profile");
       } else {
         toast.success("Login successful!");
         navigate("/dashboard");
