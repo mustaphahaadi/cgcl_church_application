@@ -1,4 +1,6 @@
-import { Route, Routes,useNavigate } from "react-router-dom";
+
+import SystemLogs from "./logs/SystemLogs";
+import { Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -33,6 +35,7 @@ import { useEffect } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { api_endpoint } from "./hooks/apiHooks";
 import ProfileCompletion from "./pages/ProfileCompletion";
+
 
 function App() {
   useEffect(()=>{
@@ -102,7 +105,8 @@ function App() {
           <Route path="/Service-times" element={<ServiceTimes />} />
           <Route path="/Outreach" element={<Outreach />} />
           <Route path="/live-stream" element={<LiveStream />} />
-          <Route path="/prayer-requests" element={<PrayerRequests />} /> {/* Add this route */}
+          <Route path="/prayer-requests" element={<PrayerRequests />} />
+          <Route path="/system-logs" element={<SystemLogs />} />
         </Routes>
       </main>
       <Footer />
