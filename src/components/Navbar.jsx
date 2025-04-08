@@ -42,7 +42,6 @@ const Navbar = () => {
       label: "Connect",
       items: [
         // Only show "New Here?" when not logged in
-        ...(isLoggedIn ? [] : [{ label: "New Here?", to: "/signup" }]),
         { label: "Events Calendar", to: "/events" },
         { label: "Fellowships", to: "/fellowships" },
         { label: "Ministries", to: "/ministries" },
