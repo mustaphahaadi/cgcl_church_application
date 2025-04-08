@@ -1,5 +1,5 @@
-import SystemLogs from "./logs/SystemLogs";
-import { initializeLogs } from "./logs/initial-logs";
+// import SystemLogs from "./logs/SystemLogs";
+// import { initializeLogs } from "./logs/initial-logs";
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import NavBar from "./components/Navbar";
@@ -62,7 +62,7 @@ function App() {
   }, []);
 
   // Call this before rendering your app
-  initializeLogs();
+  // initializeLogs();
   return (
     <Router>
       <div className="app">
@@ -115,7 +115,7 @@ function App() {
             <Route path="/Outreach" element={<Outreach />} />
             <Route path="/live-stream" element={<LiveStream />} />
             <Route path="/prayer-requests" element={<PrayerRequests />} />
-            <Route path="/system-logs" element={<SystemLogs />} />
+{/*             <Route path="/system-logs" element={<SystemLogs />} /> */}
           </Routes>
         </main>
         <Footer />
