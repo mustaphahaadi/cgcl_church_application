@@ -72,7 +72,6 @@ export const getTestimonies = () => {
 }
 
 export const createTestimony = (data) =>{
-
   const api = axios.post(
     `${api_endpoint}members/testimonies/`,data,
     {
@@ -88,3 +87,5 @@ export const getAllSermons = () => {
   const api = axios.get(`${api_endpoint}sermons/`)
   return api
 }
+
+

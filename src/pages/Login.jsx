@@ -9,6 +9,15 @@ import { loginApi } from "../hooks/apiHooks";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+  
+  // Redirect if already logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
+    }
+  }, [isLoggedIn, navigate]);
+  
   const { setIsLoggedIn, login} = useAuth();
   const [credentials, setCredentials] = useState({
     username: "",

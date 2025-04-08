@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { registerApi } from "../hooks/apiHooks";
@@ -8,6 +9,15 @@ import { registerApi } from "../hooks/apiHooks";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+  
+  // Redirect if already logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
+    }
+  }, [isLoggedIn, navigate]);
+  
   const { setUser, setIsLoggedIn, setUserData } = useAuth();
   const [formData, setFormData] = useState({
     first_name: "",
@@ -279,3 +289,4 @@ const Signup = () => {
 };
 
 export default Signup;
+

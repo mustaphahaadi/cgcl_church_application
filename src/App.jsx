@@ -35,7 +35,10 @@ import { useEffect } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { api_endpoint } from "./hooks/apiHooks";
 import ProfileCompletion from "./pages/ProfileCompletion";
-
+import MediaDashboard from "./pages/MediaDashboard";
+import RoleBasedRoute from "./components/RoleBasedRoute";
+import SuperAdminDashboard from "./pages/SuperAdminDashboard"
+import FellowshipLeaderDashboard from "./pages/FellowshipLeaderDashboard";
 
 function App() {
   useEffect(() => {
@@ -71,7 +74,12 @@ function App() {
           <Routes>
             <Route path="/TestimonyShare" element={<TestimonyShare />} />
             <Route path="/Testimonies" element={<Testimonies />} />
-            <Route
+            <Route path="/super-admin" element={
+                <RoleBasedRoute allowedRoles={["admin"]}>
+                  <SuperAdminDashboard />
+                </RoleBasedRoute>
+              } />
+              <Route
               path="/Dashboard"
               element={
                 <ProtectedRoute>
@@ -116,6 +124,16 @@ function App() {
             <Route path="/live-stream" element={<LiveStream />} />
             <Route path="/prayer-requests" element={<PrayerRequests />} />
 {/*             <Route path="/system-logs" element={<SystemLogs />} /> */}
+            <Route path="/media-dashboard" element={
+              <RoleBasedRoute allowedRoles={["admin", "media"]}>
+                <MediaDashboard />
+              </RoleBasedRoute>
+            } />
+            <Route path="/fellowship-leader" element={
+              <RoleBasedRoute allowedRoles={["admin", "fellowship_leader"]}>
+                <FellowshipLeaderDashboard />
+              </RoleBasedRoute>
+            } />
           </Routes>
         </main>
         <Footer />
