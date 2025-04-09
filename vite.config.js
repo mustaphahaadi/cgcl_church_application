@@ -10,9 +10,9 @@ export default defineConfig({
       plugins: [tailwindcss()],
     },
   },
-  preview:{
+  preview: {
     port:5173,
-  }
+  },
   server: {
     allowedHosts: [
       "cgclchurchapplication-production.up.railway.app",

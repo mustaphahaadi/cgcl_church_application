@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
  
 # Install dependencies
-RUN npm install --force
+RUN npm install --force && npm i -g serve
  
 # Copy the rest of your application files
 COPY . .
@@ -20,4 +20,4 @@ RUN npm run build
 EXPOSE 5173
  
 # Define the command to run your app
-CMD ["npm", "run", "preview"]
+CMD [ "serve", "-s", "dist" ]
