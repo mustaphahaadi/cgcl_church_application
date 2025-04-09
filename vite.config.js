@@ -11,7 +11,10 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ["cgclchurchapplication-production.up.railway.app"],
+    allowedHosts: [
+      "cgclchurchapplication-production.up.railway.app",
+      "cgclchurchapplication-production-0aa2.up.railway.app",
+    ],
     host: "0.0.0.0",
     port: 5173,
     hmr: {
