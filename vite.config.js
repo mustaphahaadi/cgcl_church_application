@@ -12,7 +12,7 @@ export default defineConfig({
   },
   server: {
     allowedHosts: [
-      "cgclchurchapplication-production.up.railway.app",
+      // "cgclchurchapplication-production.up.railway.app",
       "cgclchurchapplication-production-0aa2.up.railway.app",
     ],
     host: true,
