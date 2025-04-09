@@ -20,4 +20,5 @@ RUN npm run build
 EXPOSE 5173
  
 # Define the command to run your app
-CMD [ "serve", "-s", "dist" ]
+# CMD [ "serve", "-s", "dist" ]
+CMD ["npm","run","dev"]
