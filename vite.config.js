@@ -21,16 +21,4 @@ export default defineConfig({
       host: "localhost",
     },
   },
-  proxy: {
-    "/api": {
-      target: "http://localhost:8000",
-      changeOrigin: true,
-      secure: false,
-      rewrite: (path) => path.replace(/^\/api/, "/"),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": "true",
-      },
-    },
-  },
 });
