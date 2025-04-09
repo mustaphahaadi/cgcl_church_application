@@ -1,5 +1,5 @@
 # Use the latest LTS version of Node.js
-FROM node:18-alpine
+FROM node:18-alpine as build
  
 # Set the working directory inside the container
 WORKDIR /app
@@ -8,13 +8,22 @@ WORKDIR /app
 COPY package*.json ./
  
 # Install dependencies
-RUN npm install --force && npm i -g serve
+RUN npm install --force
  
 # Copy the rest of your application files
 COPY . .
  
 # biuld the application
 RUN npm run build
+
+# PRODUCTION STAGE
+FROM node:18-alpine
+
+WORKDIR /app
+
+RUN npm install server
+
+COPY --from=build app/dist ./dist
 
 # Expose the port your app runs on
 EXPOSE 5173
