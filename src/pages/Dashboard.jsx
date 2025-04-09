@@ -91,7 +91,7 @@ const Dashboard = () => {
   
       try {
         // Fetch user's fellowship info if they belong to one
-        const fellowshipResponse = await api.get(`${api_endpoint}fellowships/member/`);
+        const fellowshipResponse = await api.get(`${api_endpoint}fellowships/`);
         const fellowshipInfo = fellowshipResponse.data;
         
         setDashboardData(prevData => ({
@@ -127,7 +127,7 @@ const Dashboard = () => {
   
       try {
         // Fetch testimonies
-        const testimoniesResponse = await api.get(`${api_endpoint}testimonies/user/`);
+        const testimoniesResponse = await api.get(`${api_endpoint}members/testimonies/users/${userData.username}/`);
         const testimonies = testimoniesResponse.data && testimoniesResponse.data.results ? 
           testimoniesResponse.data.results : 
           (Array.isArray(testimoniesResponse.data) ? testimoniesResponse.data : []);
@@ -266,7 +266,7 @@ const Dashboard = () => {
               <li key={sermon.id} className="border-b border-gray-100 pb-3 last:border-0 last:pb-0">
                 <p className="font-medium text-gray-900">{sermon.title}</p>
                 <p className="text-sm text-gray-500">
-                  By: {sermon.preacher} | {new Date(sermon.date).toLocaleDateString()}
+                  By: {sermon.speaker.username} | {new Date(sermon.created_at).toLocaleDateString()}
                 </p>
                 <div className="flex space-x-2 mt-1">
                   {sermon.video_url && (

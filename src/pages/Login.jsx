@@ -63,7 +63,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Login error:", error);
-      toast.error(error.response?.data?.detail || "An error occurred.");
+      toast.error(error.response?.data?.error || "An error occurred.");
     } finally {
       setIsLoading(false);
     }
