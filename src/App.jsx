@@ -30,10 +30,9 @@ import Login from "./pages/Login";
 import { BrowserRouter as Router } from "react-router-dom";
 import LiveStream from "./pages/LiveStream";
 import PrayerRequests from "./pages/PrayerRequests"; // Add this import
-import api from "./utils/api";
+import api,{base_url} from "./utils/api";
 import { useEffect } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { api_endpoint } from "./hooks/apiHooks";
 import ProfileCompletion from "./pages/ProfileCompletion";
 import MediaDashboard from "./pages/MediaDashboard";
 import RoleBasedRoute from "./components/RoleBasedRoute";
@@ -47,7 +46,7 @@ function App() {
       const refreshToken = localStorage.getItem("refresh_token");
       if (refreshToken) {
         api
-          .post(`${api_endpoint}auth/refresh/`, { refresh: refreshToken })
+          .post(`${base_url}auth/refresh/`, { refresh: refreshToken })
           .then((res) => {
             const newToken = res.data.access;
             const newrefreshToken = res.data.refresh;
@@ -60,7 +59,7 @@ function App() {
             // navigator("/login");
           });
       }
-    }, 9 * 60 * 1000); // Refresh every 9 minutes
+    }, 1 * 60 * 1000); // Refresh every 9 minutes
     return () => clearInterval(interval);
   }, []);
 
