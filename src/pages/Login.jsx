@@ -5,7 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
-import { loginApi } from "../hooks/apiHooks";
+import { base_url} from "../utils/api.js"; 
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -40,7 +41,10 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      const response = await loginApi(credentials.username,credentials.password)
+      const username = credentials.username;
+      const password = credentials.password;
+
+      const response = await axios.post(`${base_url}auth/login/`,{username,password})
       if (response?.status != 202) {
         throw new Error("Invalid credentials");
       }

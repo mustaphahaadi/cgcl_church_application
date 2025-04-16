@@ -4,7 +4,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { registerApi } from "../hooks/apiHooks";
+import axios from "axios";
+import {base_url} from "../utils/api.js"
 // import { resetClipboardStubOnView } from "@testing-library/user-event/dist/cjs/utils/index.js";
 
 const Signup = () => {
@@ -56,7 +57,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const response = await registerApi(formData);
+      const response = await axios.post(`${base_url}auth/register/`,formData);
       console.log(response)
       if (response.status === 201) {
         const userData = await response.data;

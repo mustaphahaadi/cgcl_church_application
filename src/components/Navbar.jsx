@@ -3,7 +3,7 @@ import { Menu, X, ChevronDown, Church, LogOut, } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link,useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { logoutApi } from "../hooks/apiHooks";
+import { api,base_url } from "../utils/api";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -89,7 +89,7 @@ const Navbar = () => {
   const onLogout = async () => {
     try{
       const refresh_token = localStorage.getItem("refresh_token")
-      const response = await logoutApi(refresh_token)
+      const response = await api.post(`${base_url}auth/logout/`,{refresh_token})
 
       if(response?.status !== 200){
         throw new Error("unable to logout")
@@ -97,6 +97,7 @@ const Navbar = () => {
 
       logout();
       navigate("/login");
+
     }catch(error){
       console.error(error)
     }

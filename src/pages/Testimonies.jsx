@@ -2,7 +2,7 @@ import { useState,useEffect } from "react";
 import { motion } from "framer-motion";
 import healingImage from "../assets/healing.jpeg";
 import { Link } from "react-router";
-import { getTestimonies } from "../hooks/apiHooks";
+import { api, base_url } from "../utils/api";
 
 const Testimonies = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -12,7 +12,7 @@ const Testimonies = () => {
   useEffect(()=>{
     const testimonies = async () => {
       try{
-        const response = await getTestimonies();
+        const response = await api.get(`${base_url}sermons/`);
         if(response.status !== 200){
           
           throw new Error("error occuried");

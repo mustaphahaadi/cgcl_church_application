@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }) => {
 
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userData, setUserData] = useState(null);
 
   useEffect(()=>{
     const checkAuth = () => {
@@ -39,7 +38,7 @@ export const AuthProvider = ({ children }) => {
         const userStr = localStorage.getItem(USER_KEY);
         if (userStr) {
           const _userData = JSON.parse(userStr);
-          setUserData(_userData);
+          setUser(_userData);
           setIsLoggedIn(true);
         } else {
           // If no user data but tokens exist, could decode JWT here
@@ -65,7 +64,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem(USER_KEY, JSON.stringify(userdata));
     
     // Update state
-    setUserData(userdata);
+    setUser(userdata);
     setIsLoggedIn(true);
     
   };
@@ -90,8 +89,8 @@ export const AuthProvider = ({ children }) => {
     isLoggedIn,
     setIsLoggedIn,
     userData,
-    setUserData: (data) => {
-      setUserData({
+    setUser: (data) => {
+      setUser({
         ...data,
         role: data.role || "user" // Default to "user" if no role is specified
       });

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { createTestimony } from "../hooks/apiHooks";
+import { api,base_url } from "../utils/api";
 
 const ShareTestimony = () => {
   const { isLoggedIn, userData } = useAuth();
@@ -70,7 +70,7 @@ const ShareTestimony = () => {
     try {
       // // Simulate API call to submit testimony
       console.log(formData)
-      const response = await createTestimony(formData)
+      const response = await api.get(`${base_url}members/testimonies/`,formData)
 
       if(response.status === 201){  
         setPreviewImage(null);
