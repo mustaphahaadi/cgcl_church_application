@@ -20,7 +20,8 @@ const Sermons = () => {
       if (audioRef.current) {
         audioRef.current.pause();
       }
-      audioRef.current = new Audio(sermon.audioLink);
+      audioRef.current = new Audio(sermon.mp3);
+      window.open(sermon.mp3, '_blank');
       audioRef.current.play();
       setPlayingSermonId(sermon.id);
     }
