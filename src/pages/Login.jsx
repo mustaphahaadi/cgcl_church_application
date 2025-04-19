@@ -45,9 +45,6 @@ const Login = () => {
       const password = credentials.password;
 
       const response = await axios.post(`${base_url}auth/login/`,{username,password})
-      if (response?.status != 202) {
-        throw new Error("Invalid credentials");
-      }
 
       const _userData = response?.data?.user;
       const access_token = response?.data?.access;
@@ -66,8 +63,8 @@ const Login = () => {
         navigate("/dashboard");
       }
     } catch (error) {
-      console.error("Login error:", error);
-      toast.error(error.response?.data?.error || "An error occurred.");
+      // console.error("Login error:", error); for dev
+      toast.error(error.response?.data?.error || "Invalid Credentials");
     } finally {
       setIsLoading(false);
     }

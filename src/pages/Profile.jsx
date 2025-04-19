@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import {api, base_url} from "../utils/api";
+import api, { base_url} from "../utils/api";
 
 const Profile = () => {
   const { user, setUser,userData } = useAuth();

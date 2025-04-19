@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {api, base_url} from "../utils/api";
+import api, {base_url} from "../utils/api";
 
 const Contact = () => {
   const [formData, setFormData] = useState({

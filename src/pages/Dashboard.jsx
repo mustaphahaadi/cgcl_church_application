@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import {api,base_url} from "../utils/api";
+import api, {base_url} from "../utils/api";
 import { toast } from "react-toastify";
 import {
   Calendar,
@@ -126,11 +126,10 @@ const Dashboard = () => {
   
       try {
         // Fetch testimonies
-        const testimoniesResponse = await api.get(`${base_url}members/testimonies/users/${user.username}/`);
+        const testimoniesResponse = await api.get(`${base_url}members/my/testimonies/`);
         const testimonies = testimoniesResponse.data && testimoniesResponse.data.results ? 
           testimoniesResponse.data.results : 
           (Array.isArray(testimoniesResponse.data) ? testimoniesResponse.data : []);
-        
         setDashboardData(prevData => ({
           ...prevData,
           testimonies
@@ -443,7 +442,7 @@ const Dashboard = () => {
                   <div className="text-sm text-gray-900">{testimony.category}</div>
                 </td>
                 <td className="px-6 py-4">
-                  <div className="text-sm text-gray-900 max-w-xs truncate">{testimony.testimony}</div>
+                  <div className="text-sm text-gray-900 max-w-xs truncate">{testimony.content}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-500">{new Date(testimony.created_at).toLocaleDateString()}</div>

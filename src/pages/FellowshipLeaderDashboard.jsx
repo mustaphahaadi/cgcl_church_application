@@ -6,8 +6,7 @@ import {
   Edit, Trash2, Plus, X, UserPlus, Check, Clock
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import api from "../utils/api";
-import { api_endpoint } from "../hooks/apiHooks";
+import api,{ base_url } from "../utils/api";
 import { Link } from "react-router-dom";
 
 const FellowshipLeaderDashboard = () => {
@@ -59,24 +58,24 @@ const FellowshipLeaderDashboard = () => {
     setIsLoading(true);
     try {
       // Fetch fellowship details
-      const fellowshipResponse = await api.get(`${api_endpoint}fellowships/leader/`);
+      const fellowshipResponse = await api.get(`${base_url}fellowships/leader/`);
       setFellowship(fellowshipResponse.data);
       
       // Fetch fellowship members
-      const membersResponse = await api.get(`${api_endpoint}fellowships/${fellowshipResponse.data.id}/members/`);
+      const membersResponse = await api.get(`${base_url}fellowships/${fellowshipResponse.data.id}/members/`);
       setMembers(membersResponse.data);
       setFilteredMembers(membersResponse.data);
       
       // Fetch fellowship events
-      const eventsResponse = await api.get(`${api_endpoint}fellowships/${fellowshipResponse.data.id}/events/`);
+      const eventsResponse = await api.get(`${base_url}fellowships/${fellowshipResponse.data.id}/events/`);
       setEvents(eventsResponse.data);
       
       // Fetch fellowship prayer requests
-      const prayerResponse = await api.get(`${api_endpoint}fellowships/${fellowshipResponse.data.id}/prayer-requests/`);
+      const prayerResponse = await api.get(`${base_url}fellowships/${fellowshipResponse.data.id}/prayer-requests/`);
       setPrayerRequests(prayerResponse.data);
       
       // Fetch fellowship testimonies
-      const testimoniesResponse = await api.get(`${api_endpoint}fellowships/${fellowshipResponse.data.id}/testimonies/`);
+      const testimoniesResponse = await api.get(`${base_url}fellowships/${fellowshipResponse.data.id}/testimonies/`);
       setTestimonies(testimoniesResponse.data);
     } catch (error) {
       console.error("Error fetching fellowship data:", error);
@@ -94,7 +93,7 @@ const FellowshipLeaderDashboard = () => {
   const handleCreateEvent = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post(`${api_endpoint}fellowships/${fellowship.id}/events/`, {
+      const response = await api.post(`${base_url}fellowships/${fellowship.id}/events/`, {
         ...newEvent,
         fellowship: fellowship.id
       });
@@ -124,7 +123,7 @@ const FellowshipLeaderDashboard = () => {
     }
     
     try {
-      await api.delete(`${api_endpoint}fellowships/${fellowship.id}/events/${eventId}/`);
+      await api.delete(`${base_url}fellowships/${fellowship.id}/events/${eventId}/`);
       setEvents(events.filter(event => event.id !== eventId));
       toast.success("Event deleted successfully");
     } catch (error) {
@@ -136,7 +135,7 @@ const FellowshipLeaderDashboard = () => {
   const handleAttendanceClick = async (event) => {
     setSelectedEvent(event);
     try {
-      const response = await api.get(`${api_endpoint}fellowships/${fellowship.id}/events/${event.id}/attendance/`);
+      const response = await api.get(`${base_url}fellowships/${fellowship.id}/events/${event.id}/attendance/`);
       setAttendance(response.data);
       setAttendanceModalOpen(true);
     } catch (error) {
@@ -147,7 +146,7 @@ const FellowshipLeaderDashboard = () => {
 
   const markAttendance = async (memberId, isPresent) => {
     try {
-      await api.post(`${api_endpoint}fellowships/${fellowship.id}/events/${selectedEvent.id}/attendance/`, {
+      await api.post(`${base_url}fellowships/${fellowship.id}/events/${selectedEvent.id}/attendance/`, {
         member: memberId,
         is_present: isPresent
       });

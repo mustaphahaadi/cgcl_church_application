@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { api,base_url } from "../utils/api";
+import api ,{ base_url } from "../utils/api";
 
 const ShareTestimony = () => {
-  const { isLoggedIn, userData } = useAuth();
+  const { isLoggedIn, user } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -27,6 +27,7 @@ const ShareTestimony = () => {
     { id: "provision", label: "Divine Provision" },
     { id: "deliverance", label: "Deliverance" },
     { id: "breakthrough", label: "Breakthrough" },
+    { id: "other", label: "other" },
   ];
 
   const handleInputChange = (e) => {
@@ -48,19 +49,19 @@ const ShareTestimony = () => {
     }
   };
 
-  // Update name when userData data is available
+  // Update name when user data is available
   useEffect(() => {
-    if (userData) {
-      const displayName = userData.firstName && userData.lastName
-        ? `${userData.firstName} ${userData.lastName}`
-        : userData.username || "";
+    if (user) {
+      const displayName = user.firstName && user.lastName
+        ? `${user.firstName} ${user.lastName}`
+        : user.username || "";
       
       setFormData(prev => ({
         ...prev,
         name: displayName
       }));
     }
-  }, [userData]);
+  }, [user]);
 
   
   const handleSubmit = async (e) => {
@@ -69,9 +70,7 @@ const ShareTestimony = () => {
 
     try {
       // // Simulate API call to submit testimony
-      console.log(formData)
-      const response = await api.get(`${base_url}members/testimonies/`,formData)
-
+      const response = await api.post(`${base_url}members/testimonies/`,formData)
       if(response.status === 201){  
         setPreviewImage(null);
         // alert("Testimony submitted successfully!");

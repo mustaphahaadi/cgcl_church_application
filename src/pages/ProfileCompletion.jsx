@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import { Upload } from "lucide-react";
-import { api, base_url } from "../utils/api";
+import api, { base_url } from "../utils/api";
 
 const ProfileCompletion = () => {
   const navigate = useNavigate();

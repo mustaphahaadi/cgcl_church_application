@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
 
         if (!accessToken || !refreshToken) {
           setIsLoggedIn(false);
-          setUserData(null);
+          setUser(null);
           return;
         }
 
@@ -85,16 +85,14 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     user,
-    setUser,
-    isLoggedIn,
-    setIsLoggedIn,
-    userData,
     setUser: (data) => {
       setUser({
         ...data,
         role: data.role || "user" // Default to "user" if no role is specified
       });
     },
+    isLoggedIn,
+    setIsLoggedIn,
     login,
     logout,
   };

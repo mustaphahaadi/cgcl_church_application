@@ -1,5 +1,5 @@
 import axios from "axios"; // Importing Axios for handling HTTP requests
-import { api_endpoint } from "../hooks/apiHooks"; // Importing the base API endpoint from custom hooks
+// import { api_endpoint } from "../hooks/apiHooks"; // Importing the base API endpoint from custom hooks
 import {useAuth} from "./../context/AuthContext";
 
 let refresh = false; // A boolean flag to prevent simultaneous refresh attempts
@@ -8,7 +8,7 @@ export const base_url =  "http://127.0.0.1:8000/api/" // "https://clgcchurch-bac
 
 // Create an Axios instance with a predefined base URL
 const api = axios.create({
-    baseURL: 'https://clgcchurch-backend-production.up.railway.app/api', // Backend API base URL (update as needed)
+    baseURL: base_url //'https://clgcchurch-backend-production.up.railway.app/api', // Backend API base URL (update as needed)
 });
 
 /*
@@ -44,7 +44,7 @@ api.interceptors.response.use(
 
       try {
         const response = await axios.post(
-          `${api_endpoint}auth/refresh/`, // The endpoint for refreshing tokens
+          `${base_url}auth/refresh/`, // The endpoint for refreshing tokens
           {
             refresh: localStorage.getItem("refresh_token"), // Use the refresh token stored in localStorage
           },

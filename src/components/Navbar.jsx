@@ -3,7 +3,7 @@ import { Menu, X, ChevronDown, Church, LogOut, } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link,useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { api,base_url } from "../utils/api";
+import api, {base_url } from "../utils/api";
 
 const Navbar = () => {
   const navigate = useNavigate();
