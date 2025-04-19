@@ -48,6 +48,7 @@ function App() {
         api
           .post(`${base_url}auth/refresh/`, { refresh: refreshToken })
           .then((res) => {
+            console.log(res)
             const newToken = res.data.access;
             const newrefreshToken = res.data.refresh;
             localStorage.setItem("access_token", newToken);

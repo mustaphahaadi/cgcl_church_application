@@ -77,17 +77,14 @@ const Contact = () => {
     setStatusMessage({ type: "info", text: "Sending your message..." });
 
     try {
-      const response = await api.post(`${base_url}api/contacts/`,JSON.stringify(formData));
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to send message");
-      }
-
+      const response = await api.post(`${base_url}members/contacts/`,formData);
+      console.log(response)
+      
       setStatusMessage({
         type: "success",
         text: "Thank you for contacting us! We’ll respond soon.",
       });
+
       setFormData({
         name: "",
         email: "",
@@ -98,6 +95,7 @@ const Contact = () => {
       setEmailError("");
       setTimeout(() => setStatusMessage(null), 5000); // Auto-dismiss success after 5s
     } catch (error) {
+      console.error(error)
       setStatusMessage({
         type: "error",
         text: error.message || "Something went wrong. Please try again.",

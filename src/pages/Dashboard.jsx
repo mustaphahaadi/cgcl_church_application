@@ -107,7 +107,7 @@ const Dashboard = () => {
   
       try {
         // Fetch prayer requests
-        const prayerResponse = await api.get(`${base_url}prayer-requests/user/`);
+        const prayerResponse = await api.get(`${base_url}prayer_requests/my/`);
         const prayerRequests = prayerResponse.data && prayerResponse.data.results ? 
           prayerResponse.data.results : 
           (Array.isArray(prayerResponse.data) ? prayerResponse.data : []);

@@ -89,7 +89,7 @@ const Navbar = () => {
   const onLogout = async () => {
     try{
       const refresh_token = localStorage.getItem("refresh_token")
-      const response = await api.post(`${base_url}auth/logout/`,{refresh_token})
+      const response = await api.post(`${base_url}auth/logout/`,{refresh:refresh_token})
 
       if(response?.status !== 200){
         throw new Error("unable to logout")
