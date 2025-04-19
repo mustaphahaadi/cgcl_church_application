@@ -2,6 +2,7 @@ import { useState, useRef,useEffect } from "react";
 import { motion } from "framer-motion";
 import healingImage from "../assets/healing.jpeg";
 import { getAllSermons } from "../hooks/apiHooks";
+import api, {base_url} from "../utils/api";
 
 const Sermons = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,7 +20,8 @@ const Sermons = () => {
       if (audioRef.current) {
         audioRef.current.pause();
       }
-      audioRef.current = new Audio(sermon.audioLink);
+      audioRef.current = new Audio(sermon.mp3);
+      window.open(sermon.mp3, '_blank');
       audioRef.current.play();
       setPlayingSermonId(sermon.id);
     }
@@ -46,52 +48,22 @@ const Sermons = () => {
       scripture: "Hebrews 11:1-6",
       tags: ["faith", "transformation", "spiritual growth"],
     },
-    {
-      id: 2,
-      title: "Walking in Divine Grace",
-      date: "October 1, 2024",
-      speaker: "Pastor Kwame Akwasi",
-      series: "Grace Series",
-      description: "Understanding and living in God's amazing grace daily.",
-      audioLink: "https://example.com/sermon2",
-      videoLink: "https://example.com/sermon2-video",
-      thumbnail: healingImage,
-      duration: "52:15",
-      views: 980,
-      scripture: "Ephesians 2:8-9",
-      tags: ["grace", "salvation", "christian living"],
-    },
-    {
-      id: 3,
-      title: "Kingdom Prosperity Principles",
-      date: "January 24, 2025",
-      speaker: "Rev. Kofi Mensah",
-      series: "Prosperity Series",
-      description: "Biblical principles for prosperity and stewardship.",
-      audioLink: "https://example.com/sermon3",
-      videoLink: "https://example.com/sermon3-video",
-      thumbnail: healingImage,
-      duration: "48:20",
-      views: 1100,
-      scripture: "3 John 1:2",
-      tags: ["prosperity", "stewardship", "finance"],
-    },
   ];
 
-  // const filteredSermons = sermons.filter((sermon) => {
-  //   const matchesSearch =
-  //     sermon.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     sermon.description.toLowerCase().includes(searchTerm.toLowerCase());
-  //   const matchesSeries =
-  //     selectedSeries === "all" || sermon.series === selectedSeries;
-  //   const matchesSpeaker =
-  //     selectedSpeaker === "all" || sermon.speaker === selectedSpeaker;
-  //   return matchesSearch && matchesSeries && matchesSpeaker;
-  // });
+  const filteredSermons = sermons.filter((sermon) => {
+    const matchesSearch =
+      sermon.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      sermon.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSeries =
+      selectedSeries === "all" || sermon.series === selectedSeries;
+    const matchesSpeaker =
+      selectedSpeaker === "all" || sermon.speaker === selectedSpeaker;
+    return matchesSearch && matchesSeries && matchesSpeaker;
+  });
   useEffect(()=>{
       const sermon = async () => {
         try{
-          const response = await getAllSermons();
+          const response = await api.get(`${base_url}sermons/`);
           if(response.status !== 200){
             
             throw new Error("error occuried");
@@ -156,7 +128,7 @@ const Sermons = () => {
       {/* Sermons Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {sermons.map((sermon) => (
+          {filteredSermons.map((sermon) => (
             <motion.div
               key={sermon.id}
               initial={{ opacity: 0, y: 20 }}

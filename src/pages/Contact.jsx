@@ -1,4 +1,5 @@
 import { useState } from "react";
+import api, {base_url} from "../utils/api";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -76,11 +77,7 @@ const Contact = () => {
     setStatusMessage({ type: "info", text: "Sending your message..." });
 
     try {
-      const response = await fetch("http://localhost:8000/api/contacts/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await api.post(`${base_url}api/contacts/`,JSON.stringify(formData));
 
       if (!response.ok) {
         const errorData = await response.json();

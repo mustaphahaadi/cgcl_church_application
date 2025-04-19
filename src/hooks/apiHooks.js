@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const api_endpoint = "https://clgcchurch-backend-production.up.railway.app/api/";
+export const base_url =  "http://127.0.0.1:8000/api/" // "https://clgcchurch-backend-production.up.railway.app/api/";
 const ACCESS_TOKEN = localStorage.getItem("access_token") == null ? "":localStorage.getItem("access_token")
 
 const header = {
@@ -72,7 +72,6 @@ export const getTestimonies = () => {
 }
 
 export const createTestimony = (data) =>{
-
   const api = axios.post(
     `${api_endpoint}members/testimonies/`,data,
     {
@@ -88,3 +87,5 @@ export const getAllSermons = () => {
   const api = axios.get(`${api_endpoint}sermons/`)
   return api
 }
+
+

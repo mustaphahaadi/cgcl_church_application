@@ -3,7 +3,7 @@ import { Menu, X, ChevronDown, Church, LogOut, } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link,useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { logoutApi } from "../hooks/apiHooks";
+import api, {base_url } from "../utils/api";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -89,7 +89,7 @@ const Navbar = () => {
   const onLogout = async () => {
     try{
       const refresh_token = localStorage.getItem("refresh_token")
-      const response = await logoutApi(refresh_token)
+      const response = await api.post(`${base_url}auth/logout/`,{refresh_token})
 
       if(response?.status !== 200){
         throw new Error("unable to logout")
@@ -97,6 +97,7 @@ const Navbar = () => {
 
       logout();
       navigate("/login");
+
     }catch(error){
       console.error(error)
     }
@@ -444,7 +445,21 @@ const Navbar = () => {
               </div>
               :
               <div className="flex space-x-2 pt-4 border-t border-gray-200">
-                {/* ... existing mobile login/signup buttons ... */}
+                <div className="flex space-x-2">
+                <Link
+                  to="/login"
+                  className="text-gray-900 hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 hover:bg-gray-200 flex items-center"
+                >
+                  <LogOut className="h-4 w-4 mr-1" />
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300"
+                >
+                  Sign Up
+                </Link>
+              </div>
               </div>
               }
             </div>

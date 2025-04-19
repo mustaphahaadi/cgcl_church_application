@@ -30,12 +30,14 @@ import Login from "./pages/Login";
 import { BrowserRouter as Router } from "react-router-dom";
 import LiveStream from "./pages/LiveStream";
 import PrayerRequests from "./pages/PrayerRequests"; // Add this import
-import api from "./utils/api";
+import api,{base_url} from "./utils/api";
 import { useEffect } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { api_endpoint } from "./hooks/apiHooks";
 import ProfileCompletion from "./pages/ProfileCompletion";
-
+import MediaDashboard from "./pages/MediaDashboard";
+import RoleBasedRoute from "./components/RoleBasedRoute";
+import SuperAdminDashboard from "./pages/SuperAdminDashboard"
+import FellowshipLeaderDashboard from "./pages/FellowshipLeaderDashboard";
 
 function App() {
   useEffect(() => {
@@ -44,7 +46,7 @@ function App() {
       const refreshToken = localStorage.getItem("refresh_token");
       if (refreshToken) {
         api
-          .post(`${api_endpoint}auth/refresh/`, { refresh: refreshToken })
+          .post(`${base_url}auth/refresh/`, { refresh: refreshToken })
           .then((res) => {
             const newToken = res.data.access;
             const newrefreshToken = res.data.refresh;
@@ -57,7 +59,7 @@ function App() {
             // navigator("/login");
           });
       }
-    }, 9 * 60 * 1000); // Refresh every 9 minutes
+    }, 1 * 60 * 1000); // Refresh every 9 minutes
     return () => clearInterval(interval);
   }, []);
 
@@ -71,7 +73,12 @@ function App() {
           <Routes>
             <Route path="/TestimonyShare" element={<TestimonyShare />} />
             <Route path="/Testimonies" element={<Testimonies />} />
-            <Route
+            <Route path="/super-admin" element={
+                <RoleBasedRoute allowedRoles={["admin"]}>
+                  <SuperAdminDashboard />
+                </RoleBasedRoute>
+              } />
+              <Route
               path="/Dashboard"
               element={
                 <ProtectedRoute>
@@ -116,6 +123,16 @@ function App() {
             <Route path="/live-stream" element={<LiveStream />} />
             <Route path="/prayer-requests" element={<PrayerRequests />} />
 {/*             <Route path="/system-logs" element={<SystemLogs />} /> */}
+            <Route path="/media-dashboard" element={
+              <RoleBasedRoute allowedRoles={["admin", "media"]}>
+                <MediaDashboard />
+              </RoleBasedRoute>
+            } />
+            <Route path="/fellowship-leader" element={
+              <RoleBasedRoute allowedRoles={["admin", "fellowship_leader"]}>
+                <FellowshipLeaderDashboard />
+              </RoleBasedRoute>
+            } />
           </Routes>
         </main>
         <Footer />
