@@ -4,15 +4,15 @@ import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import { Upload } from "lucide-react";
-import { createProfile } from "../hooks/apiHooks";
+import api, { base_url } from "../utils/api";
 
 const ProfileCompletion = () => {
   const navigate = useNavigate();
-  const { userData, setUserData } = useAuth();
+  const { user, setUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(
-    userData?.gender === "female"
+    user?.gender === "female"
       ? "/default-female-avatar.svg"
       : "/default-male-avatar.svg"
   );
@@ -28,10 +28,10 @@ const ProfileCompletion = () => {
   });
 
   useEffect(() => {
-    if (!userData) {
+    if (!user) {
       navigate("/login");
     }
-  }, [userData, navigate]);
+  }, [user, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,8 +70,8 @@ const ProfileCompletion = () => {
       const response = await createProfile()
       console.log(response)
       if (response.ok) {
-        const updatedUserData = await response.json();
-        setUserData(updatedUserData);
+        const updateduser = await response.json();
+        setUser(updateduser);
         toast.success("Profile completed successfully!");
         navigate("/dashboard");
       } else {

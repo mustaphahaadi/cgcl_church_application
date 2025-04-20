@@ -5,8 +5,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
-import api from "../utils/api";
-import { api_endpoint } from "../hooks/apiHooks";
+import api,{ base_url } from "../utils/api";
 import { Link } from "react-router-dom";
 
 const SuperAdminDashboard = () => {
@@ -58,11 +57,11 @@ const [systemLogs, setSystemLogs] = useState([]);
     setIsLoading(true);
     try {
       // Fetch dashboard statistics
-      const statsResponse = await api.get(`${api_endpoint}admin/stats/`);
+      const statsResponse = await api.get(`${base_url}admin/stats/`);
       setStats(statsResponse.data);
       
       // Fetch users
-      const usersResponse = await api.get(`${api_endpoint}admin/users/`);
+      const usersResponse = await api.get(`${base_url}admin/users/`);
       setUsers(usersResponse.data);
       setFilteredUsers(usersResponse.data);
     } catch (error) {
@@ -76,26 +75,26 @@ const [systemLogs, setSystemLogs] = useState([]);
   const fetchAdditionalData = async () => {
     try {
       // Fetch fellowships
-      const fellowshipsResponse = await api.get(`${api_endpoint}fellowships/`);
+      const fellowshipsResponse = await api.get(`${base_url}fellowships/`);
       setFellowships(fellowshipsResponse.data.results || fellowshipsResponse.data);
       
       // Fetch events
-      const eventsResponse = await api.get(`${api_endpoint}events/`);
+      const eventsResponse = await api.get(`${base_url}events/`);
       setEvents(eventsResponse.data.results || eventsResponse.data);
       
       // Fetch sermons
-      const sermonsResponse = await api.get(`${api_endpoint}sermons/`);
+      const sermonsResponse = await api.get(`${base_url}sermons/`);
       setSermons(sermonsResponse.data.results || sermonsResponse.data);
       
       // Fetch prayer requests
-      const prayerResponse = await api.get(`${api_endpoint}prayer-requests/`);
+      const prayerResponse = await api.get(`${base_url}prayer-requests/`);
       setPrayerRequests(prayerResponse.data.results || prayerResponse.data);
          // Fetch testimonies
-    const testimoniesResponse = await api.get(`${api_endpoint}testimonies/`);
+    const testimoniesResponse = await api.get(`${base_url}testimonies/`);
     setTestimonies(testimoniesResponse.data.results || testimoniesResponse.data);
     
     // Fetch system logs
-    const logsResponse = await api.get(`${api_endpoint}admin/logs/`);
+    const logsResponse = await api.get(`${base_url}admin/logs/`);
     setSystemLogs(logsResponse.data.results || logsResponse.data);
   } catch (error) {
     console.error("Error fetching additional data:", error);
@@ -115,7 +114,7 @@ const [systemLogs, setSystemLogs] = useState([]);
 
   const updateUserRole = async () => {
     try {
-      await api.put(`${api_endpoint}admin/users/${selectedUser.id}/role/`, {
+      await api.put(`${base_url}admin/users/${selectedUser.id}/role/`, {
         role: selectedRole
       });
       
@@ -140,7 +139,7 @@ const [systemLogs, setSystemLogs] = useState([]);
     }
     
     try {
-      await api.delete(`${api_endpoint}admin/users/${userId}/`);
+      await api.delete(`${base_url}admin/users/${userId}/`);
       
       // Update local state
       const updatedUsers = users.filter(user => user.id !== userId);

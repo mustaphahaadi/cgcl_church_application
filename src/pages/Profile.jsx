@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
-import { getProfileApi } from "../hooks/apiHooks";
+import api, { base_url} from "../utils/api";
 
 const Profile = () => {
   const { user, setUser,userData } = useAuth();
@@ -35,8 +35,8 @@ const Profile = () => {
     e.preventDefault();
     try {
       // Simulate API call to update user data
-      // await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      const response = await api.patch(`${base_url}profiles/`,{formData});
+
       setUser(prev => ({
         ...prev,
         ...formData
@@ -54,7 +54,7 @@ const Profile = () => {
   useEffect(() => {
     const handleOnload = async () => {
       try {
-        const response = await getProfileApi();
+        const response = await api.get(`${base_url}profiles/`);
         if (response?.status !== 200) {
           throw new Error("Profile Error");
         }

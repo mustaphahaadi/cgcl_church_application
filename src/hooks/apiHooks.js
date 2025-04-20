@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const api_endpoint = "https://clgcchurch-backend-production.up.railway.app/api/";
+export const base_url =  "http://127.0.0.1:8000/api/" // "https://clgcchurch-backend-production.up.railway.app/api/";
 const ACCESS_TOKEN = localStorage.getItem("access_token") == null ? "":localStorage.getItem("access_token")
 
 const header = {

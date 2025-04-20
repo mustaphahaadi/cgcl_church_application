@@ -12,26 +12,13 @@ export default defineConfig({
   },
   server: {
     allowedHosts: [
-      // "cgclchurchapplication-production.up.railway.app",
-      "cgclchurchapplication-production-0aa2.up.railway.app",
+      "cgclchurchapplication-production.up.railway.app",
     ],
     host: true,
     port: 5173,
     hmr: {
       clientPort: 5173,
       host: "localhost",
-    },
-  },
-  proxy: {
-    "/api": {
-      target: "http://localhost:8000",
-      changeOrigin: true,
-      secure: false,
-      rewrite: (path) => path.replace(/^\/api/, "/"),
-      headers: {
-        "Access-Control-Allow-Origin": "http://localhost:5173",
-        "Access-Control-Allow-Credentials": "true",
-      },
     },
   },
 });

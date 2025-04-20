@@ -3,8 +3,7 @@ import { toast } from "react-toastify";
 import { Upload, Video, Mic, X, Check, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
-import api from "../utils/api";
-import { api_endpoint } from "../hooks/apiHooks";
+import api, { base_url } from "../utils/api";
 
 const MediaDashboard = () => {
   const { userData } = useAuth();
@@ -29,7 +28,7 @@ const MediaDashboard = () => {
 
   const fetchSermons = async () => {
     try {
-      const response = await api.get(`${api_endpoint}sermons/`);
+      const response = await api.get(`${base_url}sermons/`);
       setSermons(response.data);
     } catch (error) {
       console.error("Error fetching sermons:", error);
@@ -107,7 +106,7 @@ const MediaDashboard = () => {
         data.append("file", formData.file);
       }
 
-      const response = await api.post(`${api_endpoint}sermons/upload/`, data, {
+      const response = await api.post(`${base_url}sermons/upload/`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import api from "../utils/api";
-import { api_endpoint } from "../hooks/apiHooks";
+import api, {base_url} from "../utils/api";
 import { toast } from "react-toastify";
 import {
   Calendar,
@@ -20,7 +19,7 @@ import {
 } from "lucide-react";
 
 const Dashboard = () => {
-  const { userData } = useAuth();
+  const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [dashboardData, setDashboardData] = useState({
     upcomingEvents: [],
@@ -45,7 +44,7 @@ const Dashboard = () => {
       // Add try/catch for each API call to prevent one failure from stopping everything
       try {
         // Fetch upcoming events
-        const eventsResponse = await api.get(`${api_endpoint}events/`);
+        const eventsResponse = await api.get(`${base_url}events/`);
         const events = eventsResponse.data && eventsResponse.data.results ? 
           eventsResponse.data.results : 
           (Array.isArray(eventsResponse.data) ? eventsResponse.data : []);
@@ -70,7 +69,7 @@ const Dashboard = () => {
   
       try {
         // Fetch recent sermons
-        const sermonsResponse = await api.get(`${api_endpoint}sermons/`);
+        const sermonsResponse = await api.get(`${base_url}sermons/`);
         const sermons = sermonsResponse.data && sermonsResponse.data.results ? 
           sermonsResponse.data.results : 
           (Array.isArray(sermonsResponse.data) ? sermonsResponse.data : []);
@@ -90,7 +89,7 @@ const Dashboard = () => {
   
       try {
         // Fetch user's fellowship info if they belong to one
-        const fellowshipResponse = await api.get(`${api_endpoint}fellowships/member/`);
+        const fellowshipResponse = await api.get(`${base_url}fellowships/`);
         const fellowshipInfo = fellowshipResponse.data;
         
         setDashboardData(prevData => ({
@@ -107,7 +106,7 @@ const Dashboard = () => {
   
       try {
         // Fetch prayer requests
-        const prayerResponse = await api.get(`${api_endpoint}prayer-requests/user/`);
+        const prayerResponse = await api.get(`${base_url}prayer-requests/user/`);
         const prayerRequests = prayerResponse.data && prayerResponse.data.results ? 
           prayerResponse.data.results : 
           (Array.isArray(prayerResponse.data) ? prayerResponse.data : []);
@@ -126,11 +125,10 @@ const Dashboard = () => {
   
       try {
         // Fetch testimonies
-        const testimoniesResponse = await api.get(`${api_endpoint}testimonies/user/`);
+        const testimoniesResponse = await api.get(`${base_url}members/my/testimonies/`);
         const testimonies = testimoniesResponse.data && testimoniesResponse.data.results ? 
           testimoniesResponse.data.results : 
           (Array.isArray(testimoniesResponse.data) ? testimoniesResponse.data : []);
-        
         setDashboardData(prevData => ({
           ...prevData,
           testimonies
@@ -145,7 +143,7 @@ const Dashboard = () => {
   
       try {
         // Fetch announcements
-        const announcementsResponse = await api.get(`${api_endpoint}announcements/`);
+        const announcementsResponse = await api.get(`${base_url}announcements/`);
         const announcements = announcementsResponse.data && announcementsResponse.data.results ? 
           announcementsResponse.data.results : 
           (Array.isArray(announcementsResponse.data) ? announcementsResponse.data : []);
@@ -173,7 +171,7 @@ const Dashboard = () => {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {/* Welcome Card */}
       <div className="bg-gradient-to-r from-indigo-600 to-blue-500 rounded-lg shadow-md p-6 text-white col-span-full">
-        <h2 className="text-2xl font-bold mb-2">Welcome, {userData?.first_name || userData?.username}!</h2>
+        <h2 className="text-2xl font-bold mb-2">Welcome, {user?.first_name || user?.username}!</h2>
         <p className="opacity-90">
           Stay connected with your church community and keep track of all activities.
         </p>
@@ -265,7 +263,7 @@ const Dashboard = () => {
               <li key={sermon.id} className="border-b border-gray-100 pb-3 last:border-0 last:pb-0">
                 <p className="font-medium text-gray-900">{sermon.title}</p>
                 <p className="text-sm text-gray-500">
-                  By: {sermon.preacher} | {new Date(sermon.date).toLocaleDateString()}
+                  By: {sermon.speaker.username} | {new Date(sermon.created_at).toLocaleDateString()}
                 </p>
                 <div className="flex space-x-2 mt-1">
                   {sermon.video_url && (
@@ -443,7 +441,7 @@ const Dashboard = () => {
                   <div className="text-sm text-gray-900">{testimony.category}</div>
                 </td>
                 <td className="px-6 py-4">
-                  <div className="text-sm text-gray-900 max-w-xs truncate">{testimony.testimony}</div>
+                  <div className="text-sm text-gray-900 max-w-xs truncate">{testimony.content}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-500">{new Date(testimony.created_at).toLocaleDateString()}</div>

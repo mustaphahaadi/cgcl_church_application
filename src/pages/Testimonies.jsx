@@ -2,7 +2,7 @@ import { useState,useEffect } from "react";
 import { motion } from "framer-motion";
 import healingImage from "../assets/healing.jpeg";
 import { Link } from "react-router";
-import { getTestimonies } from "../hooks/apiHooks";
+import api, { base_url } from "../utils/api";
 
 const Testimonies = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -12,34 +12,19 @@ const Testimonies = () => {
   useEffect(()=>{
     const testimonies = async () => {
       try{
-        const response = await getTestimonies();
+        const response = await api.get(`${base_url}members/testimonies/`);
         if(response.status !== 200){
           
           throw new Error("error occuried");
         }
         setTestimonies((prev)=> response.data.results)
-        console.log(response)
+        
       }catch(error){
         console.log(error)
       }
     }
     testimonies()
   },[])
-  const _testimonies = [
-    {
-      id: 1,
-      name: "Kwame Mensah",
-      title: "Divine Healing Testimony",
-      category: "healing",
-      date: "March 15, 2024",
-      content:
-        "I had been struggling with chronic illness for years. After receiving prayer and standing on God's word, I experienced complete healing.",
-      image: healingImage,
-      verified: true,
-      likes: 124,
-      videoUrl: "https://example.com/video1",
-    },
-  ];
   const categories = [
     { id: "all", label: "All Testimonies" },
     { id: "healing", label: "Healing" },
@@ -50,12 +35,12 @@ const Testimonies = () => {
   ];
 
   // Filter testimonies based on category and search
-  // const filteredTestimonies = testimonies.filter((testimony) => {
-  //   const matchesCategory =
-  //     selectedCategory === "all" || testimony.category === selectedCategory;
-  //   const matchesSearch = testimony.testimony.toLowerCase().includes(searchQuery.toLowerCase());
-  //   return matchesCategory && matchesSearch;
-  // });
+  const filteredTestimonies = testimonies.filter((testimony) => {
+    const matchesCategory =
+      selectedCategory === "all" || testimony.category === selectedCategory;
+    const matchesSearch = testimony.content.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -117,7 +102,7 @@ const Testimonies = () => {
 
         {/* Testimonies Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {testimonies.map((testimony) => (
+          {filteredTestimonies.map((testimony) => (
             <motion.div
               key={testimony.id}
               initial={{ opacity: 0, y: 20 }}
