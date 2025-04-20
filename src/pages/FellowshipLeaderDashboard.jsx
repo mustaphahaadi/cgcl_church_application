@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { 
   Users, Calendar, MessageSquare, FileText, 
-  ChevronDown, ChevronUp, Search, RefreshCw,
-  Edit, Trash2, Plus, X, UserPlus, Check, Clock
+ Search, RefreshCw, Plus, X, Check,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import api from "../utils/api";

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import api from "../utils/api";
@@ -10,7 +10,6 @@ import {
   MessageSquare,
   FileText,
   Bell,
-  Heart,
   Clock,
   ChevronRight,
   Video,
@@ -98,7 +97,7 @@ const Dashboard = () => {
           ...prevData,
           fellowshipInfo
         }));
-      } catch (error) {
+      } catch (_) {
         console.log("User not part of a fellowship yet");
         setDashboardData(prevData => ({
           ...prevData,
@@ -210,7 +209,7 @@ const Dashboard = () => {
           </>
         ) : (
           <div className="text-center py-4">
-            <p className="text-gray-500 mb-4">You're not part of any fellowship yet.</p>
+            <p className="text-gray-500 mb-4">{"You're"} not part of any fellowship yet.</p>
             <Link
               to="/fellowships"
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -399,7 +398,7 @@ const Dashboard = () => {
             {dashboardData.prayerRequests.length === 0 && (
               <tr>
                 <td colSpan="3" className="px-6 py-4 text-center text-gray-500">
-                  You haven't submitted any prayer requests yet
+                  You {"haven't"} submitted any prayer requests yet
                 </td>
               </tr>
             )}
@@ -454,7 +453,7 @@ const Dashboard = () => {
             {dashboardData.testimonies.length === 0 && (
               <tr>
                 <td colSpan="3" className="px-6 py-4 text-center text-gray-500">
-                  You haven't shared any testimonies yet
+                  You {"haven't"} shared any testimonies yet
                 </td>
               </tr>
             )}

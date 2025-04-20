@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { 
-  Users, FileText, Video, MessageSquare, Calendar, Settings, 
-  User, UserPlus, ChevronDown, ChevronUp, Search, RefreshCw,
-  Edit, Trash2, Shield, UserCheck, Church, Plus, X
+  Users, FileText, Video, MessageSquare, Calendar, Settings, UserPlus, Search, RefreshCw, Shield, Church, Plus, X
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
