@@ -63,15 +63,11 @@ const Signup = () => {
         const userData = await response.data;
         // Store all user data in context
         setUser(userData);
-        setUserData({
-          ...userData,
-          fullName: `${userData.first_name} ${userData.last_name}`,
-          telephone: `${formData.country_code}${formData.telephone}`,
-        });
+        
         setIsLoggedIn(true);
 
         // Store in localStorage for persistence
-        localStorage.setItem("userData", JSON.stringify(userData));
+        localStorage.setItem("user", JSON.stringify(userData));
         
 
         toast.success("Signup successful!");

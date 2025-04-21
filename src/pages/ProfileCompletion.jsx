@@ -18,13 +18,19 @@ const ProfileCompletion = () => {
   );
 
   const [formData, setFormData] = useState({
-    visitDate: new Date().toISOString().split("T")[0],
-    dateOfBirth: "",
-    houseAddress: "",
-    digitalAddress: "",
+    visit_date: new Date().toISOString().split("T")[0],
+    martial_status: "",
+    date_of_birth: "",
+    house_address: "",
+    digital_address: "",
+    martial_status: "",
+    profile_image: "",
+    fellowship:"",
+    born_again: "",
     occupation: "",
-    fellowship: "",
-    churchInformation: "",
+    church_information: "",
+    fellowship: ""
+
   });
 
   useEffect(() => {
@@ -67,17 +73,18 @@ const ProfileCompletion = () => {
         formDataToSend.append("profileImage", profileImage);
       }
       
-      const response = await createProfile()
+      const response = await api.post(`${base_url}profiles/`,{formData})
       console.log(response)
-      if (response.ok) {
-        const updateduser = await response.json();
-        setUser(updateduser);
+      if (response.status === 201) {
+        const updateduser = await response.data;
+        // setUser(updateduser);
         toast.success("Profile completed successfully!");
         navigate("/dashboard");
       } else {
         throw new Error("Failed to complete profile");
       }
     } catch (error) {
+      console.error(error)
       toast.error(error.message || "An error occurred while completing profile");
     } finally {
       setIsLoading(false);
