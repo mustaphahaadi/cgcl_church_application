@@ -60,7 +60,7 @@ function App() {
             // navigator("/login");
           });
       }
-    }, 1 * 60 * 1000); // Refresh every 9 minutes
+    }, 1 * 60 * 1000); // request Refresh every 5 minutes
     return () => clearInterval(interval);
   }, []);
 

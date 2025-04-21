@@ -64,10 +64,10 @@ const Signup = () => {
         // Store all user data in context
         setUser(userData);
         
-        setIsLoggedIn(true);
+        // setIsLoggedIn(true);
 
         // Store in localStorage for persistence
-        localStorage.setItem("user", JSON.stringify(userData));
+        // localStorage.setItem("user", JSON.stringify(userData));
         
 
         toast.success("Signup successful!");

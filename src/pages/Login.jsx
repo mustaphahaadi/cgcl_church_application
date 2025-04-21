@@ -10,12 +10,14 @@ import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
+  const { user,isLoggedIn } = useAuth();
   
   // Redirect if already logged in
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && user.profileComplete) {
       navigate("/dashboard");
+    }else if(isLoggedIn && !user.profileComplete){
+      navigate("/complete-profile");
     }
   }, [isLoggedIn, navigate]);
   
@@ -56,6 +58,7 @@ const Login = () => {
       
       // Check if profile is complete
       if (!_userData.profileComplete) {
+        console.log(_userData)
         toast.info("Please complete your profile");
         navigate("/complete-profile");
       } else {

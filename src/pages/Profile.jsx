@@ -5,19 +5,19 @@ import { toast } from "react-toastify";
 import api, { base_url} from "../utils/api";
 
 const Profile = () => {
-  const { user, setUser,userData } = useAuth();
+  const { user, setUser } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    first_name: userData?.first_name || "",
-    middle_name: userData?.middle_name || "",
-    last_name: userData?.last_name || "",
+    first_name: user?.first_name || "",
+    middle_name: user?.middle_name || "",
+    last_name: user?.last_name || "",
     date_of_birth: user?.date_of_birth || "",
-    gender: userData?.gender || "",
+    gender: user?.gender || "",
     marital_Status: user?.marital_Status || "",
     house_address: user?.house_address || "",
     // nearestBusStop: user?.nearestBusStop || "",
-    telephone: userData?.telephone || "",
-    email: userData?.email || "",
+    telephone: user?.telephone || "",
+    email: user?.email || "",
     fellowship: user?.fellowship || "",
     born_again: user?.born_again || "",
     occupation: user?.occupation || "",
@@ -37,10 +37,10 @@ const Profile = () => {
       // Simulate API call to update user data
       const response = await api.patch(`${base_url}profiles/`,{formData});
 
-      setUser(prev => ({
-        ...prev,
-        ...formData
-      }));
+      // setUser(prev => ({
+      //   ...prev,
+      //   ...formData
+      // }));
       
       setIsEditing(false);
       toast.success("Profile updated successfully!");
@@ -60,7 +60,9 @@ const Profile = () => {
         }
 
         // Update user data in context
-        setUser(response?.data);
+        const data = response?.data;
+        setUser(prev => ({...prev,data}));
+        console.log(user)
         setFormData(response?.data); // Sync form data with fetched user data
       } catch (error) {
         console.error("Error loading profile:", error);
@@ -86,7 +88,7 @@ const Profile = () => {
           <div className="flex items-center justify-center mb-8">
             <div className="w-32 h-32 bg-blue-100 rounded-full flex items-center justify-center">
               <span className="text-4xl text-blue-600">
-                {user?.first_name?.charAt(0) || userData?.username?.charAt(0) || "U"}
+                {user?.first_name?.charAt(0) || user?.username?.charAt(0) || "U"}
               </span>
             </div>
           </div>
@@ -96,12 +98,12 @@ const Profile = () => {
               {/* Non-editable Fields */}
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-gray-700">Username</label>
-                <p className="px-4 py-2 bg-gray-50 rounded-lg">{userData?.username}</p>
+                <p className="px-4 py-2 bg-gray-50 rounded-lg">{user.username}</p>
               </div>
 
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-gray-700">Fellowship</label>
-                <p className="px-4 py-2 bg-gray-50 rounded-lg">{user?.fellowship || "Not assigned"}</p>
+                <p className="px-4 py-2 bg-gray-50 rounded-lg">{formData?.fellowship || "Not assigned"}</p>
               </div>
 
               {/* Editable Fields */}

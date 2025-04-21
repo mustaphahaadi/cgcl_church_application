@@ -8,9 +8,12 @@ import api, { base_url } from "../utils/api";
 
 const ProfileCompletion = () => {
   const navigate = useNavigate();
-  const { user, setUser } = useAuth();
+  // const { user, setUser } = useAuth();
+  const user = localStorage.getItem("user")
   const [isLoading, setIsLoading] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
+  const [fellowships, setFellowships] = useState(
+    [{id:0,name:""}]);
   const [imagePreview, setImagePreview] = useState(
     user?.gender === "female"
       ? "/default-female-avatar.svg"
@@ -23,20 +26,27 @@ const ProfileCompletion = () => {
     date_of_birth: "",
     house_address: "",
     digital_address: "",
-    martial_status: "",
     profile_image: "",
     fellowship:"",
     born_again: "",
     occupation: "",
     church_information: "",
-    fellowship: ""
-
   });
 
   useEffect(() => {
+    const getFellowships = async () => {
+      try{
+        const response = await api.get(`${base_url}fellowships/`);
+        console.log(response.data.results)
+        setFellowships(response.data.results);
+      }catch(error){
+        console.log(error)
+      }
+    }
     if (!user) {
       navigate("/login");
     }
+    getFellowships()
   }, [user, navigate]);
 
   const handleChange = (e) => {
@@ -70,10 +80,11 @@ const ProfileCompletion = () => {
       });
 
       if (profileImage) {
-        formDataToSend.append("profileImage", profileImage);
+        formDataToSend.append("profile_image", profileImage);
       }
       
-      const response = await api.post(`${base_url}profiles/`,{formData})
+      console.log(formData)
+      const response = await api.post(`${base_url}profiles/`,formDataToSend)
       console.log(response)
       if (response.status === 201) {
         const updateduser = await response.data;
@@ -137,8 +148,8 @@ const ProfileCompletion = () => {
               <label className="block text-sm font-medium text-gray-700">Visit Date</label>
               <input
                 type="date"
-                name="visitDate"
-                value={formData.visitDate}
+                name="visit_date"
+                value={formData.visit_date}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
@@ -153,8 +164,8 @@ const ProfileCompletion = () => {
               </label>
               <input
                 type="date"
-                name="dateOfBirth"
-                value={formData.dateOfBirth}
+                name="date_of_birth"
+                value={formData.date_of_birth}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
@@ -168,8 +179,8 @@ const ProfileCompletion = () => {
               </label>
               <input
                 type="text"
-                name="houseAddress"
-                value={formData.houseAddress}
+                name="house_address"
+                value={formData.house_address}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
@@ -177,18 +188,34 @@ const ProfileCompletion = () => {
             </div>
 
             {/* Digital Address */}
-            <div className="md:col-span-2">
+            <div>
               <label className="block text-sm font-medium text-gray-700">Digital Address</label>
               <input
                 type="text"
-                name="digitalAddress"
-                value={formData.digitalAddress}
+                name="digital_address"
+                value={formData.digital_address}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 placeholder="Optional"
               />
             </div>
-
+            <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Martial Status <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="martial_status"
+                  value={formData.martial_status}
+                  onChange={handleChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  required
+                >
+                  <option value="">Select</option>
+                  <option value="single">single</option>
+                  <option value="divorced">divorced</option>
+                  <option value="married">married</option>
+                </select>
+              </div>
             {/* Occupation */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
@@ -209,14 +236,23 @@ const ProfileCompletion = () => {
               <label className="block text-sm font-medium text-gray-700">
                 Fellowship <span className="text-red-500">*</span>
               </label>
-              <input
+              <select
                 type="text"
                 name="fellowship"
                 value={formData.fellowship}
                 onChange={handleChange}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                // required
-              />
+                required
+                >
+                  <option value="">Select</option>
+                  {
+                    fellowships.map((value,index) =>(
+                      <option key={index} value={value.id}>{value.name}</option>
+                    )
+
+                  )
+                }
+                </select>
             </div>
 
             {/* Church Information */}
@@ -225,8 +261,8 @@ const ProfileCompletion = () => {
                 Church Information <span className="text-red-500">*</span>
               </label>
               <textarea
-                name="churchInformation"
-                value={formData.churchInformation}
+                name="church_information"
+                value={formData.church_information}
                 onChange={handleChange}
                 rows="3"
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
