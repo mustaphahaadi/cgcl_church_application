@@ -4,7 +4,7 @@ import {useAuth} from "./../context/AuthContext";
 
 let refresh = false; // A boolean flag to prevent simultaneous refresh attempts
 
-export const base_url =  "http://127.0.0.1:8000/api/" // "https://clgcchurch-backend-production.up.railway.app/api/";
+export const base_url =  "http://127.0.0.1:8000/api/"; // "https://cityoflightglobalchurch.org/backend/api/" // "https://clgcchurch-backend-production.up.railway.app/api/";
 
 // Create an Axios instance with a predefined base URL
 const api = axios.create({
