@@ -85,12 +85,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     user,
-    setUser: (data) => {
-      setUser({
-        ...data,
-        role: data.role || "user" // Default to "user" if no role is specified
-      });
-    },
+    setUser,
     isLoggedIn,
     setIsLoggedIn,
     login,
