@@ -40,29 +40,27 @@ import SuperAdminDashboard from "./pages/SuperAdminDashboard"
 import FellowshipLeaderDashboard from "./pages/FellowshipLeaderDashboard";
 
 function App() {
-  useEffect(() => {
-    // const navigator = useNavigate()
-    const interval = setInterval(() => {
-      const refreshToken = localStorage.getItem("refresh_token");
-      if (refreshToken) {
-        api
-          .post(`${base_url}auth/refresh/`, { refresh: refreshToken })
-          .then((res) => {
-            console.log(res)
-            const newToken = res.data.access;
-            const newrefreshToken = res.data.refresh;
-            localStorage.setItem("access_token", newToken);
-            localStorage.setItem("refresh_token", newrefreshToken);
-            api.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
-          })
-          .catch((err) => {
-            console.error("Error refreshing token:", err);
-            // navigator("/login");
-          });
-      }
-    }, 1 * 60 * 1000); // request Refresh every 5 minutes
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   // const navigator = useNavigate()
+  //   const interval = setInterval(() => {
+  //     const refreshToken = localStorage.getItem("refresh_token");
+  //     if (refreshToken) {
+  //       api
+  //         .post(`${base_url}auth/refresh/`, { refresh: refreshToken })
+  //         .then((res) => {
+  //           const newToken = res.data.access;
+  //           const newrefreshToken = res.data.refresh;
+  //           localStorage.setItem("access_token", newToken);
+  //           localStorage.setItem("refresh_token", newrefreshToken);
+  //           api.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
+  //         })
+  //         .catch((err) => {
+  //           console.error("Error refreshing token:", err);
+  //         });
+  //     }
+  //   }, 1 * 60 * 1000); // request Refresh every 5 minutes
+  //   return () => clearInterval(interval);
+  // }, []);
 
   // Call this before rendering your app
   // initializeLogs();
