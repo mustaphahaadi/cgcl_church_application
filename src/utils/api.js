@@ -38,9 +38,10 @@ api.interceptors.response.use(
   (resp) => resp, // Pass the response as-is if there are no errors
   async (error) => {
     // Check if the response status is 401 Unauthorized and ensure no ongoing refresh attempt
+    
     if (error.response.status === 401 && !refresh) {
       refresh = true; // Set the refresh flag to true to avoid multiple refresh attempts
-      const {logout} = useAuth();
+      
 
       try {
         const response = await axios.post(
@@ -64,7 +65,7 @@ api.interceptors.response.use(
         }
       } catch (error) {
         // force logout and redirect to login page
-        await logout()
+        localStorage.clear()
       }
       
       
