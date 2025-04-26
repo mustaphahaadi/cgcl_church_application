@@ -1,12 +1,14 @@
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import { MapPin, Clock, Users } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import api,{base_url} from "../utils/api";
 
 const MemberFellowship = () => {
   const { user, setUser } = useAuth();
   const [isJoining, setIsJoining] = useState(false);
+  const [userFellowship,setUserFellowship] = useState(null)
   const [selectedFellowship, setSelectedFellowship] = useState("");
 
   // Import fellowships from Fellowships component
@@ -54,7 +56,7 @@ const MemberFellowship = () => {
   ];
 
   // Get user's fellowships
-  const userFellowships = user?.fellowships || [];
+  const userFellowships = userFellowship || [];
   
   const handleJoinFellowship = async () => {
     if (!selectedFellowship) {
@@ -81,6 +83,19 @@ const MemberFellowship = () => {
     }
   };
 
+  useEffect(()=>{
+    const fellowshipApi = async() =>{
+      try{
+        const response = await api.get(`${base_url}fellowships/my/`);
+        setUserFellowship(response?.data)
+      }catch(error){
+        toast.error("Failed to fetch your fellowship")
+        console.error("Error",error)
+      }
+    }
+
+    fellowshipApi()
+  },[])
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-sky-50 py-16 px-4 sm:px-6 lg:px-8">
       <motion.div

@@ -4,9 +4,11 @@ import { Upload, Video, Mic, Plus, X, Check, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import api, { base_url } from "../utils/api";
+import { useNavigate } from "react-router";
 
 const MediaDashboard = () => {
-  const { userData } = useAuth();
+  const navigate = useNavigate()
+  const { user } = useAuth();
   const [isUploading, setIsUploading] = useState(false);
   const [sermons, setSermons] = useState([]);
   const [uploadType, setUploadType] = useState(null); // 'video' or 'audio'
@@ -23,13 +25,24 @@ const MediaDashboard = () => {
 
   useEffect(() => {
     // Fetch existing sermons
+    const allowedRoles = ["admin", "media"];
+    
+    // Check if user has the required role
+    const userData = JSON.parse(localStorage.getItem("user"))
+    const userRole = userData.role;
+    console.log(userRole,allowedRoles.includes(userRole))
+    console.log(user)
+    if (!allowedRoles.includes(userRole)) {
+      navigate("/dashboard")
+    }
+
     fetchSermons();
   }, []);
 
   const fetchSermons = async () => {
     try {
       const response = await api.get(`${base_url}sermons/`);
-      setSermons(response.data);
+      setSermons(response?.data);
     } catch (error) {
       console.error("Error fetching sermons:", error);
       toast.error("Failed to load sermons");
@@ -106,7 +119,7 @@ const MediaDashboard = () => {
         data.append("file", formData.file);
       }
 
-      const response = await api.post(`${base_url}sermons/upload/`, data, {
+      const response = await api.post(`${base_url}sermons/`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

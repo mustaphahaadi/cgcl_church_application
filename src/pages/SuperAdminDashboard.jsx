@@ -8,9 +8,10 @@ import {
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
 import api,{ base_url } from "../utils/api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SuperAdminDashboard = () => {
+  const navigate = useNavigate()
   const { userData } = useAuth();
   const [activeTab, setActiveTab] = useState("overview");
   const [stats, setStats] = useState({
@@ -37,6 +38,13 @@ const SuperAdminDashboard = () => {
 const [systemLogs, setSystemLogs] = useState([]);
 
   useEffect(() => {
+    const allowedRoles = ["admin"];
+    const _user = JSON.parse(localStorage.getItem("user"))
+    const role = _user?.role;
+    console.log(role,allowedRoles.includes(role))
+    if(!allowedRoles.includes(role)){
+      navigate("/dashboard")
+    }
     fetchDashboardData();
     fetchAdditionalData();
   }, []);
@@ -63,8 +71,8 @@ const [systemLogs, setSystemLogs] = useState([]);
       setStats(statsResponse.data);
       
       // Fetch users
-      const usersResponse = await api.get(`${base_url}admin/users/`);
-      setUsers(usersResponse.data);
+      const usersResponse = await api.get(`${base_url}users/`);
+      setUsers(usersResponse?.data?.results);
       setFilteredUsers(usersResponse.data);
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
@@ -89,15 +97,15 @@ const [systemLogs, setSystemLogs] = useState([]);
       setSermons(sermonsResponse.data.results || sermonsResponse.data);
       
       // Fetch prayer requests
-      const prayerResponse = await api.get(`${base_url}prayer-requests/`);
+      const prayerResponse = await api.get(`${base_url}prayer_requests/`);
       setPrayerRequests(prayerResponse.data.results || prayerResponse.data);
          // Fetch testimonies
-    const testimoniesResponse = await api.get(`${base_url}testimonies/`);
+    const testimoniesResponse = await api.get(`${base_url}members/testimonies/`);
     setTestimonies(testimoniesResponse.data.results || testimoniesResponse.data);
     
     // Fetch system logs
     const logsResponse = await api.get(`${base_url}admin/logs/`);
-    setSystemLogs(logsResponse.data.results || logsResponse.data);
+    setSystemLogs(logsResponse?.data.results || logsResponse?.data);
   } catch (error) {
     console.error("Error fetching additional data:", error);
     } 
@@ -163,7 +171,7 @@ const [systemLogs, setSystemLogs] = useState([]);
           <h3 className="text-lg font-semibold text-gray-700">Total Members</h3>
           <Users className="h-8 w-8 text-blue-600" />
         </div>
-        <p className="text-3xl font-bold mt-4">{stats.totalUsers}</p>
+        <p className="text-3xl font-bold mt-4">{stats?.totalUsers}</p>
         <div className="mt-4 text-sm text-gray-500">
           <Link to="#" onClick={() => setActiveTab("users")} className="text-blue-600 hover:underline">
             View all members
@@ -176,7 +184,7 @@ const [systemLogs, setSystemLogs] = useState([]);
           <h3 className="text-lg font-semibold text-gray-700">Sermons</h3>
           <Video className="h-8 w-8 text-indigo-600" />
         </div>
-        <p className="text-3xl font-bold mt-4">{stats.totalSermons}</p>
+        <p className="text-3xl font-bold mt-4">{stats?.totalSermons}</p>
         <div className="mt-4 text-sm text-gray-500">
           <Link to="#" onClick={() => setActiveTab("sermons")} className="text-blue-600 hover:underline">
             Manage sermons
@@ -189,7 +197,7 @@ const [systemLogs, setSystemLogs] = useState([]);
           <h3 className="text-lg font-semibold text-gray-700">Testimonies</h3>
           <FileText className="h-8 w-8 text-green-600" />
         </div>
-        <p className="text-3xl font-bold mt-4">{stats.totalTestimonies}</p>
+        <p className="text-3xl font-bold mt-4">{stats?.totalTestimonies}</p>
         <div className="mt-4 text-sm text-gray-500">
           <Link to="#" onClick={() => setActiveTab("testimonies")} className="text-blue-600 hover:underline">
             View testimonies
@@ -202,7 +210,7 @@ const [systemLogs, setSystemLogs] = useState([]);
           <h3 className="text-lg font-semibold text-gray-700">Events</h3>
           <Calendar className="h-8 w-8 text-yellow-600" />
         </div>
-        <p className="text-3xl font-bold mt-4">{stats.totalEvents}</p>
+        <p className="text-3xl font-bold mt-4">{stats?.totalEvents}</p>
         <div className="mt-4 text-sm text-gray-500">
           <Link to="#" onClick={() => setActiveTab("events")} className="text-blue-600 hover:underline">
             Manage events
@@ -215,7 +223,7 @@ const [systemLogs, setSystemLogs] = useState([]);
           <h3 className="text-lg font-semibold text-gray-700">Prayer Requests</h3>
           <MessageSquare className="h-8 w-8 text-red-600" />
         </div>
-        <p className="text-3xl font-bold mt-4">{stats.totalPrayerRequests}</p>
+        <p className="text-3xl font-bold mt-4">{stats?.totalPrayerRequests}</p>
         <div className="mt-4 text-sm text-gray-500">
           <Link to="#" onClick={() => setActiveTab("prayer-requests")} className="text-blue-600 hover:underline">
             View prayer requests
@@ -228,7 +236,7 @@ const [systemLogs, setSystemLogs] = useState([]);
           <h3 className="text-lg font-semibold text-gray-700">Fellowships</h3>
           <Church className="h-8 w-8 text-purple-600" />
         </div>
-        <p className="text-3xl font-bold mt-4">{stats.fellowships}</p>
+        <p className="text-3xl font-bold mt-4">{stats?.fellowships}</p>
         <div className="mt-4 text-sm text-gray-500">
           <Link to="#" onClick={() => setActiveTab("fellowships")} className="text-blue-600 hover:underline">
             Manage fellowships
@@ -289,7 +297,7 @@ const [systemLogs, setSystemLogs] = useState([]);
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {filteredUsers.map((user) => (
+            {users?.map((user) => (
               <tr key={user.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
@@ -348,7 +356,7 @@ const [systemLogs, setSystemLogs] = useState([]);
                 </td>
               </tr>
             ))}
-            {filteredUsers.length === 0 && (
+            {users?.length === 0 && (
               <tr>
                 <td colSpan="5" className="px-6 py-4 text-center text-gray-500">
                   No users found
@@ -640,7 +648,7 @@ const [systemLogs, setSystemLogs] = useState([]);
                 </td>
                 <td className="px-6 py-4">
                   <div className="text-sm text-gray-900 max-w-xs truncate">
-                    {request.request}
+                    {request.title}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

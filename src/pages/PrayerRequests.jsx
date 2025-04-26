@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import { Heart, Clock, Check } from "lucide-react";
+import api, {base_url} from "../utils/api";
 
 const PrayerRequests = () => {
   const { user } = useAuth();
@@ -10,7 +11,9 @@ const PrayerRequests = () => {
   const [newRequest, setNewRequest] = useState({
     title: "",
     description: "",
-    isPrivate: false
+    isPrivate: false,
+    prayer_count: 0,
+
   });
   const [isLoading, setIsLoading] = useState(false);
   const [filter, setFilter] = useState("all");
@@ -18,76 +21,42 @@ const PrayerRequests = () => {
   useEffect(() => {
     // In a real app, fetch prayer requests from your API
     // This is mock data for demonstration
-    const mockPrayerRequests = [
-      {
-        id: 1,
-        title: "Healing for Sarah",
-        description: "Please pray for my sister Sarah who is recovering from surgery.",
-        author: "John Doe",
-        createdAt: "2023-05-15T10:30:00Z",
-        prayerCount: 12,
-        isAnswered: false,
-        isPrivate: false
-      },
-      {
-        id: 2,
-        title: "New Job Opportunity",
-        description: "I have an interview next week. Praying for God's favor.",
-        author: "Jane Smith",
-        createdAt: "2023-05-14T08:15:00Z",
-        prayerCount: 8,
-        isAnswered: false,
-        isPrivate: false
-      },
-      {
-        id: 3,
-        title: "Family Reconciliation",
-        description: "Praying for healing in my family relationships.",
-        author: "Michael Johnson",
-        createdAt: "2023-05-10T14:45:00Z",
-        prayerCount: 15,
-        isAnswered: true,
-        isPrivate: false
-      }
-    ];
-    
-    setPrayerRequests(mockPrayerRequests);
+    const getMyPrayerRequest = async() => {
+      const response = await api.get(`${base_url}prayer_requests/`)
+        .then(response => {
+          setPrayerRequests(response.data.results)
+        })
+        .catch(error=>{
+          toast.error(error)
+          console.error(error)
+        })
+    }
+
+    getMyPrayerRequest();
+
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     setIsLoading(true);
     
     // Validate form
-    if (!newRequest.title || !newRequest.description) {
-      toast.error("Please fill in all required fields");
-      setIsLoading(false);
-      return;
-    }
-    
-    // In a real app, send to your API
-    setTimeout(() => {
-      const newPrayerRequest = {
-        id: prayerRequests.length + 1,
-        title: newRequest.title,
-        description: newRequest.description,
-        author: user?.firstName ? `${user.firstName} ${user.lastName}` : "Anonymous",
-        createdAt: new Date().toISOString(),
-        prayerCount: 0,
-        isAnswered: false,
-        isPrivate: newRequest.isPrivate
-      };
-      
-      setPrayerRequests([newPrayerRequest, ...prayerRequests]);
+    try {
+      const response = await api.post(`${base_url}prayer_requests/create/`,newRequest)
+      console.log(response)
+      setPrayerRequests([response?.data, ...prayerRequests]);
       setNewRequest({ title: "", description: "", isPrivate: false });
       toast.success("Prayer request submitted successfully");
       setIsLoading(false);
-    }, 1000);
-  };
+    } catch (error) {
+      toast.error("Unable to load prayer reqyests")
+      console.error(error)
+    }
+  }
 
   const handlePrayerClick = (id) => {
     setPrayerRequests(prayerRequests.map(request => 
-      request.id === id ? { ...request, prayerCount: request.prayerCount + 1 } : request
+      request.id === id ? { ...request, prayer_count: request.prayer_count + 1 } : request
     ));
     toast.info("Thank you for praying! 🙏");
   };
@@ -270,7 +239,7 @@ const PrayerRequests = () => {
                     </h3>
                     <div className="flex items-center text-sm text-gray-500">
                       <Clock className="w-4 h-4 mr-1" />
-                      {formatDate(request.createdAt)}
+                      {formatDate(request.created_at)}
                     </div>
                   </div>
                   
@@ -278,7 +247,7 @@ const PrayerRequests = () => {
                   
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-500">
-                      Posted by: {request.author}
+                      Posted by: {user?.username}
                     </span>
                     
                     <div className="flex space-x-2">
@@ -297,7 +266,7 @@ const PrayerRequests = () => {
                         className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                       >
                         {/* <Hands className="w-4 h-4 mr-1" /> */}
-                        Pray ({request.prayerCount})
+                        Pray ({request.prayer_count})
                       </button>
                     </div>
                   </div>
