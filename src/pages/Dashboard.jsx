@@ -90,7 +90,7 @@ const Dashboard = () => {
   
       try {
         // Fetch user's fellowship info if they belong to one
-        const fellowshipResponse = await api.get(`${base_url}fellowships/`);
+        const fellowshipResponse = await api.get(`${base_url}fellowships/my/`);
         const fellowshipInfo = fellowshipResponse.data;
         
         setDashboardData(prevData => ({
@@ -191,20 +191,20 @@ const Dashboard = () => {
               <span className="font-medium">Leader:</span> {dashboardData.fellowshipInfo.leader_name}
             </p>
             <p className="text-gray-600 mb-1">
-              <span className="font-medium">Meeting Day:</span> {dashboardData.fellowshipInfo.meeting_day || "Not set"}
+              <span className="font-medium">Meeting Day:</span> {dashboardData.fellowshipInfo.meeting_day || "Sunday After Service"}
             </p>
             <p className="text-gray-600 mb-1">
               <span className="font-medium">Meeting Time:</span> {dashboardData.fellowshipInfo.meeting_time || "Not set"}
             </p>
             <p className="text-gray-600 mb-4">
-              <span className="font-medium">Location:</span> {dashboardData.fellowshipInfo.location || "Not set"}
+              <span className="font-medium">Location:</span> {dashboardData.fellowshipInfo.location || "Church"}
             </p>
-            <Link
+            {/* <Link
               to="/member-fellowship"
               className="text-indigo-600 hover:text-indigo-800 font-medium flex items-center"
             >
               View Fellowship Details <ChevronRight className="h-4 w-4 ml-1" />
-            </Link>
+            </Link> */}
           </>
         ) : (
           <div className="text-center py-4">
@@ -380,7 +380,7 @@ const Dashboard = () => {
             {dashboardData.prayerRequests.map((request) => (
               <tr key={request.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900 max-w-xs truncate">{request.request}</div>
+                  <div className="text-sm text-gray-900 max-w-xs truncate">{request.title}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-500">{new Date(request.created_at).toLocaleDateString()}</div>
