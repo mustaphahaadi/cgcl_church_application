@@ -72,17 +72,20 @@ function App() {
           <Routes>
             <Route path="/TestimonyShare" element={<TestimonyShare />} />
             <Route path="/Testimonies" element={<Testimonies />} />
-            <Route path="/super-admin" element={
-                <RoleBasedRoute allowedRoles={["admin"]}>
-                  <SuperAdminDashboard />
-                </RoleBasedRoute>
-              } />
-              <Route
-              path="/Dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
+            <Route 
+            path="/super-admin" 
+            element={
+              <ProtectedRoute>
+                <SuperAdminDashboard />
+              </ProtectedRoute>
+              } 
+            />
+            <Route
+            path="/Dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
               }
             />
             <Route path="/" element={<Home />} />
@@ -121,16 +124,15 @@ function App() {
             <Route path="/Outreach" element={<Outreach />} />
             <Route path="/live-stream" element={<LiveStream />} />
             <Route path="/prayer-requests" element={<PrayerRequests />} />
-{/*             <Route path="/system-logs" element={<SystemLogs />} /> */}
             <Route path="/media-dashboard" element={
-              <RoleBasedRoute allowedRoles={["admin", "media"]}>
+              <ProtectedRoute>
                 <MediaDashboard />
-              </RoleBasedRoute>
+              </ProtectedRoute>
             } />
             <Route path="/fellowship-leader" element={
-              <RoleBasedRoute allowedRoles={["admin", "fellowship_leader"]}>
+              <ProtectedRoute>
                 <FellowshipLeaderDashboard />
-              </RoleBasedRoute>
+              </ProtectedRoute>
             } />
           </Routes>
         </main>
