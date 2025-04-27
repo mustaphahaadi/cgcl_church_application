@@ -38,6 +38,8 @@ import MediaDashboard from "./pages/MediaDashboard";
 import RoleBasedRoute from "./components/RoleBasedRoute";
 import SuperAdminDashboard from "./pages/SuperAdminDashboard"
 import FellowshipLeaderDashboard from "./pages/FellowshipLeaderDashboard";
+import ForgotPassword from "./pages/ForgotPassword";
+import Settings from "./pages/Settings";
 
 function App() {
   // useEffect(() => {
@@ -134,6 +136,15 @@ function App() {
                 <FellowshipLeaderDashboard />
               </ProtectedRoute>
             } />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <Settings />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </main>
         <Footer />
